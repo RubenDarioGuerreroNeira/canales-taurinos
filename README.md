@@ -15,13 +15,14 @@ El bot es capaz de mantener conversaciones con contexto, recordar interacciones 
 
 ### ✨ Características Principales
 
-- **Procesamiento de Lenguaje Natural (NLP)**: Utiliza el modelo `gemini-2.0-flash` para interpretar solicitudes en lenguaje coloquial, responder preguntas generales sobre tauromaquia y realizar búsquedas específicas (ej: "carteles en Mérida, Venezuela").
+- **Procesamiento de Lenguaje Natural (NLP)**: Utiliza el modelo `gemini-2.0-flash` para interpretar una amplia gama de solicitudes en lenguaje coloquial (ej: "quiero ver toros", "¿qué corridas televisan?"), responder preguntas generales sobre tauromaquia y realizar búsquedas específicas.
 - **Web Scraping Automatizado**: Extrae la información de los festejos directamente desde la agenda de "El Muletazo", asegurando que los datos estén siempre actualizados.
 - **Sistema de Caché**: Implementa un sistema de caché de 1 hora para optimizar el rendimiento, reducir las peticiones al sitio web y ofrecer respuestas instantáneas.
 - **Conversación Persistente con Gestión de Sesiones**: Utiliza `telegraf/session` para recordar el historial de chat de cada usuario, evitando saludos repetitivos y permitiendo conversaciones fluidas y con contexto.
 - **Filtrado Interactivo de Transmisiones**: Utiliza `Scenes` de Telegraf para guiar al usuario a través de un diálogo de varios pasos, permitiéndole filtrar la agenda de transmisiones por mes o por canal.
-- **Ejecución de Acciones Inteligentes**: Entiende preguntas de seguimiento (ej: "¿dónde las puedo ver?") y ejecuta la acción más útil, como iniciar el diálogo de filtrado, en lugar de una simple respuesta de texto.
+- **Ejecución de Acciones Inteligentes**: Entiende una gran variedad de frases relacionadas con la agenda (ej: "¿dónde las puedo ver?", "agenda de toros") y ejecuta la acción más útil, como iniciar el diálogo de filtrado, en lugar de una simple respuesta de texto.
 - **Interfaz de Usuario Dinámica**: Personaliza los botones de los canales de transmisión con nombres descriptivos (ej: "Canal Sur", "T.Madrid") extraídos directamente de las URLs.
+- **Guía Proactiva al Usuario**: En los mensajes de bienvenida y de seguimiento, el bot recuerda al usuario que puede interactuar de forma natural, fomentando una experiencia más conversacional.
 - **Comandos Directos**: Incluye comandos como `/transmisiones` y `/filtrar` para un acceso rápido a la información y `/clearcache` para la administración.
 
 ---

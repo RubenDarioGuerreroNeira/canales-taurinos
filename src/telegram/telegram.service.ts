@@ -162,10 +162,10 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
       const greeting = this.getGreeting(userName);
 
       const welcomeOptions = [
-        'Soy tu asistente taurino. Haz Click---> /transmisiones  para ver los próximos eventos Taurinos en TV agendados en la web "www.elmuletazo.com" ',
-        'Estoy a tu disposición para cualquier consulta sobre el mundo del toro. y ver las corridas en vivo , Puedes hacer click a este enlace--> /transmisiones.',
-        '¿Listo para ver corridas? Haz Click---> /transmisiones , o hazme una pregunta Taurina y te responderé.',
-        '¡Qué alegría verte! Pregúntame por la agenda de festejos que trasmitira la Tv, o lo que desees saber sobre la tauromaquia.',
+        'Soy tu asistente taurino. Puedes usar el comando /transmisiones o simplemente preguntarme sobre la "agenda de toros" para ver los próximos festejos en TV.',
+        'Estoy a tu disposición. Para ver las corridas en vivo, haz clic en /transmisiones o escribe "dame las fechas de las corridas".',
+        '¿Listo para la faena? Usa /transmisiones o pregúntame directamente: "¿qué corridas televisan?".',
+        '¡Qué alegría verte! Pregúntame por la "agenda de festejos" o lo que desees saber sobre la tauromaquia.',
       ];
 
       const randomWelcome =
@@ -224,9 +224,10 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
         }
         let prompt = userText;
 
-        const isAgendaQuery = /cartel|fecha|corrida|festejo|transmisi/i.test(
-          userText,
-        );
+        const isAgendaQuery =
+          /cartel|fecha|corrida|canal|agenda|transmisionfestejo|transmisi|toros/i.test(
+            userText,
+          );
 
         // Si es una consulta de agenda, enriquecemos el prompt con el contexto del scraper.
         if (isAgendaQuery) {
@@ -256,7 +257,7 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
             )}). Descarta eventos pasados.
 
             3.  **Respuesta a Saludos**: Si el usuario solo saluda (ej: "Hola", "Buenas"), responde de forma cordial y recuérdale que puede usar '/transmisiones'.
-
+ 
             4.  **Sin Resultados**: Si después de buscar no encuentras información para un lugar específico, responde amablemente: "Lo siento, aún no dispongo de información sobre festejos en esa localidad. Vuelve a consultarme más adelante."
 
             5.  **Otras Preguntas**: Para preguntas generales sobre tauromaquia (historia, toreros, etc.), responde de forma cordial y precisa.
@@ -288,11 +289,11 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
           geminiResponse = result.response.text().trim();
           console.log(`[Respuesta de Gemini 2] ${geminiResponse}`);
           await ctx.reply(
-            `${geminiResponse}\n\n¿Hay algo más en lo que pueda ayudarte?`,
+            `${geminiResponse}\n\n¿Hay algo más en lo que pueda ayudarte? (Recuerda que puedes pedir la "agenda de toros" cuando quieras).`,
           );
         } else {
           await ctx.reply(
-            `${geminiResponse}\n\n¿Hay algo más en lo que pueda ayudarte?`,
+            `${geminiResponse}\n\n¿Hay algo más en lo que pueda ayudarte? (Recuerda que puedes pedir la "agenda de toros" cuando quieras).`,
           );
         }
       } catch (error) {
