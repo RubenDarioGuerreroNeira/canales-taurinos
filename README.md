@@ -9,21 +9,26 @@ Este proyecto es un bot de Telegram inteligente, desarrollado con **NestJS**, qu
 
 ## 📜 Descripción del Proyecto
 
-El objetivo principal de este bot es proporcionar a los usuarios una forma rápida y sencilla de consultar la agenda de corridas de toros y otros eventos taurinos que se transmitirán por televisión. El bot combina la robustez de un backend en NestJS con la inteligencia artificial de Google Gemini para ofrecer una experiencia de usuario fluida y conversacional.
+El objetivo principal de este bot es proporcionar a los usuarios una forma rápida y sencilla de consultar la agenda de corridas de toros y otros eventos taurinos que se transmitirán por televisión. El bot combina la robustez de un backend en NestJS con la inteligencia artificial de Google Gemini para ofrecer una experiencia de usuario fluida, inteligente y conversacional.
+
+El bot es capaz de mantener conversaciones con contexto, recordar interacciones previas con el usuario, realizar búsquedas específicas más allá de la información general obtenida por web scraping y guiar al usuario a través de diálogos interactivos para filtrar información.
 
 ### ✨ Características Principales
 
-- **Procesamiento de Lenguaje Natural (NLP)**: Utiliza el modelo `gemini-2.0-flash` para interpretar las solicitudes de los usuarios en lenguaje coloquial (ej: "dame las fechas de las corridas").
+- **Procesamiento de Lenguaje Natural (NLP)**: Utiliza el modelo `gemini-2.0-flash` para interpretar solicitudes en lenguaje coloquial, responder preguntas generales sobre tauromaquia y realizar búsquedas específicas (ej: "carteles en Mérida, Venezuela").
 - **Web Scraping Automatizado**: Extrae la información de los festejos directamente desde la agenda de "El Muletazo", asegurando que los datos estén siempre actualizados.
 - **Sistema de Caché**: Implementa un sistema de caché de 1 hora para optimizar el rendimiento, reducir las peticiones al sitio web y ofrecer respuestas instantáneas.
-- **Interfaz Conversacional**: Responde a saludos y preguntas generales sobre tauromaquia, creando una interacción más natural.
-- **Comandos Directos**: Incluye comandos como `/transmisiones` para un acceso rápido a la información y `/clearcache` para la administración.
+- **Conversación Persistente con Gestión de Sesiones**: Utiliza `telegraf/session` para recordar el historial de chat de cada usuario, evitando saludos repetitivos y permitiendo conversaciones fluidas y con contexto.
+- **Filtrado Interactivo de Transmisiones**: Utiliza `Scenes` de Telegraf para guiar al usuario a través de un diálogo de varios pasos, permitiéndole filtrar la agenda de transmisiones por mes o por canal.
+- **Ejecución de Acciones Inteligentes**: Entiende preguntas de seguimiento (ej: "¿dónde las puedo ver?") y ejecuta la acción más útil, como iniciar el diálogo de filtrado, en lugar de una simple respuesta de texto.
+- **Interfaz de Usuario Dinámica**: Personaliza los botones de los canales de transmisión con nombres descriptivos (ej: "Canal Sur", "T.Madrid") extraídos directamente de las URLs.
+- **Comandos Directos**: Incluye comandos como `/transmisiones` y `/filtrar` para un acceso rápido a la información y `/clearcache` para la administración.
 
 ---
 
 ## 🏗️ Esquema de la Arquitectura
 
-El siguiente diagrama ilustra el flujo de datos y la interacción entre los diferentes componentes del sistema:
+El siguiente diagrama ilustra el flujo de datos y la interacción entre los componentes del sistema, incluyendo la gestión de sesiones y la lógica conversacional avanzada con escenas.
 
 ```mermaid
 graph TD
@@ -34,6 +39,7 @@ graph TD
     subgraph "Backend (NestJS)"
         T[🤖 Telegraf Service]
         G[🧠 Gemini Service]
+        SCENE[🎭 Transmisiones Scene]
         S[🕸️ Scraper Service]
         C[🗄️ Caché]
         SS[💾 Session Store]
@@ -52,7 +58,7 @@ graph TD
     SS -- Historial de Chat --> T
 
     T -- ¿Es un comando? --> T_CMD{Comando}
-    T_CMD -- /transmisiones --> S
+    T_CMD -- /transmisiones o /filtrar --> SCENE
     T_CMD -- /clearcache --> C
     T_CMD -- /start --> SS(Limpia Sesión)
 
@@ -69,7 +75,11 @@ graph TD
         G_Decide -- Saludo/Otro --> G_Text[Respuesta de Texto]
     end
 
-    T -- Si es Acción GET_TRANSMISIONES --> S
+    T -- Acción GET_TRANSMISIONES --> SCENE
+
+    SCENE -- Inicia diálogo de filtrado --> API_TG
+    API_TG -- Selección de filtro --> SCENE
+    SCENE -- Pide datos al Scraper --> S
 
     S -- ¿Hay caché válida? --> C
     C -- Sí --> S
@@ -80,13 +90,14 @@ graph TD
     S_Scrape -- Datos Extraídos --> C
     S_Scrape -- Datos Extraídos --> S
 
-    S -- Eventos --> T
-    T -- Formatea y Envía Respuesta --> API_TG
+    S -- Eventos --> SCENE
+    SCENE -- Formatea y Envía Respuesta Filtrada --> API_TG
     API_TG -- Mensaje con botones --> U
 
     style U fill:#D6EAF8,stroke:#3498DB
     style T fill:#D5F5E3,stroke:#2ECC71
     style G fill:#FCF3CF,stroke:#F1C40F
+    style SCENE fill:#FADBD8,stroke:#C0392B
     style S fill:#EBDEF0,stroke:#8E44AD
     style C fill:#FDEDEC,stroke:#E74C3C
     style SS fill:#E8DAEF,stroke:#9B59B6
