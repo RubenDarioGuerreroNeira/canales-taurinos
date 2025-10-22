@@ -36,6 +36,7 @@ graph TD
         G[🧠 Gemini Service]
         S[🕸️ Scraper Service]
         C[🗄️ Caché]
+        SS[💾 Session Store]
     end
 
     subgraph "Servicios Externos"
@@ -47,16 +48,28 @@ graph TD
     U -- Mensaje de texto --> API_TG
     API_TG -- Webhook/Polling --> T
 
+    T -- Inicia/Recupera Sesión --> SS
+    SS -- Historial de Chat --> T
+
     T -- ¿Es un comando? --> T_CMD{Comando}
     T_CMD -- /transmisiones --> S
     T_CMD -- /clearcache --> C
+    T_CMD -- /start --> SS(Limpia Sesión)
 
     T -- ¿No es comando? --> G
-    G -- Prompt --> API_G
+    G -- Prompt enriquecido --> API_G
     API_G -- Respuesta NLP --> G
-    G -- Decide Acción --> T
+    G -- Decide Acción/Respuesta --> T
 
-    T -- [ACTION:GET_TRANSMISIONES] --> S
+    subgraph "Lógica de Respuesta de Gemini"
+        direction LR
+        G_Decide{Decisión}
+        G_Decide -- Pregunta Específica --> G_WebSearch[Búsqueda Web]
+        G_Decide -- Pregunta General Agenda --> G_Action[Acción: GET_TRANSMISIONES]
+        G_Decide -- Saludo/Otro --> G_Text[Respuesta de Texto]
+    end
+
+    T -- Si es Acción GET_TRANSMISIONES --> S
 
     S -- ¿Hay caché válida? --> C
     C -- Sí --> S
@@ -76,6 +89,7 @@ graph TD
     style G fill:#FCF3CF,stroke:#F1C40F
     style S fill:#EBDEF0,stroke:#8E44AD
     style C fill:#FDEDEC,stroke:#E74C3C
+    style SS fill:#E8DAEF,stroke:#9B59B6
     style API_TG fill:#AEB6BF,stroke:#5D6D7E
     style API_G fill:#AEB6BF,stroke:#5D6D7E
     style WEB fill:#AEB6BF,stroke:#5D6D7E

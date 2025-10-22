@@ -3,17 +3,30 @@ import {
   OnModuleInit,
   OnApplicationBootstrap,
 } from '@nestjs/common';
-import { Telegraf, Markup } from 'telegraf';
+import { Telegraf, Markup, session, Context } from 'telegraf';
 import {
+  ChatSession,
   GoogleGenerativeAI,
   HarmCategory,
   HarmBlockThreshold,
 } from '@google/generative-ai';
 import { ScraperService } from '../scraper/scraper.service';
+import { Update } from 'telegraf/types';
+
+// 1. Definir la estructura de nuestra sesión
+interface MySession {
+  geminiChat?: ChatSession;
+}
+
+// 2. Extender el Context de Telegraf con nuestra sesión.
+interface MyContext extends Context<Update> {
+  session?: MySession;
+}
 
 @Injectable()
 export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
-  private bot: Telegraf;
+  // 3. Usar nuestro contexto personalizado
+  private bot: Telegraf<MyContext>;
   private genAI: GoogleGenerativeAI;
 
   constructor(private scraperService: ScraperService) {
@@ -30,7 +43,11 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
       );
     }
 
-    this.bot = new Telegraf(token);
+    // 4. Pasar el tipo de contexto al crear la instancia de Telegraf
+    this.bot = new Telegraf<MyContext>(token);
+    // Habilitar sesiones para mantener el contexto de la conversación por usuario.
+    this.bot.use(session());
+
     this.genAI = new GoogleGenerativeAI(geminiApiKey);
   }
 
@@ -45,7 +62,7 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
     console.log('🤖 Bot de Telegram iniciado con long polling...');
   }
 
-  getBot(): Telegraf {
+  getBot(): Telegraf<MyContext> {
     return this.bot;
   }
 
@@ -122,13 +139,16 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
     });
 
     this.bot.start((ctx) => {
+      // Limpiar la sesión al iniciar para forzar un nuevo contexto de chat.
+      ctx.session = {};
+
       const userName = ctx.from.first_name || 'aficionado';
       const greeting = this.getGreeting(userName);
 
       const welcomeOptions = [
-        'Soy tu asistente taurino. Usa el comando /transmisiones para ver los próximos eventos en TV o simplemente pregúntame algo.',
+        'Soy tu asistente taurino. Haz Click---> /transmisiones  para ver los próximos eventos en TV agendados en la web "elmuletazo.com" ',
         'Estoy a tu disposición para cualquier consulta sobre el mundo del toro. Puedes empezar con /transmisiones.',
-        '¿Listo para conocer la agenda taurina? Usa /transmisiones o hazme una pregunta sobre este arte.',
+        '¿Listo para ver corridas? Haz Click---> /transmisiones o hazme una pregunta sobre este arte.',
         '¡Qué alegría verte! Pregúntame por la agenda de festejos o lo que desees saber sobre la tauromaquia.',
       ];
 
@@ -140,12 +160,7 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
 
     // Middleware para manejar todos los mensajes de texto que no son comandos
     this.bot.on('text', async (ctx) => {
-      const userText = ctx.message.text;
-      const from = ctx.from;
-
-      console.log(
-        `[Mensaje Recibido] De: ${from.first_name} (${from.id}) | Mensaje: "${userText}"`,
-      );
+      const userText = ctx.message.text.trim();
 
       // Ignorar si es un comando, ya que tienen su propio manejador
       if (userText.startsWith('/')) {
@@ -153,51 +168,123 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
       }
 
       try {
-        // Usamos el modelo recomendado 'latest' para asegurar compatibilidad.
-        const model = this.genAI.getGenerativeModel({
-          model: 'gemini-2.0-flash',
+        // 1. Asegurarse de que la sesión exista
+        if (!ctx.session) {
+          ctx.session = {};
+        }
 
-          // Es una buena práctica configurar la seguridad para evitar bloqueos inesperados.
-          safetySettings: [
-            {
-              category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-              threshold: HarmBlockThreshold.BLOCK_NONE,
-            },
-          ],
-        });
+        // 2. Ahora que es seguro, desestructuramos
+        const { from, session } = ctx;
 
-        const chatPrompt = `
-          Tu personalidad: Eres 'Muletazo Bot', un asistente virtual con gran conocimiento y pasión por la tauromaquia. Tienes una manera de hablar amable, educada y algo formal, pero también sabes adaptarte al tono del usuario. Disfrutas compartiendo tu fascinación por el mundo taurino y siempre estás dispuesto a compartir datos curiosos o responder preguntas sobre este arte. 
-          Tu objetivo: Ayudar a los usuarios con información sobre corridas de toros, festejos y cualquier aspecto relacionado con la tauromaquia, y también mantener una conversación cordial y enriquecedora sobre este tema.
+        console.log(
+          `[Mensaje Recibido] De: ${from.first_name} (${from.id}) | Mensaje: "${userText}" | Sesión: ${session.geminiChat ? 'activa' : 'nueva'}`,
+        );
 
-          Instrucciones clave:
-          1. Si el usuario te pregunta sobre las próximas corridas, festejos, transmisiones, agenda o cualquier tema relacionado, responde ÚNICA Y EXCLUSIVAMENTE con el texto: [ACTION:GET_TRANSMISIONES]. No añadas nada más.
-          2. Si el usuario te saluda o hace una pregunta general sobre tauromaquia (¿quién es Manolete?, ¿qué es un quite?, etc.), responde con amabilidad, brevedad y claridad. A veces puedes incluir algún detalle interesante o un dato curioso para mantener la conversación amena.
-          3. Si el usuario hace preguntas que no están relacionadas con la tauromaquia, responde con educación y cordialidad, recordándole amablemente que tu especialidad es la tauromaquia y que no puedes ofrecer ayuda con temas ajenos a este mundo.
+        if (!session?.geminiChat) {
+          console.log('Creando nueva sesión de chat con Gemini...');
+          const model = this.genAI.getGenerativeModel({
+            model: 'gemini-2.0-flash',
+            safetySettings: [
+              {
+                category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+                threshold: HarmBlockThreshold.BLOCK_NONE,
+              },
+            ],
+          });
+          ctx.session.geminiChat = model.startChat({
+            history: [],
+            generationConfig: { maxOutputTokens: 1000 },
+          });
+        }
 
-          Conversación actual:
-          Usuario: "${userText}"
-          Tu respuesta:
-        `;
+        const chat = session.geminiChat;
+        if (!chat) {
+          // Esto no debería ocurrir por la lógica anterior, pero es una guarda de seguridad.
+          console.error('La sesión de chat no se pudo inicializar.');
+          await ctx.reply(
+            'Hubo un problema al iniciar la conversación. Por favor, intenta de nuevo.',
+          );
+          return;
+        }
+        let prompt = userText;
 
-        const result = await model.generateContent(chatPrompt);
-        const geminiResponse = result.response.text().trim();
+        const isAgendaQuery = /cartel|fecha|corrida|festejo|transmisi/i.test(
+          userText,
+        );
 
-        console.log(`[Respuesta de Gemini] ${geminiResponse}`);
-
-        // Comprobamos si Gemini nos pide ejecutar la acción de scraping
-        if (geminiResponse === '[ACTION:GET_TRANSMISIONES]') {
-          // Solo mostramos el mensaje de "pensando" si vamos a realizar una acción larga
+        // Si es una consulta de agenda, enriquecemos el prompt con el contexto del scraper.
+        if (isAgendaQuery) {
           await ctx.reply(this.getRandomThinkingMessage());
+          const eventos = await this.scraperService.scrapeTransmisiones();
+          let scraperContext = '';
+          if (eventos.length > 0) {
+            scraperContext =
+              '\n\n--- INICIO DEL CONTEXTO ---\n' +
+              'Usa esta lista de festejos de "El Muletazo" para responder preguntas generales sobre la agenda:\n' +
+              eventos
+                .map((ev) => `- Fecha: ${ev.fecha}, Desc: ${ev.descripcion}`)
+                .join('\n') +
+              '\n--- FIN DEL CONTEXTO ---';
+          }
+
+          prompt = `
+            Tu personalidad: Eres 'Muletazo Bot', un asistente virtual experto en tauromaquia. Eres amable, formal y muy servicial.
+
+            Instrucciones clave:
+            1.  **Búsqueda Específica vs. General**:
+                - Si la pregunta es sobre un **lugar específico** (ej: "carteles en Mérida, Venezuela"), **IGNORA EL CONTEXTO** y busca en la web. Responde con "Voy a buscar en la red..." y luego presenta los resultados.
+                - Si la pregunta es **general sobre la agenda** ("¿qué corridas hay?", "dame fechas", "¿dónde las puedo ver?", "canales"), responde ÚNICA Y EXCLUSIVAMENTE con el texto: [ACTION:GET_TRANSMISIONES]. No añadas nada más.
+
+            2.  **Validación de Fechas**: Siempre que des una fecha, asegúrate de que sea posterior a la fecha actual (${new Date().toLocaleDateString(
+              'es-ES',
+            )}). Descarta eventos pasados.
+
+            3.  **Respuesta a Saludos**: Si el usuario solo saluda (ej: "Hola", "Buenas"), responde de forma cordial y recuérdale que puede usar '/transmisiones'.
+
+            4.  **Sin Resultados**: Si después de buscar no encuentras información para un lugar específico, responde amablemente: "Lo siento, aún no dispongo de información sobre festejos en esa localidad. Vuelve a consultarme más adelante."
+
+            5.  **Otras Preguntas**: Para preguntas generales sobre tauromaquia (historia, toreros, etc.), responde de forma cordial y precisa.
+
+            ${scraperContext}
+
+            Conversación actual:
+            Usuario: "${userText}"
+            Tu respuesta:
+          `;
+        }
+
+        // Si no es una consulta de agenda, no necesitamos el pre-reply de "pensando"
+        if (!isAgendaQuery) {
+          await ctx.reply(this.getRandomThinkingMessage());
+        }
+
+        let result = await chat.sendMessage(prompt);
+        let geminiResponse = result.response.text().trim();
+        console.log(`[Respuesta de Gemini 1] ${geminiResponse}`);
+
+        if (geminiResponse === '[ACTION:GET_TRANSMISIONES]') {
           await handleTransmisiones(ctx);
+        } else if (geminiResponse.toLowerCase().includes('voy a buscar')) {
+          await ctx.reply(geminiResponse); // Notificamos al usuario "Voy a buscar..."
+          result = await chat.sendMessage(
+            'Ok, por favor, dame los resultados que encontraste.',
+          );
+          geminiResponse = result.response.text().trim();
+          console.log(`[Respuesta de Gemini 2] ${geminiResponse}`);
+          await ctx.reply(
+            `${geminiResponse}\n\n¿Hay algo más en lo que pueda ayudarte?`,
+          );
         } else {
-          // Si no, simplemente enviamos la respuesta de Gemini al usuario
-          await ctx.reply(`${geminiResponse}\n\n¿Puedo ayudarte en algo más?`);
+          await ctx.reply(
+            `${geminiResponse}\n\n¿Hay algo más en lo que pueda ayudarte?`,
+          );
         }
       } catch (error) {
         console.error('Error al contactar con Gemini:', error);
+        // Limpiar la sesión en caso de error para empezar de nuevo en el siguiente mensaje.
+        if (ctx.session) ctx.session.geminiChat = undefined;
         await ctx.reply(
-          'Lo siento, estoy teniendo problemas para conectar con mi inteligencia. Por favor, intenta usar el comando /transmisiones directamente.',
+          'Lo siento, estoy teniendo problemas para conectar con mi inteligencia. Por favor, intenta usar el comando /transmisiones directamente o reinicia la conversación con /start.',
         );
       }
     });
