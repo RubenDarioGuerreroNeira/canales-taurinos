@@ -3,7 +3,11 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Habilita los ganchos de apagado para un cierre correcto en modo watch.
+  app.enableShutdownHooks();
+
   // La siguiente línea es necesaria para mantener la aplicación viva.
-  await app.listen(3000);
+  await app.listen(4800);
 }
 bootstrap();

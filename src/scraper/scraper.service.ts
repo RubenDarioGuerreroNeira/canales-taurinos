@@ -38,6 +38,12 @@ export class ScraperService {
     return data;
   }
 
+  clearCache(): void {
+    this.cachedTransmisiones = null;
+    this.lastFetched = null;
+    console.log('ScraperService: Caché invalidada manualmente.');
+  }
+
   private async fetchAndParse(): Promise<Transmision[]> {
     const { data } = await axios.get(this.url, {
       headers: {
@@ -49,42 +55,89 @@ export class ScraperService {
     const $ = cheerio.load(data);
     const eventos: Transmision[] = [];
 
-    $('div.entry-content p').each((_, element) => {
+    // Usamos el selector que has identificado, que apunta a los párrafos con la descripción.
+    const posibles = $('p.has-text-align-justify');
+    posibles.each((_, element) => {
       const p = $(element);
-      const textoCompleto = p.text().replace(/\s+/g, ' ').trim();
+      const pText = p.text().trim();
 
-      if (!textoCompleto.includes('➡️') || p.find('a').length === 0) {
-        return;
+      // Patrones para encontrar la fecha dentro del texto del párrafo.
+      const patrones = [
+        /((Lunes|Martes|Mi[eé]rcoles|Jueves|Viernes|S[aá]bado|Domingo) \d{1,2} de \w+ de \d{4})/i,
+        /(\d{1,2}\/\d{1,2}\/\d{2,4})/,
+        /(\d{1,2} de \w+ de \d{4})/i,
+      ];
+
+      let fecha = 'Fecha no especificada';
+      for (const pat of patrones) {
+        const m = pText.match(pat);
+        if (m) {
+          fecha = m[1];
+          break;
+        }
       }
 
-      const dateMatch = textoCompleto.match(
-        /^(Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo) \d+ de \w+ de \d+/,
-      );
-      const fecha = dateMatch ? dateMatch[0] : 'Fecha no especificada';
+      // La descripción es el texto del párrafo sin la fecha.
+      const descripcion = pText.replace(fecha, '').replace(/\s+/g, ' ').trim();
 
+      // Extraer enlaces del párrafo actual y del siguiente (que a menudo contiene el link "PULSE AQUÍ").
       const enlaces: { texto: string; url: string }[] = [];
-      p.find('a').each((_, link) => {
-        const url = $(link).attr('href');
-        const texto = $(link).text().trim();
-        if (url && url.startsWith('http')) {
-          enlaces.push({ texto, url });
+      const elementosConEnlaces = p.add(p.next('p')); // Combina el p actual con el siguiente
+
+      elementosConEnlaces.find('a').each((_, link) => {
+        const url = $(link).attr('href') || '';
+        const texto = $(link).text().trim() || url;
+        const resolved = this.resolveUrl(url);
+        // Evitar duplicados
+        if (resolved && !enlaces.some((e) => e.url === resolved)) {
+          enlaces.push({ texto, url: resolved });
         }
       });
 
-      if (enlaces.length === 0) return; // En .each(), 'return' actúa como 'continue'
+      // Al menos uno de fecha o enlaces o descripción debe ser significativo
+      if (
+        fecha === 'Fecha no especificada' &&
+        enlaces.length === 0 &&
+        descripcion.length < 10
+      )
+        return;
 
-      const partes = textoCompleto.split('➡️');
-      let descripcion =
-        partes.length > 1
-          ? partes[1].split('(')[0].trim()
-          : 'Descripción no disponible';
-      descripcion = descripcion
-        .replace(/Pulse aquí para ver en directo\./gi, '')
-        .trim();
+      // Log para depuración
+      console.log('ScraperService: bloque detectado ->', {
+        fecha,
+        descripcion: descripcion.substring(0, 50) + '...',
+        enlacesCount: enlaces.length,
+      });
 
-      eventos.push({ fecha, descripcion, enlaces });
+      eventos.push({
+        fecha,
+        descripcion: descripcion || 'Descripción no disponible',
+        enlaces,
+      });
     });
 
     return eventos;
+  }
+
+  // Resuelve URLs relativas basadas en la página objetivo y valida esquema http(s)
+  private resolveUrl(url: string): string | null {
+    if (!url) return null;
+    url = url.trim();
+    try {
+      // Si ya es absoluta
+      if (/^https?:\/\//i.test(url)) return url;
+
+      // Si es protocolo relativo
+      if (url.startsWith('//')) return `https:${url}`;
+
+      // Si es ruta relativa, construir a partir del host base
+      const base = new URL(this.url);
+      const resolved = new URL(url, base).toString();
+      if (/^https?:\/\//i.test(resolved)) return resolved;
+      return null;
+    } catch (err) {
+      console.warn('ScraperService: URL inválida detectada ->', url);
+      return null;
+    }
   }
 }
