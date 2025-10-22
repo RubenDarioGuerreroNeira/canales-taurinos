@@ -4,6 +4,7 @@ import { TelegramModule } from './telegram/telegram.module';
 import { ScraperModule } from './scraper/scraper.module';
 import { KeepAliveService } from './keep-alive.service';
 import { AppController } from './app.controller';
+import { ContactModule } from './contact/contact.module';
 import { AppService } from './app.service';
 
 @Module({
@@ -11,6 +12,7 @@ import { AppService } from './app.service';
     ConfigModule.forRoot({ isGlobal: true }),
     ScraperModule,
     TelegramModule,
+    ContactModule,
   ],
   // El AppController es necesario para que el endpoint /ping esté disponible
   controllers: [AppController],

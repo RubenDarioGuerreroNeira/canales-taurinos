@@ -12,6 +12,7 @@ import {
 } from '@google/generative-ai';
 import { ScraperService } from '../scraper/scraper.service';
 import { Update } from 'telegraf/types';
+import { ContactService } from '../contact/contact.service';
 
 // 1. Definir la estructura de los datos de la escena
 interface MySceneSession extends Scenes.SceneSessionData {
@@ -36,7 +37,10 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
   private bot: Telegraf<MyContext>;
   private genAI: GoogleGenerativeAI;
 
-  constructor(private scraperService: ScraperService) {
+  constructor(
+    private scraperService: ScraperService,
+    private contactService: ContactService,
+  ) {
     const token = process.env.BOT_TOKEN;
     if (!token) {
       throw new Error(
@@ -154,6 +158,12 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
       );
     });
 
+    this.bot.command('contacto', async (ctx) => {
+      const contactMessage = this.contactService.getContactMessage();
+      // Usamos replyWithMarkdownV2 para que los enlaces de WhatsApp funcionen
+      await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
+    });
+
     this.bot.start((ctx) => {
       // Limpiar la sesión al iniciar para forzar un nuevo contexto de chat.
       ctx.session = {};
@@ -162,10 +172,10 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
       const greeting = this.getGreeting(userName);
 
       const welcomeOptions = [
-        'Soy tu asistente taurino. Puedes usar el comando /transmisiones o simplemente preguntarme sobre la "agenda de toros" para ver los próximos festejos en TV.',
-        'Estoy a tu disposición. Para ver las corridas en vivo, haz clic en /transmisiones o escribe "dame las fechas de las corridas".',
-        '¿Listo para la faena? Usa /transmisiones o pregúntame directamente: "¿qué corridas televisan?".',
-        '¡Qué alegría verte! Pregúntame por la "agenda de festejos" o lo que desees saber sobre la tauromaquia.',
+        'Soy tu asistente taurino. Puedes usar /transmisiones o preguntarme sobre la "agenda de toros". Si tienes sugerencias, usa /contacto.',
+        'Estoy a tu disposición. Para ver las corridas, usa /transmisiones o escribe "dame las fechas". ¡Tu feedback es bienvenido con /contacto!',
+        '¿Listo para la faena? Usa /transmisiones o pregúntame: "¿qué corridas televisan?". Para sugerencias, estoy en /contacto.',
+        '¡Qué alegría verte! Pregúntame por la "agenda de festejos". Si quieres ayudar a mejorarme, ¡usa el comando /contacto!',
       ];
 
       const randomWelcome =
@@ -180,6 +190,22 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
 
       // Ignorar si es un comando, ya que tienen su propio manejador
       if (userText.startsWith('/')) {
+        return;
+      }
+
+      // Lógica para detectar preguntas sobre contacto/autoría antes de ir a Gemini
+      const isContactQuery =
+        /quien (hizo|creo|desarrollo) este bot|creador|desarrollador|autor|sugerencia|feedback|contactar|escribirle/i.test(
+          userText,
+        );
+
+      if (isContactQuery) {
+        console.log(
+          `[Mensaje Recibido] Detectada consulta de contacto: "${userText}"`,
+        );
+        const contactMessage = this.contactService.getContactMessage();
+        await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
+        // Detenemos el procesamiento para no enviar la consulta a Gemini
         return;
       }
 

@@ -187,11 +187,14 @@ Sigue estos pasos para ejecutar el proyecto en tu entorno local.
 
 ## ✍️ Autor
 
-**Rubén D. Guerrero N.**
+**Rubén D. Guerrero N.** - _"Me encantaría leer o escuchar tus sugerencias para seguir mejorando este bot."_
 
 - Desarrollador Backend
 - GitHub: @rudar-21
 - LinkedIn: ruben-d-guerrero-n
+- Telegram: @Rubedev
+- WhatsApp: +57 3207710450 / +58 4160897020
+- Email: rudargeneira@gmail.com
 
 ---
 
