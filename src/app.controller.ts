@@ -9,4 +9,11 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+  @Get('ping')
+  ping() {
+    return {
+      message: 'pong',
+      timestamp: new Date().toISOString(),
+    };
+  }
 }
