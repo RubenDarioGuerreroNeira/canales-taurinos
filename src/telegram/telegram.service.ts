@@ -12,6 +12,7 @@ import {
 } from '@google/generative-ai';
 import { ScraperService } from '../scraper/scraper.service';
 import { Update } from 'telegraf/types';
+import { ServitoroService } from '../scraper/servitoro.service';
 import { ContactService } from '../contact/contact.service';
 
 // 1. Definir la estructura de los datos de la escena
@@ -39,6 +40,7 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
 
   constructor(
     private scraperService: ScraperService,
+    private servitoroService: ServitoroService,
     private contactService: ContactService,
   ) {
     const token = process.env.BOT_TOKEN;
@@ -156,6 +158,41 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
       await ctx.reply(
         '🧹 La caché de transmisiones ha sido limpiada. ¡Intenta tu búsqueda de nuevo!',
       );
+    });
+
+    this.bot.command('calendario', async (ctx) => {
+      await ctx.reply('📡 Consultando el calendario taurino de Servitoro...');
+      const eventos = await this.servitoroService.getCalendarioTaurino();
+
+      if (!eventos || eventos.length === 0) {
+        await ctx.reply(
+          '😕 No se encontraron eventos en el calendario en este momento.',
+        );
+        return;
+      }
+
+      await ctx.reply(
+        `Se encontraron ${eventos.length} eventos. Mostrando los 5 más próximos:`,
+      );
+
+      const eventosAMostrar = eventos.slice(0, 5);
+
+      // Unificar todos los eventos en un solo mensaje para evitar timeouts
+      const mensajes = eventosAMostrar.map((e) => {
+        // Corregido: Formato de enlace para MarkdownV2 `texto`
+        // Se elimina el '}' sobrante y se inserta la URL del evento.
+        const linkText = e.link ? `\n🔗 Ver entradas` : '';
+
+        return `
+📅 *${this.escapeMarkdown(e.fecha)}* \\- ${this.escapeMarkdown(e.ciudad)}
+*${this.escapeMarkdown(e.nombreEvento)}*
+_${this.escapeMarkdown(e.categoria)}_
+📍 ${this.escapeMarkdown(e.location)}${linkText}
+        `.trim();
+      });
+
+      const mensajeFinal = `${mensajes.join('\n\n\\-\\-\\-\\-\\-\\-\n\n')}\n\n📌 Fuente: www\\.servitoro\\.com`;
+      await ctx.reply(mensajeFinal, { parse_mode: 'MarkdownV2' });
     });
 
     this.bot.command('contacto', async (ctx) => {
