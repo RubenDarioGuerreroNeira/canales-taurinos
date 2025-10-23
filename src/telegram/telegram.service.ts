@@ -1,9 +1,10 @@
 import {
   Injectable,
   OnModuleInit,
+  Logger,
   OnApplicationBootstrap,
 } from '@nestjs/common';
-import { Telegraf, Markup, session, Context, Scenes } from 'telegraf';
+import { Telegraf, Markup, session, Scenes } from 'telegraf';
 import {
   ChatSession,
   GoogleGenerativeAI,
@@ -11,31 +12,38 @@ import {
   HarmBlockThreshold,
 } from '@google/generative-ai';
 import { ScraperService } from '../scraper/scraper.service';
-import { Update } from 'telegraf/types';
-import { ServitoroService } from '../scraper/servitoro.service';
+import { ServitoroService, ServitoroEvent } from '../scraper/servitoro.service';
+import pTimeout from 'p-timeout';
 import { ContactService } from '../contact/contact.service';
 
 // 1. Definir la estructura de los datos de la escena
 interface MySceneSession extends Scenes.SceneSessionData {
-  filterState?: 'awaiting_month' | 'awaiting_channel'; // Estado específico de la escena
+  filterState?: 'awaiting_month' | 'awaiting_channel';
+  filterStateCal?:
+    | 'awaiting_month_cal'
+    | 'awaiting_city_cal'
+    | 'awaiting_location_cal'
+    | 'awaiting_free_text_cal';
+  servitoroEvents?: ServitoroEvent[];
+  currentCalFilter?: {
+    type: 'month' | 'city' | 'location' | 'free';
+    value: string;
+  };
+  currentCalPage?: number;
 }
 
-// 2. Definir la sesión principal que incluye datos personalizados y de escenas
 interface MySession extends Scenes.SceneSession<MySceneSession> {
   geminiChat?: ChatSession;
 }
 
-// 3. Definir el contexto personalizado que usa nuestra sesión y sabe de escenas.
-//    Extiende Scenes.SceneContext con los datos de la escena y luego sobrescribe 'session'
-//    para incluir nuestras propiedades personalizadas.
 interface MyContext extends Scenes.SceneContext<MySceneSession> {
   session: MySession;
 }
 
 @Injectable()
 export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
-  // 3. Usar nuestro contexto personalizado
   private bot: Telegraf<MyContext>;
+  private readonly logger = new Logger(TelegramService.name);
   private genAI: GoogleGenerativeAI;
 
   constructor(
@@ -56,17 +64,14 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
       );
     }
 
-    // 4. Pasar el tipo de contexto al crear la instancia de Telegraf
     this.bot = new Telegraf<MyContext>(token);
 
-    // Crear la escena y el gestor de escenas (Stage)
     const stage = new Scenes.Stage<MyContext>([
       this.createTransmisionesScene(),
+      this.createCalendarioScene(),
     ]);
 
-    // Habilitar sesiones para mantener el contexto de la conversación por usuario.
     this.bot.use(session(), stage.middleware());
-
     this.genAI = new GoogleGenerativeAI(geminiApiKey);
   }
 
@@ -76,7 +81,6 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
   }
 
   onApplicationBootstrap() {
-    // Iniciar el bot. NestJS se asegura de que esto se llame en el momento adecuado.
     this.bot.launch();
     console.log('🤖 Bot de Telegram iniciado con long polling...');
   }
@@ -104,7 +108,6 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
     const handleTransmisiones = async (ctx) => {
       try {
         const eventos = await this.scraperService.scrapeTransmisiones();
-        // Log raw events for debugging when invoked via Gemini or command
         console.log(
           'TelegramService: transmisiones crudas recibidas ->',
           JSON.stringify(eventos, null, 2),
@@ -116,9 +119,7 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
         }
 
         for (const ev of eventos.slice(0, 10)) {
-          // Escapar contenido para MarkdownV2 y evitar que caracteres rompan el formato
-          const mensaje = `🗓 *${this.escapeMarkdown(ev.fecha)}*\n_${this.escapeMarkdown(ev.descripcion)}_`;
-
+          const mensaje = `🗓 *${this.escapeMarkdownV2(ev.fecha)}*\n_${this.escapeMarkdownV2(ev.descripcion)}_`;
           const botones = ev.enlaces.map((link, index) =>
             Markup.button.url(
               this.getChannelNameFromUrl(link.url, index),
@@ -160,51 +161,52 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
       );
     });
 
+    this.bot.command('clearcache_servitoro', async (ctx) => {
+      this.servitoroService.clearCache();
+      console.log('TelegramService: La caché de Servitoro ha sido limpiada.');
+      await ctx.reply(
+        '🧹 La caché del calendario de Servitoro ha sido limpiada. ¡Intenta tu búsqueda de nuevo!',
+      );
+    });
+
     this.bot.command('calendario', async (ctx) => {
       await ctx.reply('📡 Consultando el calendario taurino de Servitoro...');
-      const eventos = await this.servitoroService.getCalendarioTaurino();
-
-      if (!eventos || eventos.length === 0) {
-        await ctx.reply(
-          '😕 No se encontraron eventos en el calendario en este momento.',
+      try {
+        // Envolvemos la llamada al scraper en un timeout de 85 segundos.
+        // Esto es un poco menos que el timeout de Telegraf (90s) para poder responder al usuario.
+        const eventos = await pTimeout(
+          this.servitoroService.getCalendarioTaurino(),
+          85000, // El segundo argumento es el número de milisegundos
         );
-        return;
+
+        if (!eventos || eventos.length === 0) {
+          await ctx.reply(
+            '😕 No se encontraron eventos en el calendario en este momento.',
+          );
+          return;
+        }
+        ctx.scene.session.servitoroEvents = eventos;
+        ctx.scene.session.currentCalPage = 0;
+        ctx.scene.session.currentCalFilter = undefined;
+        await ctx.scene.enter('calendarioScene');
+      } catch (error) {
+        this.logger.error(
+          'Timeout al obtener el calendario de Servitoro',
+          error.stack,
+        );
+        await ctx.reply(
+          '⏳ La consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos. Es posible que la información ya esté disponible.',
+        );
       }
-
-      await ctx.reply(
-        `Se encontraron ${eventos.length} eventos. Mostrando los 5 más próximos:`,
-      );
-
-      const eventosAMostrar = eventos.slice(0, 5);
-
-      // Unificar todos los eventos en un solo mensaje para evitar timeouts
-      const mensajes = eventosAMostrar.map((e) => {
-        // Corregido: Formato de enlace para MarkdownV2 `texto`
-        // Se elimina el '}' sobrante y se inserta la URL del evento.
-        const linkText = e.link ? `\n🔗 Ver entradas` : '';
-
-        return `
-📅 *${this.escapeMarkdown(e.fecha)}* \\- ${this.escapeMarkdown(e.ciudad)}
-*${this.escapeMarkdown(e.nombreEvento)}*
-_${this.escapeMarkdown(e.categoria)}_
-📍 ${this.escapeMarkdown(e.location)}${linkText}
-        `.trim();
-      });
-
-      const mensajeFinal = `${mensajes.join('\n\n\\-\\-\\-\\-\\-\\-\n\n')}\n\n📌 Fuente: www\\.servitoro\\.com`;
-      await ctx.reply(mensajeFinal, { parse_mode: 'MarkdownV2' });
     });
 
     this.bot.command('contacto', async (ctx) => {
       const contactMessage = this.contactService.getContactMessage();
-      // Usamos replyWithMarkdownV2 para que los enlaces de WhatsApp funcionen
       await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
     });
 
     this.bot.start((ctx) => {
-      // Limpiar la sesión al iniciar para forzar un nuevo contexto de chat.
       ctx.session = {};
-
       const userName = ctx.from.first_name || 'aficionado';
       const greeting = this.getGreeting(userName);
 
@@ -221,38 +223,25 @@ _${this.escapeMarkdown(e.categoria)}_
       ctx.reply(welcomeMessage);
     });
 
-    // Middleware para manejar todos los mensajes de texto que no son comandos
     this.bot.on('text', async (ctx) => {
       const userText = ctx.message.text.trim();
+      if (userText.startsWith('/')) return;
 
-      // Ignorar si es un comando, ya que tienen su propio manejador
-      if (userText.startsWith('/')) {
-        return;
-      }
-
-      // Lógica para detectar preguntas sobre contacto/autoría antes de ir a Gemini
       const isContactQuery =
         /quien (hizo|creo|desarrollo) este bot|creador|desarrollador|autor|sugerencia|feedback|contactar|escribirle/i.test(
           userText,
         );
-
       if (isContactQuery) {
         console.log(
           `[Mensaje Recibido] Detectada consulta de contacto: "${userText}"`,
         );
         const contactMessage = this.contactService.getContactMessage();
         await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
-        // Detenemos el procesamiento para no enviar la consulta a Gemini
         return;
       }
 
       try {
-        // 1. Asegurarse de que la sesión exista
-        if (!ctx.session) {
-          ctx.session = {};
-        }
-
-        // 2. Ahora que es seguro, desestructuramos
+        if (!ctx.session) ctx.session = {};
         const { from, session } = ctx;
 
         console.log(
@@ -278,21 +267,19 @@ _${this.escapeMarkdown(e.categoria)}_
 
         const chat = session.geminiChat;
         if (!chat) {
-          // Esto no debería ocurrir por la lógica anterior, pero es una guarda de seguridad.
           console.error('La sesión de chat no se pudo inicializar.');
           await ctx.reply(
             'Hubo un problema al iniciar la conversación. Por favor, intenta de nuevo.',
           );
           return;
         }
-        let prompt = userText;
 
+        let prompt = userText;
         const isAgendaQuery =
           /cartel|fecha|corrida|canal|agenda|transmisionfestejo|transmisi|toros/i.test(
             userText,
           );
 
-        // Si es una consulta de agenda, enriquecemos el prompt con el contexto del scraper.
         if (isAgendaQuery) {
           await ctx.reply(this.getRandomThinkingMessage());
           const eventos = await this.scraperService.scrapeTransmisiones();
@@ -315,9 +302,7 @@ _${this.escapeMarkdown(e.categoria)}_
                 - Si la pregunta es sobre un **lugar específico** (ej: "carteles en Mérida, Venezuela"), **IGNORA EL CONTEXTO** y busca en la web. Responde con "Voy a buscar en la red..." y luego presenta los resultados.
                 - Si la pregunta es **general sobre la agenda** ("¿qué corridas hay?", "dame fechas", "¿dónde las puedo ver?", "canales", "filtrar"), responde ÚNICA Y EXCLUSIVAMENTE con el texto: [ACTION:GET_TRANSMISIONES]. No añadas nada más.
 
-            2.  **Validación de Fechas**: Siempre que des una fecha, asegúrate de que sea posterior a la fecha actual (${new Date().toLocaleDateString(
-              'es-ES',
-            )}). Descarta eventos pasados.
+            2.  **Validación de Fechas**: Siempre que des una fecha, asegúrate de que sea posterior a la fecha actual (${new Date().toLocaleDateString('es-ES')}). Descarta eventos pasados.
 
             3.  **Respuesta a Saludos**: Si el usuario solo saluda (ej: "Hola", "Buenas"), responde de forma cordial y recuérdale que puede usar '/transmisiones'.
  
@@ -333,7 +318,6 @@ _${this.escapeMarkdown(e.categoria)}_
           `;
         }
 
-        // Si no es una consulta de agenda, no necesitamos el pre-reply de "pensando"
         if (!isAgendaQuery) {
           await ctx.reply(this.getRandomThinkingMessage());
         }
@@ -345,7 +329,7 @@ _${this.escapeMarkdown(e.categoria)}_
         if (geminiResponse === '[ACTION:GET_TRANSMISIONES]') {
           await ctx.scene.enter('transmisionesScene');
         } else if (geminiResponse.toLowerCase().includes('voy a buscar')) {
-          await ctx.reply(geminiResponse); // Notificamos al usuario "Voy a buscar..."
+          await ctx.reply(geminiResponse);
           result = await chat.sendMessage(
             'Ok, por favor, dame los resultados que encontraste.',
           );
@@ -361,7 +345,6 @@ _${this.escapeMarkdown(e.categoria)}_
         }
       } catch (error) {
         console.error('Error al contactar con Gemini:', error);
-        // Limpiar la sesión en caso de error para empezar de nuevo en el siguiente mensaje.
         if (ctx.session) ctx.session.geminiChat = undefined;
         await ctx.reply(
           'Lo siento, estoy teniendo problemas para conectar con mi inteligencia. Por favor, intenta usar el comando /transmisiones directamente o reinicia la conversación con /start.',
@@ -384,7 +367,7 @@ _${this.escapeMarkdown(e.categoria)}_
       }
 
       for (const ev of events.slice(0, 10)) {
-        const mensaje = `🗓 *${this.escapeMarkdown(ev.fecha)}*\n_${this.escapeMarkdown(ev.descripcion)}_`;
+        const mensaje = `🗓 *${this.escapeMarkdownV2(ev.fecha)}*\n_${this.escapeMarkdownV2(ev.descripcion)}_`;
         const botones = ev.enlaces.map((link, index) =>
           Markup.button.url(
             this.getChannelNameFromUrl(link.url, index),
@@ -418,7 +401,7 @@ _${this.escapeMarkdown(e.categoria)}_
 
     scene.action('ver_todas', async (ctx) => {
       await ctx.answerCbQuery();
-      await showFilteredEvents(ctx, () => true); // Sin filtro
+      await showFilteredEvents(ctx, () => true);
       await ctx.scene.leave();
     });
 
@@ -458,7 +441,6 @@ _${this.escapeMarkdown(e.categoria)}_
       );
     });
 
-    // Manejar la selección de un canal específico
     scene.action(/canal_(.+)/, async (ctx) => {
       const channel = ctx.match[1];
       await ctx.answerCbQuery();
@@ -470,7 +452,6 @@ _${this.escapeMarkdown(e.categoria)}_
       await ctx.scene.leave();
     });
 
-    // Manejar la entrada de texto (para el mes)
     scene.on('text', async (ctx) => {
       if (ctx.scene.session.filterState === 'awaiting_month') {
         const month = ctx.message.text.toLowerCase();
@@ -484,25 +465,256 @@ _${this.escapeMarkdown(e.categoria)}_
     return scene;
   }
 
-  // Escape text for Telegram MarkdownV2
-  private escapeMarkdown(text: string): string {
-    if (!text) return '';
-    return text
-      .replace(/([_()*\[\]~`>#+\-=|{}.!\\])/g, '\\$1')
-      .replace(/\n/g, '\\n');
+  private createCalendarioScene(): Scenes.BaseScene<MyContext> {
+    const scene = new Scenes.BaseScene<MyContext>('calendarioScene');
+    const EVENTS_PER_PAGE = 3;
+
+    const showFilteredCalendarioEvents = async (
+      ctx: MyContext,
+      filterCriteria: {
+        type: 'month' | 'city' | 'location' | 'free';
+        value: string;
+      },
+      page: number = 0,
+    ) => {
+      const allEvents = ctx.scene.session.servitoroEvents || [];
+      let filteredEvents: ServitoroEvent[] = [];
+
+      if (filterCriteria.type === 'month') {
+        filteredEvents = allEvents.filter((e) => {
+          const eventMonth = this.getMonthNameFromDateString(e.fecha);
+          return (
+            eventMonth &&
+            eventMonth.toLowerCase() === filterCriteria.value.toLowerCase()
+          );
+        });
+      } else if (filterCriteria.type === 'city') {
+        filteredEvents = allEvents.filter((e) =>
+          e.ciudad.toLowerCase().includes(filterCriteria.value.toLowerCase()),
+        );
+      } else if (filterCriteria.type === 'location') {
+        filteredEvents = allEvents.filter((e) =>
+          e.location.toLowerCase().includes(filterCriteria.value.toLowerCase()),
+        );
+      } else if (filterCriteria.type === 'free') {
+        const searchValue = filterCriteria.value.toLowerCase();
+        filteredEvents = allEvents.filter(
+          (e) =>
+            e.fecha.toLowerCase().includes(searchValue) ||
+            e.ciudad.toLowerCase().includes(searchValue) ||
+            e.nombreEvento.toLowerCase().includes(searchValue) ||
+            e.categoria.toLowerCase().includes(searchValue) ||
+            e.location.toLowerCase().includes(searchValue),
+        );
+      } else {
+        filteredEvents = allEvents;
+      }
+
+      if (filteredEvents.length === 0) {
+        await ctx.reply('😕 No se encontraron eventos con esos criterios.');
+        ctx.scene.leave();
+        return;
+      }
+
+      const totalPages = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE);
+      const start = page * EVENTS_PER_PAGE;
+      const end = start + EVENTS_PER_PAGE;
+      const eventsToShow = filteredEvents.slice(start, end);
+
+      if (eventsToShow.length === 0 && page > 0) {
+        await ctx.reply('No hay más eventos para mostrar.');
+        ctx.scene.leave();
+        return;
+      } else if (eventsToShow.length === 0) {
+        await ctx.reply('😕 No se encontraron eventos con esos criterios.');
+        ctx.scene.leave();
+        return;
+      }
+
+      const mensajes = eventsToShow.map((e) => {
+        const fecha = this.escapeMarkdownV2(e.fecha);
+        const ciudad = this.escapeMarkdownV2(e.ciudad);
+        const nombreEvento = this.escapeMarkdownV2(e.nombreEvento);
+        const categoria = this.escapeMarkdownV2(e.categoria);
+        const location = this.escapeMarkdownV2(e.location);
+        const link = e.link
+          ? `\n[🔗 Ver entradas](${this.escapeMarkdownUrl(e.link)})`
+          : '';
+
+        return `📅 *${fecha}* \\- ${ciudad}\n*${nombreEvento}*\n_${categoria}_\n📍 ${location}${link}`;
+      });
+
+      const headerText = `Resultados (${start + 1}-${Math.min(end, filteredEvents.length)} de ${filteredEvents.length}):`;
+      const messageHeader = `${this.escapeMarkdownV2(headerText)}\n\n`;
+      const messageFooter = `\n\n📌 Fuente: www\\.servitoro\\.com`;
+      const messageBody = mensajes.join('\n\n\\-\\-\\-\\-\\-\\-\n\n');
+      const finalMessage = `${messageHeader}${messageBody}${messageFooter}`;
+
+      const buttons: any[] = [];
+      if (page < totalPages - 1) {
+        buttons.push(Markup.button.callback('➡️ Siguiente', 'next_page_cal'));
+      }
+      buttons.push(Markup.button.callback('❌ Salir', 'exit_cal'));
+
+      await ctx.reply(finalMessage, {
+        parse_mode: 'MarkdownV2',
+        ...Markup.inlineKeyboard(buttons),
+      });
+
+      ctx.scene.session.currentCalFilter = filterCriteria;
+      ctx.scene.session.currentCalPage = page;
+    };
+
+    scene.enter(async (ctx) => {
+      const totalEvents = ctx.scene.session.servitoroEvents?.length || 0;
+      await ctx.reply(
+        `Hemos encontrado ${totalEvents} eventos taurinos. ¿Cómo te gustaría filtrarlos?`,
+        Markup.inlineKeyboard([
+          [Markup.button.callback('📅 Por Mes', 'filter_month_cal')],
+          [Markup.button.callback('🏙️ Por Ciudad', 'filter_city_cal')],
+          [Markup.button.callback('📍 Por Localidad', 'filter_location_cal')],
+          [Markup.button.callback('🔍 Búsqueda Libre', 'filter_free_cal')],
+          [Markup.button.callback('❌ Salir', 'exit_cal')],
+        ]),
+      );
+    });
+
+    scene.action('filter_month_cal', async (ctx) => {
+      await ctx.answerCbQuery();
+      const allEvents = ctx.scene.session.servitoroEvents || [];
+      const uniqueMonths = [
+        ...new Set(
+          allEvents
+            .map((e) => this.getMonthNameFromDateString(e.fecha))
+            .filter((m): m is string => m !== null),
+        ),
+      ];
+
+      const monthList = uniqueMonths
+        .map((m) => `\`${this.escapeMarkdownV2(m)}\``)
+        .join(', ');
+      ctx.scene.session.filterStateCal = 'awaiting_month_cal';
+      await ctx.reply(
+        `Por favor, escribe el nombre del mes\\. Meses disponibles: ${monthList}`,
+        {
+          parse_mode: 'MarkdownV2',
+        },
+      );
+    });
+
+    scene.action('filter_city_cal', async (ctx) => {
+      ctx.scene.session.filterStateCal = 'awaiting_city_cal';
+      await ctx.answerCbQuery();
+      await ctx.reply(
+        'Por favor, escribe el nombre de la ciudad (ej: "Sevilla").',
+      );
+    });
+
+    scene.action('filter_location_cal', async (ctx) => {
+      ctx.scene.session.filterStateCal = 'awaiting_location_cal';
+      await ctx.answerCbQuery();
+      await ctx.reply('Por favor, escribe la localidad (ej: "Las Ventas").');
+    });
+
+    scene.action('filter_free_cal', async (ctx) => {
+      ctx.scene.session.filterStateCal = 'awaiting_free_text_cal';
+      await ctx.answerCbQuery();
+      await ctx.reply('Escribe tu búsqueda (ej: "Madrid en Octubre").');
+    });
+
+    scene.action('next_page_cal', async (ctx) => {
+      await ctx.answerCbQuery();
+      const currentPage = ctx.scene.session.currentCalPage || 0;
+      const filter = ctx.scene.session.currentCalFilter;
+      if (filter) {
+        await showFilteredCalendarioEvents(ctx, filter, currentPage + 1);
+      } else {
+        await ctx.reply(
+          'Error: No se encontró el filtro actual para la paginación.',
+        );
+        ctx.scene.leave();
+      }
+    });
+
+    scene.action('exit_cal', async (ctx) => {
+      await ctx.answerCbQuery();
+      await ctx.reply(
+        '¡De acuerdo! Puedes volver a consultar el calendario cuando quieras.',
+      );
+      ctx.scene.leave();
+    });
+
+    scene.on('text', async (ctx) => {
+      const filterState = ctx.scene.session.filterStateCal;
+      const userText = ctx.message.text.trim();
+
+      if (filterState === 'awaiting_month_cal') {
+        await showFilteredCalendarioEvents(ctx, {
+          type: 'month',
+          value: userText,
+        });
+      } else if (filterState === 'awaiting_city_cal') {
+        await showFilteredCalendarioEvents(ctx, {
+          type: 'city',
+          value: userText,
+        });
+      } else if (filterState === 'awaiting_location_cal') {
+        await showFilteredCalendarioEvents(ctx, {
+          type: 'location',
+          value: userText,
+        });
+      } else if (filterState === 'awaiting_free_text_cal') {
+        await showFilteredCalendarioEvents(ctx, {
+          type: 'free',
+          value: userText,
+        });
+      } else {
+        await ctx.reply(
+          'No entiendo tu respuesta. Por favor, usa los botones o sal de la búsqueda.',
+        );
+      }
+    });
+
+    return scene;
   }
 
-  /**
-   * Genera un nombre de canal descriptivo a partir de una URL.
-   * @param url La URL del enlace de transmisión.
-   * @param index El índice del botón, para usar como fallback.
-   * @returns Un nombre corto para el canal.
-   */
+  private escapeMarkdownV2(text: string): string {
+    if (!text) return '';
+    return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
+  }
+
+  private escapeMarkdownUrl(url: string): string {
+    if (!url) return '';
+    return url.replace(/[()\\]/g, '\\$&');
+  }
+
+  private getMonthNameFromDateString(dateString: string): string | null {
+    if (!dateString) return null;
+
+    const monthMatch = dateString.match(/\d{1,2} (\w+) \d{4}/i);
+    if (monthMatch && monthMatch[1]) {
+      return (
+        monthMatch[1].charAt(0).toUpperCase() +
+        monthMatch[1].slice(1).toLowerCase()
+      );
+    }
+
+    const slashDateMatch = dateString.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (slashDateMatch && slashDateMatch[2]) {
+      const monthIndex = parseInt(slashDateMatch[2], 10) - 1;
+      if (monthIndex >= 0 && monthIndex < 12) {
+        const date = new Date(2000, monthIndex, 1);
+        return date.toLocaleDateString('es-ES', { month: 'long' });
+      }
+    }
+
+    return null;
+  }
+
   private getChannelNameFromUrl(url: string, index: number): string {
     if (!url) return `Canal ${index + 1}`;
 
     const lowerUrl = url.toLowerCase();
-
     if (lowerUrl.includes('canalsur.es')) return 'Canal Sur';
     if (lowerUrl.includes('telemadrid.es')) return 'T.Madrid';
     if (lowerUrl.includes('cmmedia.es')) return 'CMM';
@@ -512,7 +724,6 @@ _${this.escapeMarkdown(e.categoria)}_
     if (lowerUrl.includes('torosenespana.com')) return 'TorosEspaña Play';
     if (lowerUrl.includes('one-toro.com')) return 'OneToro';
 
-    // Fallback: intentar extraer el nombre del dominio
     try {
       const hostname = new URL(url).hostname;
       const parts = hostname.replace('www.', '').split('.');

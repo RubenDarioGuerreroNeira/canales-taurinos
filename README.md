@@ -9,27 +9,29 @@ Este proyecto es un bot de Telegram inteligente, desarrollado con **NestJS**, qu
 
 ## 📜 Descripción del Proyecto
 
-El objetivo principal de este bot es proporcionar a los usuarios una forma rápida y sencilla de consultar la agenda de corridas de toros y otros eventos taurinos que se transmitirán por televisión. El bot combina la robustez de un backend en NestJS con la inteligencia artificial de Google Gemini para ofrecer una experiencia de usuario fluida, inteligente y conversacional.
+El objetivo principal de este bot es ser el asistente de referencia para los aficionados taurinos, proporcionando una forma rápida y conversacional de consultar tanto la **agenda de festejos televisados** como el **calendario completo de la temporada taurina**. El bot combina la robustez de un backend en NestJS con la inteligencia artificial de Google Gemini para ofrecer una experiencia de usuario fluida e inteligente.
 
 El bot es capaz de mantener conversaciones con contexto, recordar interacciones previas con el usuario, realizar búsquedas específicas más allá de la información general obtenida por web scraping y guiar al usuario a través de diálogos interactivos para filtrar información.
 
 ### ✨ Características Principales
 
 - **Procesamiento de Lenguaje Natural (NLP)**: Utiliza el modelo `gemini-2.0-flash` para interpretar una amplia gama de solicitudes en lenguaje coloquial (ej: "quiero ver toros", "¿qué corridas televisan?"), responder preguntas generales sobre tauromaquia y realizar búsquedas específicas.
-- **Web Scraping Automatizado**: Extrae la información de los festejos directamente desde la agenda de "El Muletazo", asegurando que los datos estén siempre actualizados.
-- **Sistema de Caché**: Implementa un sistema de caché de 1 hora para optimizar el rendimiento, reducir las peticiones al sitio web y ofrecer respuestas instantáneas.
+- **Web Scraping Dual**:
+  - **Festejos Televisados**: Extrae la agenda de "El Muletazo" usando `axios` y `cheerio` para obtener información sobre las transmisiones.
+  - **Calendario Taurino**: Realiza scraping de "Servitoro" usando `Puppeteer` para obtener el calendario completo de la temporada, manejando contenido cargado dinámicamente.
+- **Sistema de Caché Avanzado**: Implementa un sistema de caché independiente para cada fuente de datos (El Muletazo y Servitoro), optimizando el rendimiento, reduciendo las peticiones a los sitios web y ofreciendo respuestas instantáneas.
 - **Conversación Persistente con Gestión de Sesiones**: Utiliza `telegraf/session` para recordar el historial de chat de cada usuario, evitando saludos repetitivos y permitiendo conversaciones fluidas y con contexto.
-- **Filtrado Interactivo de Transmisiones**: Utiliza `Scenes` de Telegraf para guiar al usuario a través de un diálogo de varios pasos, permitiéndole filtrar la agenda de transmisiones por mes o por canal.
-- **Ejecución de Acciones Inteligentes**: Entiende una gran variedad de frases relacionadas con la agenda (ej: "¿dónde las puedo ver?", "agenda de toros") y ejecuta la acción más útil, como iniciar el diálogo de filtrado, en lugar de una simple respuesta de texto.
+- **Filtrado Interactivo con Telegraf Scenes**: Guía al usuario a través de diálogos de varios pasos para filtrar tanto las transmisiones (por mes, por canal) como el calendario taurino (por mes, ciudad, etc.).
+- **Ejecución de Acciones Inteligentes**: Entiende una gran variedad de frases relacionadas con la agenda (ej: "agenda televisiva", "muéstrame el calendario") y ejecuta la acción más útil, como iniciar el diálogo de filtrado correspondiente.
 - **Interfaz de Usuario Dinámica**: Personaliza los botones de los canales de transmisión con nombres descriptivos (ej: "Canal Sur", "T.Madrid") extraídos directamente de las URLs.
-- **Guía Proactiva al Usuario**: En los mensajes de bienvenida y de seguimiento, el bot recuerda al usuario que puede interactuar de forma natural, fomentando una experiencia más conversacional.
-- **Comandos Directos**: Incluye comandos como `/transmisiones` y `/filtrar` para un acceso rápido a la información y `/clearcache` para la administración.
+- **Guía Proactiva al Usuario**: El mensaje de bienvenida (`/start`) ahora presenta claramente los servicios disponibles y sugiere frases en lenguaje natural para interactuar, mejorando la experiencia inicial del usuario.
+- **Comandos Directos**: Incluye comandos como `/transmisiones`, `/calendario` y `/contacto` para un acceso rápido, además de comandos de administración como `/clearcache` y `/clearcache_servitoro`.
 
 ---
 
 ## 🏗️ Esquema de la Arquitectura
 
-El siguiente diagrama ilustra el flujo de datos y la interacción entre los componentes del sistema, incluyendo la gestión de sesiones y la lógica conversacional avanzada con escenas.
+El siguiente diagrama ilustra el flujo de datos y la interacción entre los componentes del sistema. Ahora incluye las dos fuentes de scraping (`El Muletazo` y `Servitoro`) y las escenas correspondientes para cada funcionalidad.
 
 ```mermaid
 graph TD
@@ -40,8 +42,10 @@ graph TD
     subgraph "Backend (NestJS)"
         T[🤖 Telegraf Service]
         G[🧠 Gemini Service]
-        SCENE[🎭 Transmisiones Scene]
-        S[🕸️ Scraper Service]
+        SCENE1[🎭 Transmisiones Scene]
+        SCENE2[🗓️ Calendario Scene]
+        S1[🕸️ Scraper Service (El Muletazo)]
+        S2[ puppeteer Servitoro Service]
         C[🗄️ Caché]
         SS[💾 Session Store]
     end
@@ -49,7 +53,8 @@ graph TD
     subgraph "Servicios Externos"
         API_TG[🌐 API de Telegram]
         API_G[☁️ API de Google Gemini]
-        WEB[📰 Web de El Muletazo]
+        WEB1[📰 Web de El Muletazo]
+        WEB2[🎟️ Web de Servitoro]
     end
 
     U -- Mensaje de texto --> API_TG
@@ -59,8 +64,9 @@ graph TD
     SS -- Historial de Chat --> T
 
     T -- ¿Es un comando? --> T_CMD{Comando}
-    T_CMD -- /transmisiones o /filtrar --> SCENE
-    T_CMD -- /clearcache --> C
+    T_CMD -- /transmisiones o /filtrar --> SCENE1
+    T_CMD -- /calendario --> SCENE2
+    T_CMD -- /clearcache... --> C
     T_CMD -- /start --> SS(Limpia Sesión)
 
     T -- ¿No es comando? --> G
@@ -71,40 +77,51 @@ graph TD
     subgraph "Lógica de Respuesta de Gemini"
         direction LR
         G_Decide{Decisión}
-        G_Decide -- Pregunta Específica --> G_WebSearch[Búsqueda Web]
-        G_Decide -- Pregunta General Agenda --> G_Action[Acción: GET_TRANSMISIONES]
+        G_Decide -- Pregunta Específica --> G_WebSearch[Búsqueda Web con Gemini]
+        G_Decide -- "Agenda televisiva" --> G_Action1[Acción: GET_TRANSMISIONES]
+        G_Decide -- "Calendario taurino" --> G_Action2[Acción: GET_CALENDARIO]
         G_Decide -- Saludo/Otro --> G_Text[Respuesta de Texto]
     end
 
-    T -- Acción GET_TRANSMISIONES --> SCENE
+    T -- Acción GET_TRANSMISIONES --> SCENE1
+    T -- Acción GET_CALENDARIO --> SCENE2
 
-    SCENE -- Inicia diálogo de filtrado --> API_TG
-    API_TG -- Selección de filtro --> SCENE
-    SCENE -- Pide datos al Scraper --> S
+    SCENE1 -- Pide datos --> S1
+    SCENE2 -- Pide datos --> S2
 
-    S -- ¿Hay caché válida? --> C
-    C -- Sí --> S
-    C -- No --> S_Scrape
+    S1 -- ¿Hay caché válida? --> C
+    S2 -- ¿Hay caché válida? --> C
 
-    S_Scrape[Realizar Scraping] -- Petición HTTP --> WEB
-    WEB -- HTML --> S_Scrape
-    S_Scrape -- Datos Extraídos --> C
-    S_Scrape -- Datos Extraídos --> S
+    C -- Sí --> S1
+    C -- Sí --> S2
 
-    S -- Eventos --> SCENE
-    SCENE -- Formatea y Envía Respuesta Filtrada --> API_TG
+    C -- No --> S1_Scrape[Scraping El Muletazo]
+    C -- No --> S2_Scrape[Scraping Servitoro]
+
+    S1_Scrape -- Petición HTTP --> WEB1
+    WEB1 -- HTML --> S1_Scrape
+    S1_Scrape -- Datos --> C & S1
+
+    S2_Scrape -- Navegación Puppeteer --> WEB2
+    WEB2 -- HTML Dinámico --> S2_Scrape
+    S2_Scrape -- Datos --> C & S2
+
+    S1 & S2 -- Eventos --> T
+    T -- Formatea y Envía Respuesta --> API_TG
     API_TG -- Mensaje con botones --> U
 
     style U fill:#D6EAF8,stroke:#3498DB
     style T fill:#D5F5E3,stroke:#2ECC71
     style G fill:#FCF3CF,stroke:#F1C40F
-    style SCENE fill:#FADBD8,stroke:#C0392B
-    style S fill:#EBDEF0,stroke:#8E44AD
+    style SCENE1 fill:#FADBD8,stroke:#C0392B
+    style SCENE2 fill:#FADBD8,stroke:#C0392B
+    style S1 fill:#EBDEF0,stroke:#8E44AD
+    style S2 fill:#EBDEF0,stroke:#8E44AD
     style C fill:#FDEDEC,stroke:#E74C3C
     style SS fill:#E8DAEF,stroke:#9B59B6
     style API_TG fill:#AEB6BF,stroke:#5D6D7E
     style API_G fill:#AEB6BF,stroke:#5D6D7E
-    style WEB fill:#AEB6BF,stroke:#5D6D7E
+    style WEB1, WEB2 fill:#AEB6BF,stroke:#5D6D7E
 ```
 
 ---
