@@ -22,10 +22,11 @@ El bot es capaz de mantener conversaciones con contexto, recordar interacciones 
 - **Sistema de Caché Avanzado**: Implementa un sistema de caché independiente para cada fuente de datos (El Muletazo y Servitoro), optimizando el rendimiento, reduciendo las peticiones a los sitios web y ofreciendo respuestas instantáneas.
 - **Conversación Persistente con Gestión de Sesiones**: Utiliza `telegraf/session` para recordar el historial de chat de cada usuario, evitando saludos repetitivos y permitiendo conversaciones fluidas y con contexto.
 - **Filtrado Interactivo con Telegraf Scenes**: Guía al usuario a través de diálogos de varios pasos para filtrar tanto las transmisiones (por mes, por canal) como el calendario taurino (por mes, ciudad, etc.).
-- **Ejecución de Acciones Inteligentes**: Entiende una gran variedad de frases relacionadas con la agenda (ej: "agenda televisiva", "muéstrame el calendario") y ejecuta la acción más útil, como iniciar el diálogo de filtrado correspondiente.
+- **Reconocimiento de Lenguaje Natural**: Entiende una gran variedad de frases coloquiales (ej: "agenda de festejos", "muéstrame el calendario", "¿quién hizo este bot?") para activar funcionalidades sin necesidad de usar comandos.
+- **Flujo de Conversación Robusto**: Gestiona el estado de la conversación de forma inteligente, permitiendo al usuario salir de una función (como el calendario) y continuar con otra sin errores ni comportamientos inesperados.
 - **Interfaz de Usuario Dinámica**: Personaliza los botones de los canales de transmisión con nombres descriptivos (ej: "Canal Sur", "T.Madrid") extraídos directamente de las URLs.
 - **Guía Proactiva al Usuario**: El mensaje de bienvenida (`/start`) ahora presenta claramente los servicios disponibles y sugiere frases en lenguaje natural para interactuar, mejorando la experiencia inicial del usuario.
-- **Comandos Directos**: Incluye comandos como `/transmisiones`, `/calendario` y `/contacto` para un acceso rápido, además de comandos de administración como `/clearcache` y `/clearcache_servitoro`.
+- **Comandos Directos**: Incluye comandos como `/transmisiones`, `/calendario` y `/contacto` para un acceso rápido, además de comandos de administración como `/clearcache`.
 
 ---
 
@@ -134,6 +135,7 @@ graph TD
   <a href="https://telegram.org/" target="_blank"><img src="./images/telegram.svg" width="70" alt="Telegram Logo"></a>
   <a href="https://ai.google.dev/" target="_blank"><img src="./images/gemini.svg" width="70" alt="Gemini Logo"></a>
   <a href="https://telegraf.js.org/" target="_blank"><img src="./images/telegraf.png" width="70" alt="Telegraf Logo"></a>
+  <a href="https://pptr.dev/" target="_blank"><img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" width="70" alt="Puppeteer Logo"></a>
   <a href="https://nodejs.org/" target="_blank"><img src="./images/nodejs.svg" width="70" alt="Node.js Logo"></a>
 </div>
 
@@ -141,20 +143,26 @@ graph TD
 
 ## 📊 Fuentes de Contenido
 
-El bot se nutre de información proveniente de portales y canales de televisión especializados. La fuente principal para el scraping es **El Muletazo**, y las transmisiones anunciadas corresponden a diversos canales autonómicos como **Canal Sur**, **Castilla-La Mancha Media** y **Telemadrid**.
+El bot se nutre de información proveniente de portales y canales de televisión especializados. Las fuentes principales para el scraping son **El Muletazo** y **Servitoro**. Las transmisiones anunciadas corresponden a diversos canales.
 
 <div align="center">
   <a href="https://elmuletazo.com/agenda-de-toros-en-television/" target="_blank">
-    <img src="https://i0.wp.com/elmuletazo.com/wp-content/uploads/2020/10/cropped-Logo-nuevo-El-Muletazo-con-fondo-y-sin-texto.png?fit=192%2C192&ssl=1" width="70" alt="El Muletazo Logo">
+    <img src="https://i0.wp.com/elmuletazo.com/wp-content/uploads/2020/10/cropped-Logo-nuevo-El-Muletazo-con-fondo-y-sin-texto.png?fit=192%2C192&ssl=1" width="80" alt="El Muletazo Logo">
+  </a>
+  <a href="https://www.servitoro.com/" target="_blank">
+    <img src="https://www.servitoro.com/img/logo-servitoro-1545136539.jpg" width="140" alt="Servitoro Logo">
   </a>
   <a href="https://www.canalsur.es/" target="_blank">
-    <img src="./images/Canal Sur.png" width="120" alt="Canal Sur Logo">
+    <img src="https://www.canalsur.es/resources/img/canalsur/logo.svg" height="40" alt="Canal Sur Logo">
   </a>
   <a href="https://www.cmmedia.es/" target="_blank">
-    <img src="./images/Castilla de la Mancha.jpg" width="120" alt="Castilla-La Mancha Media Logo">
+    <img src="https://www.cmmedia.es/images/logo-cmm.svg" height="40" alt="Castilla-La Mancha Media Logo">
   </a>
   <a href="https://www.telemadrid.es/" target="_blank">
-    <img src="./images/Tele Madrid.png" width="120" alt="Telemadrid Logo">
+    <img src="https://www.telemadrid.es/content/dam/telemadrid/logo-telemadrid-2017.svg" height="40" alt="Telemadrid Logo">
+  </a>
+  <a href="https://one-toro.com/" target="_blank">
+    <img src="https://one-toro.com/wp-content/uploads/2023/03/logo-onetoro-blanco.svg" height="40" alt="OneToro Logo" style="background: #000; padding: 5px;">
   </a>
 </div>
 

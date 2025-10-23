@@ -105,53 +105,10 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
   }
 
   private setupCommands() {
-    const handleTransmisiones = async (ctx) => {
-      try {
-        const eventos = await this.scraperService.scrapeTransmisiones();
-        console.log(
-          'TelegramService: transmisiones crudas recibidas ->',
-          JSON.stringify(eventos, null, 2),
-        );
-        if (!eventos.length) {
-          return ctx.reply(
-            '⚠️ No se encontraron transmisiones por el momento.',
-          );
-        }
-
-        for (const ev of eventos.slice(0, 10)) {
-          const mensaje = `🗓 *${this.escapeMarkdownV2(ev.fecha)}*\n_${this.escapeMarkdownV2(ev.descripcion)}_`;
-          const botones = ev.enlaces.map((link, index) =>
-            Markup.button.url(
-              this.getChannelNameFromUrl(link.url, index),
-              link.url,
-            ),
-          );
-
-          if (botones.length > 0) {
-            await ctx.reply(mensaje, {
-              parse_mode: 'MarkdownV2',
-              ...Markup.inlineKeyboard(botones),
-            });
-          } else {
-            await ctx.reply(mensaje, { parse_mode: 'MarkdownV2' });
-          }
-        }
-
-        await ctx.reply(
-          '📌 Fuente: www.elmuletazo.com. ¡Suerte para todos!\n\n¿Hay algo más en lo que pueda ayudarte?',
-        );
-      } catch (err) {
-        console.error('Error en /transmisiones:', err.message);
-        await ctx.reply(
-          '❌ Error al obtener las transmisiones. Inténtalo más tarde.',
-        );
-      }
-    };
-
     this.bot.command('transmisiones', (ctx) =>
-      ctx.scene.enter('transmisionesScene'),
+      this.handleTransmisionesQuery(ctx),
     );
-    this.bot.command('filtrar', (ctx) => ctx.scene.enter('transmisionesScene'));
+    this.bot.command('filtrar', (ctx) => this.handleTransmisionesQuery(ctx));
 
     this.bot.command('clearcache', async (ctx) => {
       this.scraperService.clearCache();
@@ -170,34 +127,7 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
     });
 
     this.bot.command('calendario', async (ctx) => {
-      await ctx.reply('📡 Consultando el calendario taurino de Servitoro...');
-      try {
-        // Envolvemos la llamada al scraper en un timeout de 85 segundos.
-        // Esto es un poco menos que el timeout de Telegraf (90s) para poder responder al usuario.
-        const eventos = await pTimeout(
-          this.servitoroService.getCalendarioTaurino(),
-          85000, // El segundo argumento es el número de milisegundos
-        );
-
-        if (!eventos || eventos.length === 0) {
-          await ctx.reply(
-            '😕 No se encontraron eventos en el calendario en este momento.',
-          );
-          return;
-        }
-        ctx.scene.session.servitoroEvents = eventos;
-        ctx.scene.session.currentCalPage = 0;
-        ctx.scene.session.currentCalFilter = undefined;
-        await ctx.scene.enter('calendarioScene');
-      } catch (error) {
-        this.logger.error(
-          'Timeout al obtener el calendario de Servitoro',
-          error.stack,
-        );
-        await ctx.reply(
-          '⏳ La consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos. Es posible que la información ya esté disponible.',
-        );
-      }
+      await this.handleCalendarioQuery(ctx);
     });
 
     this.bot.command('contacto', async (ctx) => {
@@ -209,18 +139,16 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
       ctx.session = {};
       const userName = ctx.from.first_name || 'aficionado';
       const greeting = this.getGreeting(userName);
+      const welcomeMessage = `${greeting}
 
-      const welcomeOptions = [
-        'Soy tu asistente taurino. Puedes usar /transmisiones o preguntarme sobre la "agenda de toros". Si tienes sugerencias, usa /contacto.',
-        'Estoy a tu disposición. Para ver las corridas, usa /transmisiones o escribe "dame las fechas". ¡Tu feedback es bienvenido con /contacto!',
-        '¿Listo para la faena? Usa /transmisiones o pregúntame: "¿qué corridas televisan?". Para sugerencias, estoy en /contacto.',
-        '¡Qué alegría verte! Pregúntame por la "agenda de festejos". Si quieres ayudar a mejorarme, ¡usa el comando /contacto!',
-      ];
+Soy tu asistente taurino y estoy aquí para ayudarte\\.
 
-      const randomWelcome =
-        welcomeOptions[Math.floor(Math.random() * welcomeOptions.length)];
-      const welcomeMessage = `${greeting}\n\n${randomWelcome}`;
-      ctx.reply(welcomeMessage);
+*   Para ver los **festejos televisados y que puedes ver por aqui *, pregúntame por la _"agenda de festejos"_\\.
+*   Si quieres consultar el **calendario completo de la temporada Taurina **, solo tienes que decir _"calendario"_\\.
+*   Si quieres **contactar al desarrollador** o dar una sugerencia, pregunta _"¿quién desarrolló este bot?"_\\.
+
+¡También puedes usar los comandos /transmisiones, /calendario y /contacto directamente\\!`;
+      ctx.reply(welcomeMessage, { parse_mode: 'MarkdownV2' });
     });
 
     this.bot.on('text', async (ctx) => {
@@ -237,6 +165,26 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
         );
         const contactMessage = this.contactService.getContactMessage();
         await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
+        return;
+      }
+
+      // Manejar consulta de calendario en lenguaje natural
+      const isCalendarioQuery =
+        /calendario|temporada completa|carteles de la temporada|carteles de toda la temporada/i.test(
+          userText,
+        );
+      if (isCalendarioQuery) {
+        await this.handleCalendarioQuery(ctx);
+        return;
+      }
+
+      // Manejar consulta de transmisiones en lenguaje natural
+      const isTransmisionesQuery =
+        /agenda de festejos|festejos en tv|transmisones|puedo ver las transmisones|corridas que televisan|agenda televisiva/i.test(
+          userText,
+        );
+      if (isTransmisionesQuery) {
+        await this.handleTransmisionesQuery(ctx);
         return;
       }
 
@@ -351,6 +299,44 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
         );
       }
     });
+  }
+
+  private async handleCalendarioQuery(ctx: MyContext) {
+    await ctx.reply('📡 Consultando el calendario taurino de Servitoro...');
+    try {
+      // Envolvemos la llamada al scraper en un timeout de 85 segundos.
+      // Esto es un poco menos que el timeout de Telegraf (90s) para poder responder al usuario.
+      const eventos = await pTimeout(
+        this.servitoroService.getCalendarioTaurino(),
+        85000, // El segundo argumento es el número de milisegundos
+      );
+
+      if (!eventos || eventos.length === 0) {
+        await ctx.reply(
+          '😕 No se encontraron eventos en el calendario en este momento.',
+        );
+        return;
+      }
+      ctx.scene.session.servitoroEvents = eventos;
+      ctx.scene.session.currentCalPage = 0;
+      ctx.scene.session.currentCalFilter = undefined;
+      await ctx.scene.enter('calendarioScene');
+    } catch (error) {
+      this.logger.error(
+        'Timeout al obtener el calendario de Servitoro',
+        error.stack,
+      );
+      await ctx.reply(
+        '⏳ La consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos. Es posible que la información ya esté disponible.',
+      );
+    }
+  }
+
+  private async handleTransmisionesQuery(ctx: MyContext) {
+    // La lógica de Gemini para [ACTION:GET_TRANSMISIONES] ya entra a la escena.
+    // Para consistencia, hacemos que el comando y el texto natural también entren a la escena.
+    // Esto centraliza la experiencia de filtrado.
+    await ctx.scene.enter('transmisionesScene');
   }
 
   private createTransmisionesScene(): Scenes.BaseScene<MyContext> {
@@ -568,7 +554,7 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
     scene.enter(async (ctx) => {
       const totalEvents = ctx.scene.session.servitoroEvents?.length || 0;
       await ctx.reply(
-        `Hemos encontrado ${totalEvents} eventos taurinos. ¿Cómo te gustaría filtrarlos?`,
+        `He Encontrado ${totalEvents} eventos taurinos. ¿Cómo te gustaría filtrarlos?`,
         Markup.inlineKeyboard([
           [Markup.button.callback('📅 Por Mes', 'filter_month_cal')],
           [Markup.button.callback('🏙️ Por Ciudad', 'filter_city_cal')],
@@ -638,10 +624,13 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
 
     scene.action('exit_cal', async (ctx) => {
       await ctx.answerCbQuery();
+      // Limpiamos el estado del filtro para evitar que futuros mensajes de texto sean capturados por la escena.
+      ctx.scene.session.filterStateCal = undefined;
       await ctx.reply(
-        '¡De acuerdo! Puedes volver a consultar el calendario cuando quieras.',
+        '¡De acuerdo! ¿En qué más puedo ayudarte?\n\nPuedes preguntar por la "tarnsmisiones de festejos que puedo ver aquí " o consultar el "calendario" de nuevo cuando quieras.',
       );
-      ctx.scene.leave();
+      // Dejamos la escena formalmente.
+      await ctx.scene.leave();
     });
 
     scene.on('text', async (ctx) => {
@@ -653,25 +642,30 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
           type: 'month',
           value: userText,
         });
+        ctx.scene.session.filterStateCal = undefined; // Limpiar estado
       } else if (filterState === 'awaiting_city_cal') {
         await showFilteredCalendarioEvents(ctx, {
           type: 'city',
           value: userText,
         });
+        ctx.scene.session.filterStateCal = undefined; // Limpiar estado
       } else if (filterState === 'awaiting_location_cal') {
         await showFilteredCalendarioEvents(ctx, {
           type: 'location',
           value: userText,
         });
+        ctx.scene.session.filterStateCal = undefined; // Limpiar estado
       } else if (filterState === 'awaiting_free_text_cal') {
         await showFilteredCalendarioEvents(ctx, {
           type: 'free',
           value: userText,
         });
+        ctx.scene.session.filterStateCal = undefined; // Limpiar estado
       } else {
-        await ctx.reply(
-          'No entiendo tu respuesta. Por favor, usa los botones o sal de la búsqueda.',
-        );
+        // Si no hay un estado de filtro activo, no debería procesar el texto aquí.
+        // Esto puede ocurrir si el usuario sale y vuelve a escribir.
+        // Dejamos que el manejador de texto principal se encargue.
+        // Para evitar un bucle, simplemente no hacemos nada y dejamos que el flujo continúe.
       }
     });
 
