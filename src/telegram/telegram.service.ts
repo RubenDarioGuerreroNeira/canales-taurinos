@@ -41,7 +41,7 @@ interface MyContext extends Scenes.SceneContext<MySceneSession> {
 }
 
 @Injectable()
-export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
+export class TelegramService implements OnModuleInit {
   private bot: Telegraf<MyContext>;
   private readonly logger = new Logger(TelegramService.name);
   private genAI: GoogleGenerativeAI;
@@ -80,13 +80,12 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap {
     console.log('Servicio de Telegram inicializado y comandos configurados.');
   }
 
-  onApplicationBootstrap() {
-    this.bot.launch();
-    console.log('🤖 Bot de Telegram iniciado con long polling...');
-  }
-
   getBot(): Telegraf<MyContext> {
     return this.bot;
+  }
+
+  async getWebhookMiddleware() {
+    return this.bot.webhookCallback('/api/telegram');
   }
 
   private getGreeting(userName: string): string {

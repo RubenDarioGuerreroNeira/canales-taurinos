@@ -194,6 +194,10 @@ Sigue estos pasos para ejecutar el proyecto en tu entorno local.
 
     # API Key de Google Gemini, obtenida desde Google AI Studio
     GOOGLE_API_KEY="TU_API_KEY_DE_GEMINI"
+
+    # (Opcional, para desarrollo local con webhooks) URL pública generada por ngrok
+    # NODE_ENV="development"
+    # WEBHOOK_DOMAIN="https://xxxxxxxx.ngrok.io"
     ```
 
 4.  **Construir el proyecto:**
@@ -204,11 +208,26 @@ Sigue estos pasos para ejecutar el proyecto en tu entorno local.
 
 5.  **Iniciar el bot:**
     ```bash
-    npm start
+    npm run start:dev
     ```
-    ¡Tu bot ya debería estar en línea y respondiendo en Telegram!
+    ¡Tu bot ya debería estar en línea y respondiendo en Telegram! Para desarrollo, el bot usará **long-polling**. Para producción, se configurará automáticamente para usar **webhooks**.
 
 ---
+
+## 🚀 Despliegue (Render)
+
+Este bot está optimizado para desplegarse en plataformas como Render.
+
+1.  **Configuración en Render**:
+    - Crea un nuevo "Web Service" y conéctalo a tu repositorio de GitHub.
+    - **Build Command**: `npm install && npm run build`
+    - **Start Command**: `npm run start:prod`
+
+2.  **Variables de Entorno**:
+    - Añade las variables `BOT_TOKEN` y `GOOGLE_API_KEY` en la sección de "Environment" de tu servicio en Render.
+    - Render provee automáticamente la variable `RENDER_EXTERNAL_URL`, que el bot usará para configurar el webhook. No necesitas añadirla manualmente.
+
+Al desplegar, el bot detectará el entorno de producción, configurará el webhook automáticamente y estará listo para recibir mensajes.
 
 ## ✍️ Autor
 
