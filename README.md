@@ -1,5 +1,18 @@
 <div align="center">
-  <img src="./images/telegram.svg" width="80" alt="Telegram Logo">
+  <table>
+    <tr>
+      <td align="center"><img src="./images/Canal Sur.png" width="80" alt="Canal Sur Logo"></td>
+      <td align="center"><img src="./images/Castilla de la Mancha.jpg" width="80" alt="Castilla de la Mancha Media"></td>
+      <td align="center"><img src="./images/Telemadrid.png" width="80" alt="Telemadrid Logo"></td>
+      <td align="center"><img src="./images/OneToro.png" width="80" alt="OneToro Logo"></td>
+      <td align="center"><img src="./images/El Muletazo.png" width="80" alt="El Muletazo Logo"></td>
+      <td align="center"><img src="./images/Servi Toro.jpg" width="80" alt="Servitoro Logo"></td>
+    </tr>
+  </table>
+</div>
+
+<div align="center">
+>
   <h1>Bot Taurino para Telegram con NestJS y Gemini</h1>
 </div>
 

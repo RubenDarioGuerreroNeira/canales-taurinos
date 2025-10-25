@@ -78,9 +78,10 @@ export class ServitoroService implements OnModuleInit, OnModuleDestroy {
 
   private async fetchAndParse(): Promise<ServitoroEvent[]> {
     this.logger.log(`Iniciando scraping de ${this.url} con Puppeteer`);
+    let page: import('puppeteer').Page | null = null;
     try {
       const browser = await this.getBrowserInstance();
-      const page = await browser.newPage();
+      page = await browser.newPage();
 
       // Optimización: Bloquear la carga de recursos innecesarios (CSS, imágenes, fuentes)
       await page.setRequestInterception(true);
@@ -151,6 +152,11 @@ export class ServitoroService implements OnModuleInit, OnModuleDestroy {
     } catch (error) {
       this.logger.error('Error durante el scraping de Servitoro', error.stack);
       return [];
+    } finally {
+      if (page) {
+        await page.close();
+        this.logger.log('Página de Puppeteer cerrada.');
+      }
     }
   }
 

@@ -548,11 +548,10 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
       const messageBody = mensajes.join('\n\n\\-\\-\\-\\-\\-\\-\n\n');
       const finalMessage = `${messageHeader}${messageBody}${messageFooter}`;
 
-      const buttons: any[] = [];
+      const buttons = [Markup.button.callback('❌ Salir', 'exit_cal')];
       if (page < totalPages - 1) {
         buttons.push(Markup.button.callback('➡️ Siguiente', 'next_page_cal'));
       }
-      buttons.push(Markup.button.callback('❌ Salir', 'exit_cal'));
 
       await ctx.reply(finalMessage, {
         parse_mode: 'MarkdownV2',
