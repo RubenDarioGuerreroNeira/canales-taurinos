@@ -24,6 +24,13 @@ async function bootstrap() {
     const webhookUrl = `${renderExternalUrl}/api/telegram`;
     await telegramService.getBot().telegram.setWebhook(webhookUrl);
     console.log(`Webhook configurado en: ${webhookUrl}`);
+  } else {
+    // En desarrollo, usamos long-polling.
+    // Esto es mucho más sencillo para el entorno local.
+    telegramService.getBot().launch();
+    console.log(
+      '🤖 Bot de Telegram iniciado con long polling para desarrollo...',
+    );
   }
 
   const port = process.env.PORT || 3000;

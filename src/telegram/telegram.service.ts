@@ -110,18 +110,14 @@ export class TelegramService implements OnModuleInit {
     this.bot.command('filtrar', (ctx) => this.handleTransmisionesQuery(ctx));
 
     this.bot.command('clearcache', async (ctx) => {
+      // Limpiamos la caché de ambas fuentes para simplificar.
       this.scraperService.clearCache();
-      console.log('TelegramService: La caché del scraper ha sido limpiada.');
-      await ctx.reply(
-        '🧹 La caché de transmisiones ha sido limpiada. ¡Intenta tu búsqueda de nuevo!',
-      );
-    });
-
-    this.bot.command('clearcache_servitoro', async (ctx) => {
       this.servitoroService.clearCache();
-      console.log('TelegramService: La caché de Servitoro ha sido limpiada.');
+      console.log(
+        'TelegramService: La caché de El Muletazo y Servitoro ha sido limpiada.',
+      );
       await ctx.reply(
-        '🧹 La caché del calendario de Servitoro ha sido limpiada. ¡Intenta tu búsqueda de nuevo!',
+        '🧹 La caché de transmisiones y del calendario de temporada ha sido limpiada. ¡Intenta tu búsqueda de nuevo!',
       );
     });
 
@@ -132,6 +128,46 @@ export class TelegramService implements OnModuleInit {
     this.bot.command('contacto', async (ctx) => {
       const contactMessage = this.contactService.getContactMessage();
       await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
+    });
+
+    // Acción para mostrar el calendario de la temporada completa (Servitoro)
+    this.bot.action('show_temporada', async (ctx) => {
+      await ctx.answerCbQuery();
+      await ctx.reply(
+        '📡 Consultando el calendario taurino de Servitoro para la temporada 2026...',
+      );
+      try {
+        // Envolvemos la llamada al scraper en un timeout de 85 segundos.
+        const eventos = await pTimeout(
+          this.servitoroService.getCalendarioTaurino(),
+          85000,
+        );
+
+        if (!eventos || eventos.length === 0) {
+          await ctx.reply(
+            '😕 No se encontraron eventos en el calendario en este momento.',
+          );
+          return;
+        }
+        ctx.scene.session.servitoroEvents = eventos;
+        ctx.scene.session.currentCalPage = 0;
+        ctx.scene.session.currentCalFilter = undefined;
+        await ctx.scene.enter('calendarioScene');
+      } catch (error) {
+        this.logger.error(
+          'Timeout al obtener el calendario de Servitoro',
+          error.stack,
+        );
+        await ctx.reply(
+          '⏳ La consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos.',
+        );
+      }
+    });
+
+    // Acción para mostrar las transmisiones
+    this.bot.action('show_transmisiones', async (ctx) => {
+      await ctx.answerCbQuery();
+      await ctx.scene.enter('transmisionesScene');
     });
 
     this.bot.start((ctx) => {
@@ -228,7 +264,7 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
           );
 
         if (isAgendaQuery) {
-          await ctx.reply(this.getRandomThinkingMessage());
+          await ctx.reply(this.getRandomThinkingMessage(ctx.from.first_name));
           const eventos = await this.scraperService.scrapeTransmisiones();
           let scraperContext = '';
           if (eventos.length > 0) {
@@ -251,7 +287,7 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
 
             2.  **Validación de Fechas**: Siempre que des una fecha, asegúrate de que sea posterior a la fecha actual (${new Date().toLocaleDateString('es-ES')}). Descarta eventos pasados.
 
-            3.  **Respuesta a Saludos**: Si el usuario solo saluda (ej: "Hola", "Buenas"), responde de forma cordial y recuérdale que puede usar '/transmisiones'.
+            3.  **Respuesta a Saludos**: Si el usuario solo saluda (ej: "Hola", "Buenas"), responde de forma cordial y recuérdale que puede usar 'transmisiones' ó 'calendario' para obtener más información.
  
             4.  **Sin Resultados**: Si después de buscar no encuentras información para un lugar específico, responde amablemente: "Lo siento, aún no dispongo de información sobre festejos en esa localidad. Vuelve a consultarme más adelante."
 
@@ -266,7 +302,7 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
         }
 
         if (!isAgendaQuery) {
-          await ctx.reply(this.getRandomThinkingMessage());
+          await ctx.reply(this.getRandomThinkingMessage(ctx.from.first_name));
         }
 
         let result = await chat.sendMessage(prompt);
@@ -283,11 +319,11 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
           geminiResponse = result.response.text().trim();
           console.log(`[Respuesta de Gemini 2] ${geminiResponse}`);
           await ctx.reply(
-            `${geminiResponse}\n\n¿Hay algo más en lo que pueda ayudarte? (Recuerda que puedes pedir la "agenda de toros" cuando quieras).`,
+            `${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026  escribiendo "calendario".`,
           );
         } else {
           await ctx.reply(
-            `${geminiResponse}\n\n¿Hay algo más en lo que pueda ayudarte? (Recuerda que puedes pedir la "agenda de toros" cuando quieras).`,
+            `${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026 escribiendo "calendario".`,
           );
         }
       } catch (error) {
@@ -301,40 +337,17 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
   }
 
   private async handleCalendarioQuery(ctx: MyContext) {
-    await ctx.reply('📡 Consultando el calendario taurino de Servitoro...');
-    try {
-      // Envolvemos la llamada al scraper en un timeout de 85 segundos.
-      // Esto es un poco menos que el timeout de Telegraf (90s) para poder responder al usuario.
-      const eventos = await pTimeout(
-        this.servitoroService.getCalendarioTaurino(),
-        85000, // El segundo argumento es el número de milisegundos
-      );
-
-      if (!eventos || eventos.length === 0) {
-        await ctx.reply(
-          '😕 No se encontraron eventos en el calendario en este momento.',
-        );
-        return;
-      }
-      ctx.scene.session.servitoroEvents = eventos;
-      ctx.scene.session.currentCalPage = 0;
-      ctx.scene.session.currentCalFilter = undefined;
-      await ctx.scene.enter('calendarioScene');
-    } catch (error) {
-      this.logger.error(
-        'Timeout al obtener el calendario de Servitoro',
-        error.stack,
-      );
-      await ctx.reply(
-        '⏳ La consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos. Es posible que la información ya esté disponible.',
-      );
-    }
+    // En lugar de ir directo a una función, preguntamos al usuario qué calendario quiere ver.
+    await ctx.reply(
+      'Claro, ¿qué calendario te gustaría consultar?',
+      Markup.inlineKeyboard([
+        Markup.button.callback('Transmisiones 📺', 'show_transmisiones'),
+        Markup.button.callback('Temporada 2026 🗓️ ', 'show_temporada'),
+      ]),
+    );
   }
 
   private async handleTransmisionesQuery(ctx: MyContext) {
-    // La lógica de Gemini para [ACTION:GET_TRANSMISIONES] ya entra a la escena.
-    // Para consistencia, hacemos que el comando y el texto natural también entren a la escena.
-    // Esto centraliza la experiencia de filtrado.
     await ctx.scene.enter('transmisionesScene');
   }
 
@@ -373,7 +386,7 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
 
     scene.enter(async (ctx) => {
       await ctx.reply(
-        '¿Puedes Filtrar las Transmisiones de las corridas ?',
+        '¿Puedes Filtrar las Transmisiones de las corridas que quieres ver ?',
         Markup.inlineKeyboard([
           [Markup.button.callback('📅 Ver Todas', 'ver_todas')],
           [
@@ -421,7 +434,7 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
         Markup.button.callback(channel, `canal_${channel}`),
       );
       await ctx.reply(
-        'Selecciona un canal:',
+        'Selecciona un canal presionando uno de los botones:',
         Markup.inlineKeyboard(buttons, { columns: 2 }),
       );
     });
@@ -626,7 +639,7 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
       // Limpiamos el estado del filtro para evitar que futuros mensajes de texto sean capturados por la escena.
       ctx.scene.session.filterStateCal = undefined;
       await ctx.reply(
-        '¡De acuerdo! ¿En qué más puedo ayudarte?\n\nPuedes preguntar por la "tarnsmisiones de festejos que puedo ver aquí " o consultar el "calendario" de nuevo cuando quieras.',
+        '¡De acuerdo! ¿En qué más puedo ayudarte?\n\nPuedes preguntar por la "tarnsmisiones de festejos que puedes ver aquí " o consultar el "calendario taurino" de nuevo cuando quieras, solo escribiendo "calendario".',
       );
       // Dejamos la escena formalmente.
       await ctx.scene.leave();
@@ -726,13 +739,12 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
     }
   }
 
-  private getRandomThinkingMessage(): string {
+  private getRandomThinkingMessage(userName: string = 'aficionado'): string {
     const messages = [
-      'Pensando... 🧠',
-      'Consultando los carteles... 📜',
-      'Un momento, aficionado...',
-      'Revisando la agenda... 🗓️',
-      'Permíteme un instante...',
+      `Procesando tu solicitud, ${userName}..... 👍`,
+      `Revisando tu Solicitud,  ${userName}...⏳`,
+      `Un momento porfavor , ${userName}...🕗`,
+      `Permíteme un instante..., ${userName} 🕗`,
     ];
     return messages[Math.floor(Math.random() * messages.length)];
   }
