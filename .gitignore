@@ -61,3 +61,4 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # Directorios de recursos locales que no quieres rastrear
 
 scripts/
+NOTAS/
