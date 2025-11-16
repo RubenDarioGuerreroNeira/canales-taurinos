@@ -88,6 +88,10 @@ export class TelegramService implements OnModuleInit {
     return this.bot.webhookCallback('/api/telegram');
   }
 
+  private getUserName(ctx: MyContext): string {
+    return ctx.from?.first_name || 'aficionado';
+  }
+
   private getGreeting(userName: string): string {
     const hour = new Date().getHours();
     let greeting = '¡Hola';
@@ -116,8 +120,9 @@ export class TelegramService implements OnModuleInit {
       console.log(
         'TelegramService: La caché de El Muletazo y Servitoro ha sido limpiada.',
       );
+      const userName = this.getUserName(ctx);
       await ctx.reply(
-        '🧹 La caché de transmisiones y del calendario de temporada ha sido limpiada. ¡Intenta tu búsqueda de nuevo!',
+        `¡Hola ${userName}! 🧹 La caché de transmisiones y del calendario de temporada ha sido limpiada. ¡Intenta tu búsqueda de nuevo!`,
       );
     });
 
@@ -133,8 +138,9 @@ export class TelegramService implements OnModuleInit {
     // Acción para mostrar el calendario de la temporada completa (Servitoro)
     this.bot.action('show_temporada', async (ctx) => {
       await ctx.answerCbQuery();
+      const userName = this.getUserName(ctx);
       await ctx.reply(
-        '📡 Consultando el calendario taurino de Servitoro para la temporada 2026...',
+        `¡Hola ${userName}! 📡 Consultando el calendario taurino de Servitoro para la temporada 2026...`,
       );
       try {
         // Envolvemos la llamada al scraper en un timeout de 85 segundos.
@@ -145,7 +151,7 @@ export class TelegramService implements OnModuleInit {
 
         if (!eventos || eventos.length === 0) {
           await ctx.reply(
-            '😕 No se encontraron eventos en el calendario en este momento.',
+            `Lo siento ${userName}, no se encontraron eventos en el calendario en este momento.`,
           );
           return;
         }
@@ -159,7 +165,7 @@ export class TelegramService implements OnModuleInit {
           error.stack,
         );
         await ctx.reply(
-          '⏳ La consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos.',
+          `Lo siento ${userName}, la consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos.`,
         );
       }
     });
@@ -198,12 +204,22 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
         console.log(
           `[Mensaje Recibido] Detectada consulta de contacto: "${userText}"`,
         );
+        const userName = this.getUserName(ctx);
         const contactMessage = this.contactService.getContactMessage();
-        await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
+        await ctx.reply(`¡Hola ${userName}! ${contactMessage}`, { parse_mode: 'MarkdownV2' });
         return;
       }
 
       // Manejar consulta de calendario en lenguaje natural
+      const isCalendarioDeTransmisionesQuery =
+      /calendario de trasmisiones|calendario de las trasmisiones|calendario de los festejos/i.test(
+        userText,
+      );
+      if (isCalendarioDeTransmisionesQuery) {
+        await this.handleTransmisionesQuery(ctx);
+        return;
+      }
+
       const isCalendarioQuery =
         /calendario|temporada completa|carteles de la temporada|carteles de toda la temporada/i.test(
           userText,
@@ -251,8 +267,9 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
         const chat = session.geminiChat;
         if (!chat) {
           console.error('La sesión de chat no se pudo inicializar.');
+          const userName = this.getUserName(ctx);
           await ctx.reply(
-            'Hubo un problema al iniciar la conversación. Por favor, intenta de nuevo.',
+            `Lo siento ${userName}, hubo un problema al iniciar la conversación. Por favor, intenta de nuevo.`,
           );
           return;
         }
@@ -312,25 +329,28 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
         if (geminiResponse === '[ACTION:GET_TRANSMISIONES]') {
           await ctx.scene.enter('transmisionesScene');
         } else if (geminiResponse.toLowerCase().includes('voy a buscar')) {
-          await ctx.reply(geminiResponse);
+          const userName = this.getUserName(ctx);
+          await ctx.reply(`¡Hola ${userName}! ${geminiResponse}`);
           result = await chat.sendMessage(
             'Ok, por favor, dame los resultados que encontraste.',
           );
           geminiResponse = result.response.text().trim();
           console.log(`[Respuesta de Gemini 2] ${geminiResponse}`);
           await ctx.reply(
-            `${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026  escribiendo "calendario".`,
+            `¡Hola ${userName}! ${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026  escribiendo "calendario".`,
           );
         } else {
+          const userName = this.getUserName(ctx);
           await ctx.reply(
-            `${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026 escribiendo "calendario".`,
+            `¡Hola ${userName}! ${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026 escribiendo "calendario".`,
           );
         }
       } catch (error) {
         console.error('Error al contactar con Gemini:', error);
         if (ctx.session) ctx.session.geminiChat = undefined;
+        const userName = this.getUserName(ctx);
         await ctx.reply(
-          'Lo siento, estoy teniendo problemas para conectar con mi inteligencia. Por favor, intenta usar el comando /transmisiones directamente o reinicia la conversación con /start.',
+          `Lo siento ${userName}, estoy teniendo problemas para conectar con mi inteligencia. Por favor, intenta usar el comando /transmisiones directamente o reinicia la conversación con /start.`,
         );
       }
     });
@@ -338,8 +358,9 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
 
   private async handleCalendarioQuery(ctx: MyContext) {
     // En lugar de ir directo a una función, preguntamos al usuario qué calendario quiere ver.
+    const userName = this.getUserName(ctx);
     await ctx.reply(
-      'Claro, ¿qué calendario te gustaría consultar?',
+      `¡Claro ${userName}! ¿Qué calendario te gustaría consultar?`,
       Markup.inlineKeyboard([
         Markup.button.callback('Transmisiones 📺', 'show_transmisiones'),
         Markup.button.callback('Temporada 2026 🗓️ ', 'show_temporada'),
@@ -355,12 +376,13 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
     const scene = new Scenes.BaseScene<MyContext>('transmisionesScene');
 
     const showFilteredEvents = async (ctx, filterFn) => {
-      await ctx.reply('Buscando transmisiones...');
+      const userName = this.getUserName(ctx);
+      await ctx.reply(`¡Hola ${userName}! Buscando transmisiones...`);
       const allEvents = await this.scraperService.scrapeTransmisiones();
       const events = allEvents.filter(filterFn);
 
       if (!events.length) {
-        await ctx.reply('⚠️ No se encontraron transmisiones con ese filtro.');
+        await ctx.reply(`Lo siento ${userName}, no se encontraron transmisiones con ese filtro.`);
         return;
       }
 
@@ -381,12 +403,13 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
           await ctx.reply(mensaje, { parse_mode: 'MarkdownV2' });
         }
       }
-      await ctx.reply('📌 Fuente: www.elmuletazo.com');
+      await ctx.reply(`¡Gracias ${userName}! 📌 Fuente: www.elmuletazo.com`);
     };
 
     scene.enter(async (ctx) => {
+      const userName = this.getUserName(ctx);
       await ctx.reply(
-        '¿Puedes Filtrar las Transmisiones de las corridas que quieres ver ?',
+        `¡Hola ${userName}! ¿Cómo te gustaría filtrar las transmisiones de las corridas?`,
         Markup.inlineKeyboard([
           [Markup.button.callback('📅 Ver Todas', 'ver_todas')],
           [
@@ -406,14 +429,16 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
     scene.action('filtrar_mes', async (ctx) => {
       ctx.scene.session.filterState = 'awaiting_month';
       await ctx.answerCbQuery();
+      const userName = this.getUserName(ctx);
       await ctx.reply(
-        'Por favor, escribe el nombre del mes que te interesa (ej: "Octubre").',
+        `¡Claro ${userName}! Por favor, escribe el nombre del mes que te interesa (ej: "Octubre").`,
       );
     });
 
     scene.action('filtrar_canal', async (ctx) => {
       await ctx.answerCbQuery();
-      await ctx.reply('Consultando canales disponibles...');
+      const userName = this.getUserName(ctx);
+      await ctx.reply(`¡Hola ${userName}! Consultando canales disponibles...`);
       const allEvents = await this.scraperService.scrapeTransmisiones();
       const channels = [
         ...new Set(
@@ -425,7 +450,7 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
 
       if (channels.length === 0) {
         await ctx.reply(
-          'No hay canales con transmisiones programadas ahora mismo.',
+          `Lo siento ${userName}, no hay canales con transmisiones programadas ahora mismo.`,
         );
         return ctx.scene.leave();
       }
@@ -434,7 +459,7 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
         Markup.button.callback(channel, `canal_${channel}`),
       );
       await ctx.reply(
-        'Selecciona un canal presionando uno de los botones:',
+        `¡Perfecto ${userName}! Selecciona un canal presionando uno de los botones:`,
         Markup.inlineKeyboard(buttons, { columns: 2 }),
       );
     });
@@ -509,7 +534,8 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
       }
 
       if (filteredEvents.length === 0) {
-        await ctx.reply('😕 No se encontraron eventos con esos criterios.');
+        const userName = this.getUserName(ctx);
+        await ctx.reply(`Lo siento ${userName}, no se encontraron eventos con esos criterios.`);
         ctx.scene.leave();
         return;
       }
@@ -520,11 +546,13 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
       const eventsToShow = filteredEvents.slice(start, end);
 
       if (eventsToShow.length === 0 && page > 0) {
-        await ctx.reply('No hay más eventos para mostrar.');
+        const userName = this.getUserName(ctx);
+        await ctx.reply(`Lo siento ${userName}, no hay más eventos para mostrar.`);
         ctx.scene.leave();
         return;
       } else if (eventsToShow.length === 0) {
-        await ctx.reply('😕 No se encontraron eventos con esos criterios.');
+        const userName = this.getUserName(ctx);
+        await ctx.reply(`Lo siento ${userName}, no se encontraron eventos con esos criterios.`);
         ctx.scene.leave();
         return;
       }
@@ -563,9 +591,10 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
     };
 
     scene.enter(async (ctx) => {
+      const userName = this.getUserName(ctx);
       const totalEvents = ctx.scene.session.servitoroEvents?.length || 0;
       await ctx.reply(
-        `He Encontrado ${totalEvents} eventos taurinos. ¿Cómo te gustaría filtrarlos?`,
+        `¡Hola ${userName}! He Encontrado ${totalEvents} eventos taurinos. ¿Cómo te gustaría filtrarlos?`,
         Markup.inlineKeyboard([
           [Markup.button.callback('📅 Por Mes', 'filter_month_cal')],
           [Markup.button.callback('🏙️ Por Ciudad', 'filter_city_cal')],
@@ -578,6 +607,7 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
 
     scene.action('filter_month_cal', async (ctx) => {
       await ctx.answerCbQuery();
+      const userName = this.getUserName(ctx);
       const allEvents = ctx.scene.session.servitoroEvents || [];
       const uniqueMonths = [
         ...new Set(
@@ -592,7 +622,7 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
         .join(', ');
       ctx.scene.session.filterStateCal = 'awaiting_month_cal';
       await ctx.reply(
-        `Por favor, escribe el nombre del mes\\. Meses disponibles: ${monthList}`,
+        `¡Perfecto ${userName}! Por favor, escribe el nombre del mes\\. Meses disponibles: ${monthList}`,
         {
           parse_mode: 'MarkdownV2',
         },
@@ -602,21 +632,24 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
     scene.action('filter_city_cal', async (ctx) => {
       ctx.scene.session.filterStateCal = 'awaiting_city_cal';
       await ctx.answerCbQuery();
+      const userName = this.getUserName(ctx);
       await ctx.reply(
-        'Por favor, escribe el nombre de la ciudad (ej: "Sevilla").',
+        `¡Entendido ${userName}! Por favor, escribe el nombre de la ciudad (ej: "Sevilla").`,
       );
     });
 
     scene.action('filter_location_cal', async (ctx) => {
       ctx.scene.session.filterStateCal = 'awaiting_location_cal';
       await ctx.answerCbQuery();
-      await ctx.reply('Por favor, escribe la localidad (ej: "Las Ventas").');
+      const userName = this.getUserName(ctx);
+      await ctx.reply(`¡Claro ${userName}! Por favor, escribe la localidad (ej: "Las Ventas").`);
     });
 
     scene.action('filter_free_cal', async (ctx) => {
       ctx.scene.session.filterStateCal = 'awaiting_free_text_cal';
       await ctx.answerCbQuery();
-      await ctx.reply('Escribe tu búsqueda (ej: "Madrid en Octubre").');
+      const userName = this.getUserName(ctx);
+      await ctx.reply(`¡Adelante ${userName}! Escribe tu búsqueda (ej: "Madrid en Octubre").`);
     });
 
     scene.action('next_page_cal', async (ctx) => {
@@ -626,8 +659,9 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
       if (filter) {
         await showFilteredCalendarioEvents(ctx, filter, currentPage + 1);
       } else {
+        const userName = this.getUserName(ctx);
         await ctx.reply(
-          'Error: No se encontró el filtro actual para la paginación.',
+          `Lo siento ${userName}, hubo un error: No se encontró el filtro actual para la paginación.`,
         );
         ctx.scene.leave();
       }
@@ -637,8 +671,9 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
       await ctx.answerCbQuery();
       // Limpiamos el estado del filtro para evitar que futuros mensajes de texto sean capturados por la escena.
       ctx.scene.session.filterStateCal = undefined;
+      const userName = this.getUserName(ctx);
       await ctx.reply(
-        '¡De acuerdo! ¿En qué más puedo ayudarte?\n\nPuedes preguntar por la "tarnsmisiones de festejos que puedes ver aquí " o consultar el "calendario taurino" de nuevo cuando quieras, solo escribiendo "calendario".',
+        `¡De acuerdo ${userName}! ¿En qué más puedo ayudarte?\n\nPuedes preguntar por la "tarnsmisiones de festejos que puedes ver aquí " o consultar el "calendario taurino" de nuevo cuando quieras, solo escribiendo "calendario".`,
       );
       // Dejamos la escena formalmente.
       await ctx.scene.leave();
