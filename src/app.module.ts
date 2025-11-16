@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TelegramModule } from './telegram/telegram.module';
 import { ScraperModule } from './scraper/scraper.module';
 import { KeepAliveService } from './keep-alive.service';
@@ -10,6 +11,7 @@ import { AppService } from './app.service';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ScheduleModule.forRoot(),
     ScraperModule,
     TelegramModule,
     ContactModule,

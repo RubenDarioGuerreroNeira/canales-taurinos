@@ -1,0 +1,2666 @@
+[
+  {
+    "fecha": "01/01/2026 00:00",
+    "ciudad": "Tarjeta Regalo Servitoro",
+    "nombreEvento": "Tarjeta Regalo Servitoro",
+    "categoria": "No especificada",
+    "location": "",
+    "link": null
+  },
+  {
+    "fecha": "01/01/2026 18:00",
+    "ciudad": "A Coruña",
+    "nombreEvento": "Entradas Toros A Coruña - Feria de Maria Pita",
+    "categoria": "Toros A Coruña",
+    "location": "Francisco Pérez Carballo, 2  15008 A Coruña",
+    "link": "https://www.servitoro.com/es/1205-entradas-toros-a-coruna-feria-de-maria-pita.html"
+  },
+  {
+    "fecha": "25/01/2026 16:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Ajalvir - Feria de San Blas",
+    "categoria": "Toros Ajalvir",
+    "location": "Carlos Ruiz, 6. 28864, Ajalvir",
+    "link": "https://www.servitoro.com/es/2472-entradas-toros-ajalvir-feria-de-san-blas.html"
+  },
+  {
+    "fecha": "07/02/2026 17:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Valdemorillo - Fiestas de San Blas",
+    "categoria": "Toros Valdemorillo",
+    "location": "Av de la Plaza de Toros, 28210 Valdemorillo, Madrid.",
+    "link": "https://www.servitoro.com/es/2469-entradas-toros-valdemorillo-fiestas-de-san-blas.html"
+  },
+  {
+    "fecha": "12/02/2026 17:00",
+    "ciudad": "Huelva",
+    "nombreEvento": "Entradas toros Nerva - Festejo taurino",
+    "categoria": "Toros Nerva",
+    "location": "C. Marqués de Nerva, 62, 21670 Nerva, Huelva",
+    "link": "https://www.servitoro.com/es/3472-entradas-toros-nerva-huelva.html"
+  },
+  {
+    "fecha": "18/02/2026 17:00",
+    "ciudad": "Granada",
+    "nombreEvento": "Entradas Toros Motril - Fiestas de las Tres Cruces",
+    "categoria": "Toros Motril",
+    "location": "Plaza de toros de Motril, Granada. 18600 Motril. Granada",
+    "link": "https://www.servitoro.com/es/2474-entradas-toros-motril-fiestas-de-las-tres-cruces.html"
+  },
+  {
+    "fecha": "21/02/2026 17:30",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas toros Alcalá del Río - Festival Taurino",
+    "categoria": "Toros Alcalá del Río",
+    "location": "c/ Huertas, 38 41200 Alcalá del Río",
+    "link": "https://www.servitoro.com/es/2957-entradas-toros-alcala-del-rio-festejo-taurino.html"
+  },
+  {
+    "fecha": "23/02/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Vistalegre - Festival de invierno",
+    "categoria": "Toros Vistalegre. Madrid",
+    "location": "Calle de Utebo, 1, Carabanchel. Madrid",
+    "link": "https://www.servitoro.com/es/2464-feria-taurina-vistalegre.html"
+  },
+  {
+    "fecha": "28/02/2026 12:00",
+    "ciudad": "Granada",
+    "nombreEvento": "Entradas Toros Atarfe - Feria de Santa Ana",
+    "categoria": "Toros Atarfe",
+    "location": "Plaza de Toros de Atarfe, Granada. Avda. de América S/N 18230 Atarfe, Granada",
+    "link": "https://www.servitoro.com/es/1255-entradas-toros-atarfe-feria-de-santa-ana.html"
+  },
+  {
+    "fecha": "28/02/2026 17:00",
+    "ciudad": "Huelva",
+    "nombreEvento": "Entradas toros Niebla - Festejo taurino",
+    "categoria": "Toros Niebla",
+    "location": "Calle Trigueros 1, 21840 Niebla, Huelva",
+    "link": "https://www.servitoro.com/es/3084-entradas-toros-niebla-huelva.html"
+  },
+  {
+    "fecha": "28/02/2026 17:00",
+    "ciudad": "Burgos",
+    "nombreEvento": "Entradas toros Aranda de Duero - Feria taurina febrero",
+    "categoria": "Toros Aranda de Duero",
+    "location": "Aranda de Duero  09400, Burgos",
+    "link": "https://www.servitoro.com/es/2964-entradas-toros-aranda-de-duero-ferias-y-fiestas.html"
+  },
+  {
+    "fecha": "28/02/2026 17:30",
+    "ciudad": "Jaén",
+    "nombreEvento": "Entradas Toros Andujar - Feria Taurina",
+    "categoria": "Toros Andújar",
+    "location": "Plaza Doctor Martínez Llinares, 23740 Andújar, Jaén",
+    "link": "https://www.servitoro.com/es/2552-entradas-toros-andujar-festejo-1.html"
+  },
+  {
+    "fecha": "28/02/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Écija - Feria Taurina",
+    "categoria": "Toros de Ecija",
+    "location": "Plaza de toros 8 A.  41400, Écija",
+    "link": "https://www.servitoro.com/es/1301-feria-taurina-ecija.html"
+  },
+  {
+    "fecha": "06/03/2026 18:00",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Olivenza - Feria Taurina de Marzo",
+    "categoria": "Toros Olivenza",
+    "location": "Plaza Marceliano Ortiz Blasco, 1 Olivenza. Badajoz.",
+    "link": "https://www.servitoro.com/es/1931-feria-taurina-olivenza.html"
+  },
+  {
+    "fecha": "10/03/2026 17:00",
+    "ciudad": "Granada",
+    "nombreEvento": "Entradas Toros Ugíjar - Feria Taurina",
+    "categoria": "Toros Ugíjar",
+    "location": "Recinto Ferial 18480 Ugíjar, Granada.",
+    "link": "https://www.servitoro.com/es/2450-entradas-toros-ugijar-granada.html"
+  },
+  {
+    "fecha": "10/03/2026 18:00",
+    "ciudad": "Jaén",
+    "nombreEvento": "Entradas Toros Alcalá la Real - Feria y Fiestas",
+    "categoria": "Toros Alcalá la Real",
+    "location": "Plaza  de Toros de Alcalá la Real",
+    "link": "https://www.servitoro.com/es/1287-entradas-toros-alcala-la-real-jaen.html"
+  },
+  {
+    "fecha": "11/03/2026 17:00",
+    "ciudad": "Murcia",
+    "nombreEvento": "Entradas Toros La Palma - Festejo Taurino",
+    "categoria": "Toros La Palma",
+    "location": "La Palma, Cartagena",
+    "link": "https://www.servitoro.com/es/2538-entradas-toros-la-palma-murcia.html"
+  },
+  {
+    "fecha": "12/03/2026 16:30",
+    "ciudad": "Huelva",
+    "nombreEvento": "Entradas toros Villalba del Alcor - Festejo taurino",
+    "categoria": "Toros Villalba del Alcor",
+    "location": "Villalba del Alcor 21860 Huelva",
+    "link": "https://www.servitoro.com/es/3485-entradas-toros-villalba-de-alcor-huelva.html"
+  },
+  {
+    "fecha": "13/03/2026 17:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "13/03 Fallas (17:00) Espectáculo Taurino. FORMATO PDF - IMPRIMIR",
+    "categoria": "Toros Valencia Fallas",
+    "location": "Xátiva 28. 46004 Valencia",
+    "link": null
+  },
+  {
+    "fecha": "14/03/2026 17:00",
+    "ciudad": "Navarra",
+    "nombreEvento": "Entradas Toros Fitero- Feria Taurina de San Raimundo Abad",
+    "categoria": "Toros Fitero",
+    "location": "Calatrava, 11. Fitero (Navarra).",
+    "link": "https://www.servitoro.com/es/1952-entradas-toros-fitero-feria-taurina-de-san-raimundo-abad.html"
+  },
+  {
+    "fecha": "14/03/2026 17:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "Entradas Toros Valencia - Las Fallas",
+    "categoria": "Toros Valencia Fallas",
+    "location": "Xátiva 28. 46004 Valencia",
+    "link": "https://www.servitoro.com/es/1373-entradas-toros-fallas-valencia-les-falles.html"
+  },
+  {
+    "fecha": "14/03/2026 17:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "Festejos Populares Valencia - Las Fallas",
+    "categoria": "Toros Valencia Fallas - Festejos Populares",
+    "location": "Xátiva 28. 46004 Valencia",
+    "link": "https://www.servitoro.com/es/2457-entradas-festejos-populares-valencia.html"
+  },
+  {
+    "fecha": "14/03/2026 17:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "14/03 Fallas (17:00) Espectáculo Taurino. FORMATO PDF - IMPRIMIR",
+    "categoria": "Toros Valencia Fallas",
+    "location": "Xátiva 28. 46004 Valencia",
+    "link": null
+  },
+  {
+    "fecha": "14/03/2026 18:00",
+    "ciudad": "Alicante",
+    "nombreEvento": "Entradas Toros Benidorm - Feria taurina marzo",
+    "categoria": "Toros Benidorm",
+    "location": "Austrias 51. 03502. Benidorm, Alicante",
+    "link": "https://www.servitoro.com/es/2054-entradas-toros-benidorm-festival-taurino.html"
+  },
+  {
+    "fecha": "15/03/2026 17:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "15/03 Fallas (17:00) Espectáculo Taurino. FORMATO PDF - IMPRIMIR",
+    "categoria": "Toros Valencia Fallas",
+    "location": "Xátiva 28. 46004 Valencia",
+    "link": null
+  },
+  {
+    "fecha": "15/03/2026 18:00",
+    "ciudad": "Huelva",
+    "nombreEvento": "Entradas Toros Higuera de la Sierra- Feria Taurina",
+    "categoria": "Toros Higuera  de la Sierra",
+    "location": "C. Señor, 1D, 21220 Higuera de la Sierra, Huelva",
+    "link": "https://www.servitoro.com/es/3671-entradas-toros-higuera-de-la-sierra-feria-taurina.html"
+  },
+  {
+    "fecha": "16/03/2026 17:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "16/03 Fallas (17:00) Espectáculo Taurino. FORMATO PDF - IMPRIMIR",
+    "categoria": "Toros Valencia Fallas",
+    "location": "Xátiva 28. 46004 Valencia",
+    "link": null
+  },
+  {
+    "fecha": "16/03/2026 17:00",
+    "ciudad": "La Rioja",
+    "nombreEvento": "Entradas Toros Arnedo - Feria taurina en honor a San José",
+    "categoria": "Toros Arnedo",
+    "location": "Avda. de la Deportiva 117 - 26580 Arnedo (La Rioja)",
+    "link": "https://www.servitoro.com/es/1971-entradas-toros-arnedo-feria-taurina-en-honor-san-jose.html"
+  },
+  {
+    "fecha": "17/03/2026 17:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "17/03 Fallas (17:00) Espectáculo Taurino. FORMATO PDF - IMPRIMIR",
+    "categoria": "Toros Valencia Fallas",
+    "location": "Xátiva 28. 46004 Valencia",
+    "link": null
+  },
+  {
+    "fecha": "18/03/2026 17:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "18/03 Fallas (17:00) Espectáculo Taurino. FORMATO PDF - IMPRIMIR",
+    "categoria": "Toros Valencia Fallas",
+    "location": "Xátiva 28. 46004 Valencia",
+    "link": null
+  },
+  {
+    "fecha": "19/03/2026 17:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "19/03 Fallas (17:00) Espectáculo Taurino. FORMATO PDF - IMPRIMIR",
+    "categoria": "Toros Valencia Fallas",
+    "location": "Xátiva 28. 46004 Valencia",
+    "link": null
+  },
+  {
+    "fecha": "19/03/2026 17:00",
+    "ciudad": "Albacete",
+    "nombreEvento": "Entradas Toros Hellín - Feria del Tambor",
+    "categoria": "Toros Hellín",
+    "location": "Av. Poeta Mariano Tomás, 13. 02400 Hellín",
+    "link": "https://www.servitoro.com/es/1541-entradas-toros-hellin-feria-del-tambor.html"
+  },
+  {
+    "fecha": "21/03/2026 17:30",
+    "ciudad": "Murcia",
+    "nombreEvento": "Entradas toros Roldán - Festival Taurino",
+    "categoria": "Toros Roldán",
+    "location": "Roldan 30709 Murcia",
+    "link": "https://www.servitoro.com/es/2785-entradas-toros-roldan-festejo-taurino.html"
+  },
+  {
+    "fecha": "21/03/2026 19:00",
+    "ciudad": "Valladolid",
+    "nombreEvento": "Entradas Toros Arroyo de la  Encomienda - Festejo Taurino",
+    "categoria": "Toros Arroyo de la Encomienda",
+    "location": "Calle Páramo, 1, 47195 Arroyo de la Encomienda, Valladolid",
+    "link": "https://www.servitoro.com/es/2956-entradas-toros-arroyo-de-la-encomienda.html"
+  },
+  {
+    "fecha": "22/03/2026 17:30",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Don Benito - Feria Taurina marzo",
+    "categoria": "Toros Don Benito",
+    "location": "Avenida de Badajoz s/n. Don Benito, Badajoz",
+    "link": "https://www.servitoro.com/es/1836-entradas-toros-don-benito-feria-taurina-de-septiembre.html"
+  },
+  {
+    "fecha": "22/03/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "22/03 Madrid (18:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "23/03/2026 17:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Madrid - Las Ventas Marzo",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": "https://www.servitoro.com/es/2781-entradas-toros-madrid-marzo.html"
+  },
+  {
+    "fecha": "25/03/2026 23:00",
+    "ciudad": "Murcia",
+    "nombreEvento": "Entradas Toros Cehegín - Festejos taurinos",
+    "categoria": "Toros Cehegín",
+    "location": "Gran Capitán, s/n - 30430 Cehegín (Murcia).",
+    "link": "https://www.servitoro.com/es/2324-entradas-toros-cehegin-feria-en-honor-a-la-virgen-de-las-maravillas.html"
+  },
+  {
+    "fecha": "28/03/2026 17:30",
+    "ciudad": "Zaragoza",
+    "nombreEvento": "Entradas Toros Ricla - Festejo taurino",
+    "categoria": "Toros Ricla",
+    "location": "Calle Braulio Lausín Velilla, 10, 50270 Ricla, Zaragoza",
+    "link": "https://www.servitoro.com/es/2955-entradas-toros-ricla.html"
+  },
+  {
+    "fecha": "29/03/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "29/03 Madrid (18:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "04/04/2026 17:30",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas toros Lora del Río - Festival Taurino",
+    "categoria": "Toros Lora del Río",
+    "location": "Lora del Río 41440 Sevilla",
+    "link": "https://www.servitoro.com/es/3802-entradas-toros-lora-del-rio-festival-taurino.html"
+  },
+  {
+    "fecha": "04/04/2026 18:00",
+    "ciudad": "Málaga",
+    "nombreEvento": "04/04 Málaga (18:00) Espectáculo Taurino. PDF - IMPRIMIR",
+    "categoria": "Toros Málaga. La Malagueta",
+    "location": "Paseo de Reding 8, 29016 Málaga. Málaga",
+    "link": null
+  },
+  {
+    "fecha": "04/04/2026 18:00",
+    "ciudad": "Guadalajara",
+    "nombreEvento": "Entradas Toros Guadalajara - Feria de Primavera",
+    "categoria": "Toros Guadalajara",
+    "location": "Calle del Capitán Arenas 19, 19003 Guadalajara.",
+    "link": "https://www.servitoro.com/es/1901-entradas-toros-guadalajara-feria-de-primavera.html"
+  },
+  {
+    "fecha": "05/04/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "05/04 Madrid (18:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "05/04/2026 18:00",
+    "ciudad": "Málaga",
+    "nombreEvento": "Entradas Toros Málaga - Domingo de Resurrección.",
+    "categoria": "Toros Málaga. La Malagueta",
+    "location": "Paseo de Reding 8, 29016 Málaga. Málaga",
+    "link": "https://www.servitoro.com/es/2066-entradas-toros-malaga-domingo-resurreccion.html"
+  },
+  {
+    "fecha": "05/04/2026 18:30",
+    "ciudad": "Sevilla",
+    "nombreEvento": "05/04 Sevilla D. R. (18:30) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla. Domingo de Resurrección",
+    "location": "Paseo de Cristobal Colón 12. 41001 Sevilla",
+    "link": "https://www.servitoro.com/es/3736-entradas-toros-sevilla-domingo-de-resurreccion-festejo-1.html"
+  },
+  {
+    "fecha": "05/04/2026 18:30",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entrada Toros Sevilla - Domingo de Resurreción",
+    "categoria": "Toros Sevilla. Domingo de Resurrección",
+    "location": "Paseo de Cristobal Colón 12. 41001 Sevilla",
+    "link": "https://www.servitoro.com/es/2447-entradas-toros-sevilla-domingo-de-resurreccion.html"
+  },
+  {
+    "fecha": "06/04/2026 18:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas toros Cantillana - Festival Taurino",
+    "categoria": "Toros Cantillana",
+    "location": "Ctra. de la Estación 12, 41320-Cantillana, Sevilla.",
+    "link": "https://www.servitoro.com/es/2481-entradas-toros-cantillana-festejo-taurino.html"
+  },
+  {
+    "fecha": "07/04/2026 17:30",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas toros Cazalla de la Sierra - Festival Taurino",
+    "categoria": "Toros Cazalla de la Sierra",
+    "location": "Paseo del Moro 23 41370 Cazalla de la Sierra, Sevilla",
+    "link": "https://www.servitoro.com/es/2448-entradas-toros-cazalla-de-la-sierra-festejo-1.html"
+  },
+  {
+    "fecha": "08/04/2026 18:00",
+    "ciudad": "Córdoba",
+    "nombreEvento": "Entradas Toros Cabra - Festejo Taurino Abril",
+    "categoria": "Toros Cabra",
+    "location": "Avda. de la Constitución, s/n - 14940 Cabra (Córdoba)",
+    "link": "https://www.servitoro.com/es/2442-entradas-toros-cabra-cordoba.html"
+  },
+  {
+    "fecha": "08/04/2026 19:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas toros El Bosque - Feria Taurina abril",
+    "categoria": "Toros El Bosque",
+    "location": "Av Diputacion, 2A, 11670 El Bosque, Cádiz",
+    "link": "https://www.servitoro.com/es/2378-entradas-toros-el-bosque-cadiz.html"
+  },
+  {
+    "fecha": "09/04/2026 18:30",
+    "ciudad": "Albacete",
+    "nombreEvento": "Entradas Toros Villarrobledo - Feria Taurina",
+    "categoria": "Toros Villarrobledo",
+    "location": "Plaza de toros 8, 02600 Villarrobledo",
+    "link": "https://www.servitoro.com/es/1986-entradas-toros-villarrobledo-albacete.html"
+  },
+  {
+    "fecha": "10/04/2026 17:30",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas toros Llerena - Feria taurina abril",
+    "categoria": "Toros Llerena",
+    "location": "Calle Ejido S/N 06900 Badajoz - Coordenadas 38.232261, -6.016849",
+    "link": "https://www.servitoro.com/es/3148-entradas-toros-llerena-badajoz.html"
+  },
+  {
+    "fecha": "11/04/2026 17:30",
+    "ciudad": "Toledo",
+    "nombreEvento": "Entradas toros Añover de Tajo - Corridas de toros",
+    "categoria": "Toros Añover de Tajo",
+    "location": "45250 Añover de Tajo, Toledo",
+    "link": "https://www.servitoro.com/es/3105-entradas-toros-anover-de-tajo.html"
+  },
+  {
+    "fecha": "11/04/2026 18:30",
+    "ciudad": "Toledo",
+    "nombreEvento": "Entradas Toros Illescas - Feria Taurina",
+    "categoria": "Toros Illescas",
+    "location": "Carretera Ugena, s/n, 45200, Illescas, Toledo",
+    "link": "https://www.servitoro.com/es/2402-entradas-toros-illescas-toledo.html"
+  },
+  {
+    "fecha": "12/04/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "12/04 Madrid (18:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "12/04/2026 19:00",
+    "ciudad": "Guadalajara",
+    "nombreEvento": "Entradas Toros Brihuega - Tradicional Corrida de Primavera",
+    "categoria": "Toros Brihuega",
+    "location": "Guadalajara. La Muralla. Plaza del Coso s/n. 19400 Brihuega, Guadalajara.",
+    "link": "https://www.servitoro.com/es/2053-entradas-toros-brihuega-feria-taurina-de-primavera.html"
+  },
+  {
+    "fecha": "13/04/2026 18:00",
+    "ciudad": "Ávila",
+    "nombreEvento": "Entradas Toros Candeleda - Feria taurina abril",
+    "categoria": "Toros Candeleda",
+    "location": "Candeleda 05480 Ávila",
+    "link": "https://www.servitoro.com/es/2761-entradas-toros-candeleda-feria.html"
+  },
+  {
+    "fecha": "17/04/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "17/04 Feria de Abril (19:00) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla. La Maestranza. Feria de Abril.",
+    "location": "Paseo cristobal Colón 12, 41001 - Sevilla",
+    "link": null
+  },
+  {
+    "fecha": "18/04/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "18/04 Feria de Abril (19:00) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla. La Maestranza. Feria de Abril.",
+    "location": "Paseo cristobal Colón 12, 41001 - Sevilla",
+    "link": null
+  },
+  {
+    "fecha": "19/04/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "19/04 Madrid (18:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "19/04/2026 18:00",
+    "ciudad": "Málaga",
+    "nombreEvento": "Entradas Toros Málaga - Corrida Picassiana",
+    "categoria": "Toros Málaga. La Malagueta",
+    "location": "Paseo de Reding 8, 29016 Málaga. Málaga",
+    "link": "https://www.servitoro.com/es/1461-entradas-toros-malaga-corrida-picassiana.html"
+  },
+  {
+    "fecha": "19/04/2026 18:30",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entrada Toros Sevilla - Feria de Abril",
+    "categoria": "Toros Sevilla. La Maestranza. Feria de Abril.",
+    "location": "Paseo cristobal Colón 12, 41001 - Sevilla",
+    "link": "https://www.servitoro.com/es/2446-entradas-toros-sevilla-feria-de-abril.html"
+  },
+  {
+    "fecha": "19/04/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "19/04 Feria de Abril (19:00) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla. La Maestranza. Feria de Abril.",
+    "location": "Paseo cristobal Colón 12, 41001 - Sevilla",
+    "link": null
+  },
+  {
+    "fecha": "20/04/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "20/04 Feria de Abril (19:00) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla Mayo",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": null
+  },
+  {
+    "fecha": "21/04/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "21/04 Feria de Abril (19:00) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla Mayo",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": null
+  },
+  {
+    "fecha": "22/04/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "22/04 Feria de Abril (19:00) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla Mayo",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": null
+  },
+  {
+    "fecha": "23/04/2026 17:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Toros Santa Cruz de Mudela - Feria de San Marcos",
+    "categoria": "Toros Santa Cruz de Mudela",
+    "location": "Poblado de Nuestra Señora de las Virtudes, 32. 13730,  Santa Cruz de Mudela",
+    "link": "https://www.servitoro.com/es/1297-entradas-toros-santa-cruz-de-mudela-feria-de-san-marcos.html"
+  },
+  {
+    "fecha": "23/04/2026 18:00",
+    "ciudad": "Zaragoza",
+    "nombreEvento": "Entradas Toros Zaragoza - Feria de San Jorge",
+    "categoria": "Toros Zaragoza. San Jorge",
+    "location": "Plaza de toros de Zaragoza. Glorieta José Aznárez, s/n  50004 Zaragoza",
+    "link": "https://www.servitoro.com/es/2055-entradas-toros-zaragoza-feria-san-jorge.html"
+  },
+  {
+    "fecha": "23/04/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "23/04 Feria de Abril (19:00) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla Mayo",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": null
+  },
+  {
+    "fecha": "24/04/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "24/04 Feria de Abril (19:00) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla Mayo",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": null
+  },
+  {
+    "fecha": "25/04/2026 17:30",
+    "ciudad": "Almería",
+    "nombreEvento": "Entradas Toros Laujar de Andarax - Feria Taurina abril",
+    "categoria": "Toros Laujar de Andarax",
+    "location": "Calle Canalejas, 67D 04470 Laujar de Andarax",
+    "link": "https://www.servitoro.com/es/2076-entradas-toros-laujar-de-andarax-almeria.html"
+  },
+  {
+    "fecha": "25/04/2026 17:30",
+    "ciudad": "Murcia",
+    "nombreEvento": "Entradas Toros El Estrecho - Feria taurina Abril",
+    "categoria": "Toros El Estrecho",
+    "location": "El Estrecho, Fuente álamo de Murcia",
+    "link": "https://www.servitoro.com/es/2073-entradas-toros-el-estrecho-murcia.html"
+  },
+  {
+    "fecha": "25/04/2026 18:00",
+    "ciudad": "Toledo",
+    "nombreEvento": "Entradas  Toros Mora - Festival Taurino",
+    "categoria": "Toros Mora",
+    "location": "Calle Lepanto, s/n - 45400 Mora (Toledo)",
+    "link": "https://www.servitoro.com/es/2439-entradas-toros-mora-festival-taurino.html"
+  },
+  {
+    "fecha": "25/04/2026 18:30",
+    "ciudad": "Toledo",
+    "nombreEvento": "Entradas Toros Talavera de la Reina - Festival Taurino",
+    "categoria": "Toros Talavera de la Reina",
+    "location": "Av Castilla la Mancha, 5 45600 Talavera de la Reina, Toledo",
+    "link": "https://www.servitoro.com/es/1887-entradas-toros-talavera-de-la-reina.html"
+  },
+  {
+    "fecha": "25/04/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "25/04 Feria de Abril (19:00) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla Mayo",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": null
+  },
+  {
+    "fecha": "26/04/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "26/04 Madrid (18:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "26/04/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "26/04 Feria de Abril (19:00) Espectáculo Taurino PDF - IMPRIMIR",
+    "categoria": "Toros Sevilla Mayo",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": null
+  },
+  {
+    "fecha": "27/04/2026 17:00",
+    "ciudad": "Málaga",
+    "nombreEvento": "Entradas Toros Benamocarra- Festival Taurino",
+    "categoria": "Toros Benamocarra",
+    "location": "",
+    "link": "https://www.servitoro.com/es/4173-entradas-toros-benamocarra-feria-taurina.html"
+  },
+  {
+    "fecha": "01/05/2026 17:30",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Las Matas - Fiestas de San José Obrero",
+    "categoria": "Toros Las Matas",
+    "location": "Plaza de toros de Las Matas. Madrid",
+    "link": "https://www.servitoro.com/es/1246-entradas-toros-las-matas-fiestas-de-san-jose-obrero.html"
+  },
+  {
+    "fecha": "01/05/2026 17:30",
+    "ciudad": "Navarra",
+    "nombreEvento": "Entradas Toros Corella -  Feria Taurina",
+    "categoria": "Toros Corella",
+    "location": "Calle Don Miguel Poyales, 5, 31591 Corella, Navarra",
+    "link": "https://www.servitoro.com/es/2336-entradas-toros-corella-navarra.html"
+  },
+  {
+    "fecha": "01/05/2026 18:30",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Madrid mayo - Feria de la Comunidad",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": "https://www.servitoro.com/es/1984-entradas-toros-madrid-feria-de-la-comunidad.html"
+  },
+  {
+    "fecha": "02/05/2026 18:30",
+    "ciudad": "Madrid",
+    "nombreEvento": "02/05 Madrid (18:30) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "03/05/2026 18:30",
+    "ciudad": "Cáceres",
+    "nombreEvento": "Entradas Toros Trujillo -Feria taurina mayo",
+    "categoria": "Toros Trujillo",
+    "location": "Calle depósito 9, 10200 trujillo, Cáceres",
+    "link": "https://www.servitoro.com/es/1525-entradas-toros-trujillo-ferias-y-fiestas.html"
+  },
+  {
+    "fecha": "03/05/2026 18:30",
+    "ciudad": "Madrid",
+    "nombreEvento": "03/05 Madrid (18:30) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "06/05/2026 17:30",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Colmenar de Oreja - Honor del Stmo. Cristo del humilladero",
+    "categoria": "Toros Colmenar de Oreja",
+    "location": "Plaza Mayor 28380 Colmenar de Oreja, Madrid",
+    "link": "https://www.servitoro.com/es/2585-entradas-toros-colmenar-de-oreja-festejo-1.html"
+  },
+  {
+    "fecha": "06/05/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Getafe - Feria Virgen de los Ángeles",
+    "categoria": "Toros Getafe",
+    "location": "Av. Don Juan de Borbón, s/n, 28905 Getafe, Madrid",
+    "link": "https://www.servitoro.com/es/1315-entradas-toros-getafe-feria-virgen-de-los-angeles.html"
+  },
+  {
+    "fecha": "07/05/2026 18:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Toros Puertollano - Feria de Mayo",
+    "categoria": "Toros Puertollano",
+    "location": "Avda. la Mancha, s/n - 13500 Puertollano (Ciudad Real)",
+    "link": "https://www.servitoro.com/es/1518-entradas-toros-puertollano-feria-de-mayo.html"
+  },
+  {
+    "fecha": "08/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "08/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "09/05/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Osuna - Feria de Mayo",
+    "categoria": "Toros Osuna",
+    "location": "Travesia Plaza de Toros s/n.  41640 Osuna, Sevilla",
+    "link": "https://www.servitoro.com/es/2079-entradas-osuna-feria-de-mayo.html"
+  },
+  {
+    "fecha": "09/05/2026 19:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "09/05 Jerez (19:00) Espectáculo Taurino FORMATO PDF",
+    "categoria": "Toros Jerez de la Frontera",
+    "location": "Calle Circo, 2B, 11405 Jerez de la Frontera, Cádiz,",
+    "link": null
+  },
+  {
+    "fecha": "09/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "09/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "10/05/2026 18:00",
+    "ciudad": "La Rioja",
+    "nombreEvento": "Entradas Toros Haro - Feria de Primavera",
+    "categoria": "Toros Haro",
+    "location": "Coso 22. 26200 Haro. La Rioja",
+    "link": "https://www.servitoro.com/es/839-entradas-toros-haro-feria-de-primavera.html"
+  },
+  {
+    "fecha": "10/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "10/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "10/05/2026 19:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "10/05 Jerez (19:00)  Espectáculo Taurino FORMATO PDF",
+    "categoria": "Toros Jerez de la Frontera",
+    "location": "Calle Circo, 2B, 11405 Jerez de la Frontera, Cádiz,",
+    "link": null
+  },
+  {
+    "fecha": "12/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "12/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "13/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "13/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "14/05/2026 18:29",
+    "ciudad": "La Rioja",
+    "nombreEvento": "Entradas toros Alfaro - Feria Taurina",
+    "categoria": "Toros Alfaro",
+    "location": "Av. Burgo Viejo, 26, 26540 Alfaro, La Rioja",
+    "link": "https://www.servitoro.com/es/2666-entradas-toros-alfaro-festejo-1.html"
+  },
+  {
+    "fecha": "14/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "14/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "15/05/2026 19:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "15/05 Jerez (19:00) Espectáculo Taurino FORMATO PDF",
+    "categoria": "Toros Jerez de la Frontera",
+    "location": "Calle Circo, 2B, 11405 Jerez de la Frontera, Cádiz,",
+    "link": null
+  },
+  {
+    "fecha": "15/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "15/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "16/05/2026 17:30",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Sanlúcar La Mayor - Festejo Taurino",
+    "categoria": "Toros Sanlúcar La Mayor",
+    "location": "Avenida Príncipe de España, Sanlúcar La Mayor 41800",
+    "link": "https://www.servitoro.com/es/3110-entradas-toros-sanlucar-la-mayor.html"
+  },
+  {
+    "fecha": "16/05/2026 18:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas toros Dos Hermanas - Festejo Taurino",
+    "categoria": "Toros Dos Hermanas",
+    "location": "Dos Hermanas, Sevilla.",
+    "link": "https://www.servitoro.com/es/2449-entradas-toros-dos-hermanas-festejo-1.html"
+  },
+  {
+    "fecha": "16/05/2026 19:00",
+    "ciudad": "Toros Valladolid. San Pedro Regalado",
+    "nombreEvento": "Entradas Toros Valladolid – San Pedro Regalado",
+    "categoria": "No especificada",
+    "location": "",
+    "link": "https://www.servitoro.com/es/2085-entradas-toros-valladolid-san-pedro-regalado.html"
+  },
+  {
+    "fecha": "16/05/2026 19:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "16/05 Jerez (19:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Jerez de la Frontera",
+    "location": "Calle Circo, 2B, 11405 Jerez de la Frontera, Cádiz,",
+    "link": null
+  },
+  {
+    "fecha": "17/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "17/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "17/05/2026 19:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas Toros Jerez de la Frontera - Feria del Caballo",
+    "categoria": "Toros Jerez de la Frontera",
+    "location": "Calle Circo, 2B, 11405 Jerez de la Frontera, Cádiz,",
+    "link": null
+  },
+  {
+    "fecha": "19/05/2026 18:00",
+    "ciudad": "Córdoba",
+    "nombreEvento": "Entradas toros Palma Del Rio - Festival Taurino",
+    "categoria": "Toros Palma del Río",
+    "location": "Palma del Río, 14700 - Córdoba",
+    "link": "https://www.servitoro.com/es/2064-entradas-toros-palma-del-rio-cordoba.html"
+  },
+  {
+    "fecha": "19/05/2026 18:30",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas toros Los Barrios - Festejo Taurino",
+    "categoria": "Toros Los Barrios",
+    "location": "Recinto Ferial, S/N, 11370, Los Barrios (Cádiz)",
+    "link": "https://www.servitoro.com/es/2091-entradas-toros-los-barrios-cadiz.html"
+  },
+  {
+    "fecha": "19/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "19/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "19/05/2026 19:00",
+    "ciudad": "Córdoba",
+    "nombreEvento": "Entradas Toros Córdoba - Feria de Nuestra Señora de la Salud",
+    "categoria": "Toros Córdoba",
+    "location": "Av. Gran Vía Parque, 21. 14005 Córdoba",
+    "link": "https://www.servitoro.com/es/2095-entradas-toros-cordoba-feria-de-nuestra-senora-de-la-salud.html"
+  },
+  {
+    "fecha": "20/05/2026 18:00",
+    "ciudad": "Cuenca",
+    "nombreEvento": "Entradas toros Mota del Cuervo - festejo taurino",
+    "categoria": "Toros Mota Del Cuervo",
+    "location": "Mota del Cuervo 16630 Cuenca",
+    "link": "https://www.servitoro.com/es/3333-entradas-toros-mota-del-cuervo.html"
+  },
+  {
+    "fecha": "20/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "20/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "21/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "21/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "22/05/2026 18:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Sevilla - Feria de Mayo",
+    "categoria": "Toros Sevilla Mayo",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": "https://www.servitoro.com/es/1989-entradas-toros-sevilla-feria-de-mayo.html"
+  },
+  {
+    "fecha": "22/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "22/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "23/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "23/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "24/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "24/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "26/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "26/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "27/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "27/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "28/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "28/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "29/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "29/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "30/05/2026 17:00",
+    "ciudad": "Albacete",
+    "nombreEvento": "Entradas Toros Hellín - Día de Castilla la Mancha",
+    "categoria": "Toros Hellín",
+    "location": "Av. Poeta Mariano Tomás, 13. 02400 Hellín",
+    "link": "https://www.servitoro.com/es/1886-entradas-toros-hellin-dia-castilla-la-mancha.html"
+  },
+  {
+    "fecha": "30/05/2026 19:00",
+    "ciudad": "Cáceres",
+    "nombreEvento": "Entradas Toros Cáceres - Fiestas de San Fernando y San Jorge",
+    "categoria": "Toros Cáceres",
+    "location": "Plaza del Ángel. 10003 Cáceres.",
+    "link": "https://www.servitoro.com/es/1143-entradas-toros-caceres-fiestas-de-san-fernando-y-san-jorge.html"
+  },
+  {
+    "fecha": "30/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "30/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "31/05/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "31/05 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "31/05/2026 19:00",
+    "ciudad": "Ávila",
+    "nombreEvento": "Entradas Toros Ávila - Feria Taurina mayo",
+    "categoria": "Toros Ávila",
+    "location": "Ctra. Burgohondo, 13, 05002 Ávila",
+    "link": "https://www.servitoro.com/es/2229-entradas-toros-avila-festejo-1.html"
+  },
+  {
+    "fecha": "01/06/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Aranjuez - Feria de San Fernando",
+    "categoria": "Toros Aranjuez",
+    "location": "Av Plaza de Toros 28300 Aranjuez",
+    "link": "https://www.servitoro.com/es/2105-entradas-toros-aranjuez-feria-de-san-fernando.html"
+  },
+  {
+    "fecha": "02/06/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "02/06 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "03/06/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "03/06 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "04/06/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "04/06 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "04/06/2026 19:30",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Sevilla - Feria Taurina Junio",
+    "categoria": "Toros Sevilla Junio",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": "https://www.servitoro.com/es/1993-entradas-toros-sevilla-junio.html"
+  },
+  {
+    "fecha": "05/06/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "05/06 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "06/06/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "06/06 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "07/06/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "07/06 San Isidro (19:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "09/06/2026 18:00",
+    "ciudad": "Almería",
+    "nombreEvento": "Entradas Toros Vera - Feria taurina junio",
+    "categoria": "Toros Vera",
+    "location": "Calle Mojigato s/n, 04620 - Vera, Almería",
+    "link": "https://www.servitoro.com/es/2467-entradas-toros-vera-feria-taurina.html"
+  },
+  {
+    "fecha": "15/06/2026 18:30",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas Toros Villaluenga del Rosario - Feria Taurina Junio",
+    "categoria": "Toros Villaluenga del Rosario",
+    "location": "Av de la Plaza de Toros, s/n - 11611 Villaluenga del Rosario (Cadiz)",
+    "link": "https://www.servitoro.com/es/2382-entradas-toros-villaluenga-del-rosario-cadiz.html"
+  },
+  {
+    "fecha": "15/06/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Móstoles - Feria de Nuestra Señora de los Santos",
+    "categoria": "Toros Móstoles",
+    "location": "Tulipán, 28933 Móstoles, Madrid.",
+    "link": "https://www.servitoro.com/es/1244-entradas-toros-mostoles-madrid.html"
+  },
+  {
+    "fecha": "15/06/2026 19:00",
+    "ciudad": "Cáceres",
+    "nombreEvento": "Entradas Toros Plasencia - Feria Taurina Junio",
+    "categoria": "Toros Plasencia",
+    "location": "Calle de toros 14, 10600 Plasencia, Cáceres. Extremadura.",
+    "link": "https://www.servitoro.com/es/930-entradas-toros-plasencia-festejo-taurino.html"
+  },
+  {
+    "fecha": "18/06/2026 19:00",
+    "ciudad": "Alicante",
+    "nombreEvento": "Entradas Toros Alicante - Feria de las Hogueras",
+    "categoria": "Toros Alicante",
+    "location": "Plaza de España 8. 03004 Alicante",
+    "link": "https://www.servitoro.com/es/2106-entradas-toros-alicante-feria-de-las-hogueras.html"
+  },
+  {
+    "fecha": "19/06/2026 19:30",
+    "ciudad": "Granada",
+    "nombreEvento": "Entradas Toros Granada - Corpus Christi",
+    "categoria": "Toros Granada",
+    "location": "Avenida Doctor Olóriz 14, 18012 Granada. Granada",
+    "link": "https://www.servitoro.com/es/2081-entradas-toros-granada-corpus-christi.html"
+  },
+  {
+    "fecha": "20/06/2026 18:00",
+    "ciudad": "Segovia",
+    "nombreEvento": "Entradas Toros Segovia - Feria de San Juan y San Pedro",
+    "categoria": "Toros Segovia",
+    "location": "Carretera Granja 4, 40005 Segovia. Segovia",
+    "link": "https://www.servitoro.com/es/2144-entradas-toros-segovia-feria-de-san-juan-y-san-pedro.html"
+  },
+  {
+    "fecha": "20/06/2026 18:30",
+    "ciudad": "Toledo",
+    "nombreEvento": "Entradas toros Toledo - Festejos taurinos",
+    "categoria": "Toros Toledo",
+    "location": "Huérfanos Cristinos, 2, 45003 Toledo",
+    "link": "https://www.servitoro.com/es/2437-entradas-toros-toledo-fiestas-del-corpus-christi.html"
+  },
+  {
+    "fecha": "20/06/2026 19:00",
+    "ciudad": "Alicante",
+    "nombreEvento": "20/06 Alicante (19:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Alicante",
+    "location": "Plaza de España 8. 03004 Alicante",
+    "link": null
+  },
+  {
+    "fecha": "20/06/2026 21:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas toros Huévar del Aljarafe - Festival Taurino",
+    "categoria": "Toros Huévar del Aljarafe",
+    "location": "",
+    "link": "https://www.servitoro.com/es/3899-entradas-toros-huevar-del-aljarafe-festejo-taurino.html"
+  },
+  {
+    "fecha": "21/06/2026 18:30",
+    "ciudad": "León",
+    "nombreEvento": "Entradas Toros León - Feria de San Juan y San Pedro",
+    "categoria": "Toros León",
+    "location": "Paseo El Parque s/n. 24004 León.",
+    "link": "https://www.servitoro.com/es/1800-entradas-toros-leon-feria-de-san-juan-y-san-pedro.html"
+  },
+  {
+    "fecha": "21/06/2026 19:00",
+    "ciudad": "Alicante",
+    "nombreEvento": "21/06 Alicante (19:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Alicante",
+    "location": "Plaza de España 8. 03004 Alicante",
+    "link": null
+  },
+  {
+    "fecha": "21/06/2026 19:30",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Torrejón de Ardoz - Feria taurina",
+    "categoria": "Toros Torrejón de Ardoz",
+    "location": "Telemático, s/n - 28850 Torrejón de Ardoz (Madrid)",
+    "link": "https://www.servitoro.com/es/2131-entradas-toros-torrejon-de-ardoz-fiestas-populares.html"
+  },
+  {
+    "fecha": "22/06/2026 19:00",
+    "ciudad": "Alicante",
+    "nombreEvento": "22/06 Alicante (19:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Alicante",
+    "location": "Plaza de España 8. 03004 Alicante",
+    "link": null
+  },
+  {
+    "fecha": "23/06/2026 19:00",
+    "ciudad": "Alicante",
+    "nombreEvento": "23/06 Alicante (19:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Alicante",
+    "location": "Plaza de España 8. 03004 Alicante",
+    "link": null
+  },
+  {
+    "fecha": "23/06/2026 19:30",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Badajoz - Feria de San Juan",
+    "categoria": "Toros Badajoz",
+    "location": "Avenida de Pardaleras s/n. 06003 Badajoz, Badajoz.",
+    "link": "https://www.servitoro.com/es/2456-entradas-toros-badajoz-feria-de-san-juan.html"
+  },
+  {
+    "fecha": "24/06/2026 19:00",
+    "ciudad": "Alicante",
+    "nombreEvento": "24/06 Alicante (19:00) Espectáculo Taurino FORMATO PDF",
+    "categoria": "Toros Alicante",
+    "location": "Plaza de España 8. 03004 Alicante",
+    "link": null
+  },
+  {
+    "fecha": "24/06/2026 19:30",
+    "ciudad": "Huelva",
+    "nombreEvento": "Entradas toros Santa Olalla del Cala - Festejo taurino",
+    "categoria": "Toros Santa Olalla del Cala",
+    "location": "Santa Olalla del Cala, Huelva",
+    "link": "https://www.servitoro.com/es/3575-entradas-toros-santa-olalla-del-cala-festejo-1.html"
+  },
+  {
+    "fecha": "24/06/2026 19:30",
+    "ciudad": "Castellón",
+    "nombreEvento": "Entradas Toros Castellón - Feria de la Magdalena",
+    "categoria": "Toros Castellón",
+    "location": "Calle de Pérez Galdós, 15, 12002 Castellón",
+    "link": "https://www.servitoro.com/es/2476-entradas-toros-castellon-feria-de-la-magdalena.html"
+  },
+  {
+    "fecha": "25/06/2026 21:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "25/06 Madrid (21:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "26/06/2026 19:00",
+    "ciudad": "Cáceres",
+    "nombreEvento": "Entradas Toros Saucedilla - Festejo taurino junio",
+    "categoria": "Toros Saucedilla",
+    "location": "Saucedilla 10390 Cáceres",
+    "link": "https://www.servitoro.com/es/3218-entradas-toros-saucedilla-fiestas.html"
+  },
+  {
+    "fecha": "27/06/2026 18:30",
+    "ciudad": "Soria",
+    "nombreEvento": "Entradas Toros Soria - Feria de San Juan",
+    "categoria": "Toros Soria",
+    "location": "San Benito 1, 42001 Soria. Soria",
+    "link": "https://www.servitoro.com/es/2136-entradas-toros-soria-feria-de-san-saturio.html"
+  },
+  {
+    "fecha": "27/06/2026 19:00",
+    "ciudad": "Zamora",
+    "nombreEvento": "Entradas Toros Zamora - Fiestas de San Pedro",
+    "categoria": "Toros Zamora",
+    "location": "Avenida de Plaza de Toros s/n  49007 Zamora. Zamora",
+    "link": "https://www.servitoro.com/es/2141-entradas-toros-zamora-fiestas-de-san-pedro.html"
+  },
+  {
+    "fecha": "28/06/2026 18:30",
+    "ciudad": "Burgos",
+    "nombreEvento": "Entradas Toros Burgos - Feria San Pedro y San Pablo",
+    "categoria": "Toros Burgos",
+    "location": "Pabellón Multiusos, Coliseum. Calle de la cascajera 09006 Burgos.",
+    "link": "https://www.servitoro.com/es/2114-entradas-toros-burgos-feria-de-san-pedro-y-san-pablo.html"
+  },
+  {
+    "fecha": "30/06/2026 21:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "30/07 Madrid (21:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "02/07/2026 21:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "02/07 Madrid (21:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "02/07/2026 22:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Sevilla - Feria Sevilla  Julio",
+    "categoria": "Toros Sevilla Julio",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": "https://www.servitoro.com/es/2194-entradas-toros-sevilla-feria-sevilla-julio.html"
+  },
+  {
+    "fecha": "03/07/2026 19:00",
+    "ciudad": "Huelva",
+    "nombreEvento": "Entradas toros Almonte - Festejo taurino",
+    "categoria": "Toros Almonte",
+    "location": "Portable bullring in the livestock area of Almonte. Cam. de Villalba del Alcor, 21730 Almonte, Huelva.",
+    "link": "https://www.servitoro.com/es/3338-entradas-toros-almonte.html"
+  },
+  {
+    "fecha": "04/07/2026 19:00",
+    "ciudad": "Teruel",
+    "nombreEvento": "Entradas Toros Teruel - Feria del Ángel",
+    "categoria": "Toros Teruel",
+    "location": "Málaga, 2 44002 Teruel. Teruel",
+    "link": "https://www.servitoro.com/es/1959-entradas-toros-teruel-fiestas-del-angel-la-vaquilla.html"
+  },
+  {
+    "fecha": "06/07/2026 19:30",
+    "ciudad": "Ávila",
+    "nombreEvento": "Entradas Toros Arévalo - Feria taurina julio",
+    "categoria": "Toros Arévalo",
+    "location": "C. Asunción Valcarce Maestro, 2, 05200 Arévalo, Ávila",
+    "link": "https://www.servitoro.com/es/3916-entradas-toros-arevalo-feria-taurina.html"
+  },
+  {
+    "fecha": "06/07/2026 20:00",
+    "ciudad": "Málaga",
+    "nombreEvento": "Entradas toros Estepona - Festejo Taurino",
+    "categoria": "Toros Estepona",
+    "location": "Matías Prats, s/n - 29680 Estepona (Málaga)",
+    "link": "https://www.servitoro.com/es/2152-entradas-toros-estepona-malaga.html"
+  },
+  {
+    "fecha": "09/07/2026 21:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "09/07 Madrid (21:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "11/07/2026 18:00",
+    "ciudad": "Zaragoza",
+    "nombreEvento": "Entradas Toros Maella - Festival Taurino",
+    "categoria": "Toros Maella",
+    "location": "A-221, 50710 Maella, Zaragoza",
+    "link": "https://www.servitoro.com/es/3188-entradas-toros-maella.html"
+  },
+  {
+    "fecha": "11/07/2026 19:00",
+    "ciudad": "Murcia",
+    "nombreEvento": "Entradas toros Moratalla - Festejo taurino",
+    "categoria": "Toros Moratalla",
+    "location": "Plaza de toros portátil, Moratalla Murcia",
+    "link": "https://www.servitoro.com/es/3075-entradas-toros-moratalla-murcia.html"
+  },
+  {
+    "fecha": "12/07/2026 19:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Toros Manzanares - Feria Taurina Julio",
+    "categoria": "Toros Manzanares",
+    "location": "Av. de Andalucía, 14, 13200 Manzanares, Cdad. Real",
+    "link": "https://www.servitoro.com/es/4296-entradas-toros-manzanares-ciudad-real.html"
+  },
+  {
+    "fecha": "13/07/2026 18:30",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Cabeza La Vaca - Feria de San Benito",
+    "categoria": "Toros Cabeza de la Vaca",
+    "location": "Av. de la Constitución, 23, 06293 Cabeza la Vaca, Badajoz",
+    "link": "https://www.servitoro.com/es/4078-entradas-toros-cabeza-la-vaca-feria-de-san-benito.html"
+  },
+  {
+    "fecha": "16/07/2026 18:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas Toros San Fernando - Feria Taurina del Carmen y de la Sal",
+    "categoria": "Toros San Fernando",
+    "location": "Calle San Marcos 26, 11100 San Fernando.",
+    "link": "https://www.servitoro.com/es/2192-entradas-toros-san-fernando-feria-taurina-del-carmen-y-de-la-sal.html"
+  },
+  {
+    "fecha": "16/07/2026 21:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "16/07 Madrid (21:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "17/07/2026 00:00",
+    "ciudad": "Almería",
+    "nombreEvento": "Entradas Toros Roquetas de Mar - Feria Santa Ana",
+    "categoria": "Toros Roquetas de Mar",
+    "location": "Avda de la Aduana, 15. 04740 Roquetas de Mar, Almería",
+    "link": "https://www.servitoro.com/es/2154-entradas-toros-roquetas-de-mar-feria-de-santa-ana.html"
+  },
+  {
+    "fecha": "18/07/2026 17:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "Entradas Toros Gandía - Feria Virgen del Carmen",
+    "categoria": "Toros Gandía",
+    "location": "Plaza del puerto de Grao, s/n - 46730 Gandía",
+    "link": "https://www.servitoro.com/es/1314-entradas-toros-gandia-feria-virgen-del-carmen.html"
+  },
+  {
+    "fecha": "21/07/2026 19:30",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas Toros La Línea de la Concepción - Festejo Taurino",
+    "categoria": "Toros La Línea de la Concepción",
+    "location": "Del Clavel 98,11300 La Linea de la Concepcion ,Cadiz",
+    "link": "https://www.servitoro.com/es/2256-entradas-toros-la-linea-de-la-concepcion-festejo-taurino.html"
+  },
+  {
+    "fecha": "22/07/2026 21:30",
+    "ciudad": "Málaga",
+    "nombreEvento": "Entradas Toros Fuengirola - Feria Virgen del Rosario",
+    "categoria": "Toros Fuengirola",
+    "location": "C/ Camilo José Cela 12, 29640 - Fuengirola, Málaga.",
+    "link": "https://www.servitoro.com/es/2436-entradas-toros-fuengirola-feria-virgen-del-rosario-coronada.html"
+  },
+  {
+    "fecha": "23/07/2026 18:30",
+    "ciudad": "Cantabria",
+    "nombreEvento": "Entradas Toros Santander - Feria de Santiago",
+    "categoria": "Toros Santander",
+    "location": "Montevideo, 6 39008 Santander .Cantabria",
+    "link": "https://www.servitoro.com/es/2123-entradas-toros-santander-feria-de-santiago.html"
+  },
+  {
+    "fecha": "23/07/2026 19:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas toros La Solana - Festejo Taurino Julio",
+    "categoria": "Toros La Solana",
+    "location": "Calle Depositos de Agua, 14, 13240 La Solana, Cdad. Real",
+    "link": "https://www.servitoro.com/es/1719-entradas-toros-la-solana-festival-taurino.html"
+  },
+  {
+    "fecha": "23/07/2026 21:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "23/07 Madrid (21:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "27/07/2026 19:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas toros Algodonales - Feria de Santa Ana",
+    "categoria": "Toros Algodonales",
+    "location": "Algodonales, Cádiz 11680",
+    "link": "https://www.servitoro.com/es/2227-entradas-toros-algodonales-cadiz.html"
+  },
+  {
+    "fecha": "27/07/2026 19:00",
+    "ciudad": "Guipúzcoa",
+    "nombreEvento": "Entradas Toros Azpeitia - Feria taurina",
+    "categoria": "Toros Azpeitia",
+    "location": "Plaza Toros Azpeitia, Ibaieder Kalea, 2, 20730 Azpeitia, Gipuzkoa",
+    "link": "https://www.servitoro.com/es/3217-entradas-toros-azpeitia-feria.html"
+  },
+  {
+    "fecha": "30/07/2026 19:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Toros Almaden - Feria Taurina",
+    "categoria": "Toros Almadén",
+    "location": "Plaza Toros, 1, 13400 Almadén, Cdad. Real",
+    "link": "https://www.servitoro.com/es/2248-entradas-toros-almaden-ciudad-real.html"
+  },
+  {
+    "fecha": "30/07/2026 19:30",
+    "ciudad": "Murcia",
+    "nombreEvento": "Entradas Toros Calasparra -  Feria Taurina del Arroz",
+    "categoria": "Toros Calasparra",
+    "location": "Calle Ordóñez, 35. 30420 Calasparra Murcia",
+    "link": "https://www.servitoro.com/es/2487-entradas-toros-calasparra-feria-del-arroz.html"
+  },
+  {
+    "fecha": "31/07/2026 00:00",
+    "ciudad": "Huelva",
+    "nombreEvento": "Entradas Toros Huelva – Fiestas Colombinas",
+    "categoria": "Toros Huelva",
+    "location": "Av. de Cristobal Colón 2, 21002 Huelva.",
+    "link": "https://www.servitoro.com/es/2217-entradas-toros-huelva-fiestas-colombinas.html"
+  },
+  {
+    "fecha": "01/08/2026 14:46",
+    "ciudad": "Valladolid",
+    "nombreEvento": "Entradas Toros Íscar - Festejo Taurino",
+    "categoria": "Toros Íscar",
+    "location": "Camino de Toros 9, 47420 Íscar (Valladolid)",
+    "link": "https://www.servitoro.com/es/1326-entradas-toros-iscar.html"
+  },
+  {
+    "fecha": "01/08/2026 19:00",
+    "ciudad": "Palma de Mallorca",
+    "nombreEvento": "Entradas Toros Inca - Feria de Julio",
+    "categoria": "Toros Inca",
+    "location": "Carrer de n'Antoni Maura, 2, 07300 Inca, Illes Balears",
+    "link": "https://www.servitoro.com/es/3038-entradas-toros-inca-festival.html"
+  },
+  {
+    "fecha": "02/08/2026 21:00",
+    "ciudad": "Jaén",
+    "nombreEvento": "Entradas toros Pegalajar - Feria Taurina",
+    "categoria": "Toros Pegalajar",
+    "location": "Calle Plaza de Toros, 4, 23110 Pegalajar, Jaén",
+    "link": "https://www.servitoro.com/es/3981-entradas-toros-pegalajar-jaen.html"
+  },
+  {
+    "fecha": "03/08/2026 19:00",
+    "ciudad": "Granada",
+    "nombreEvento": "Entradas Toros Castilléjar - Feria Taurina",
+    "categoria": "Toros Castilléjar",
+    "location": "Plaza de toros portátil situada junto al puente del río de Castilléjar.",
+    "link": "https://www.servitoro.com/es/3999-entradas-toros-castillejar-festejo-1.html"
+  },
+  {
+    "fecha": "05/08/2026 00:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas Toros El Puerto de Santa María - Toros Verano",
+    "categoria": "Toros El Puerto de Santa María",
+    "location": "Plaza Elías Ahuja 3, 11500 El Puerto de Santa María.",
+    "link": "https://www.servitoro.com/es/2184-entradas-toros-el-puerto-de-santa-maria-temporada-taurina-del-verano.html"
+  },
+  {
+    "fecha": "06/08/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Madrid - Las Ventas Agosto",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": "https://www.servitoro.com/es/1763-entradas-toros-madrid-feria-de-agosto.html"
+  },
+  {
+    "fecha": "06/08/2026 18:30",
+    "ciudad": "Huesca",
+    "nombreEvento": "Entradas Toros Huesca - Feria Taurina de la Albahaca",
+    "categoria": "Toros Huesca",
+    "location": "Plaza de toros de Huesca. Plaza de la Unidad Nacional 3, 22001 Huesca. Huesca",
+    "link": "https://www.servitoro.com/es/1700-entradas-toros-huesca-feria-taurina-de-la-albahaca.html"
+  },
+  {
+    "fecha": "06/08/2026 19:30",
+    "ciudad": "Ávila",
+    "nombreEvento": "Entradas toros La Adrada - Feria taurina agosto",
+    "categoria": "Toros La Adrada",
+    "location": "Avenida Mártires de Sotillo, s/n, 05420 Sotillo de la Adrada, Ávila",
+    "link": "https://www.servitoro.com/es/2762-entradas-toros-la-adrada-avila.html"
+  },
+  {
+    "fecha": "08/08/2026 18:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Herrera - Festival Taurino",
+    "categoria": "Toros Herrera",
+    "location": "Herrera, Sevilla 41567",
+    "link": "https://www.servitoro.com/es/3109-entradas-toros-herrera.html"
+  },
+  {
+    "fecha": "08/08/2026 19:00",
+    "ciudad": "Álava",
+    "nombreEvento": "Entradas Toros Vitoria-Gasteiz - Fiestas Virgen Blanca",
+    "categoria": "Toros Vitoria-Gasteiz",
+    "location": "Plaza del Renacimiento, 6. 01004 Vitoria-Gasteiz, Álava",
+    "link": "https://www.servitoro.com/es/1706-entradas-toros-vitoria-gasteiz-fiestas-de-la-virgen-blanca.html"
+  },
+  {
+    "fecha": "08/08/2026 19:00",
+    "ciudad": "Pontevedra",
+    "nombreEvento": "Entradas toros de Pontevedra - Feria de La Peregrina.",
+    "categoria": "Toros Pontevedra",
+    "location": "Campo de la Torre s/n. 36002 Pontevedra",
+    "link": "https://www.servitoro.com/es/2223-entradas-toros-pontevedra-feria-de-la-peregrina.html"
+  },
+  {
+    "fecha": "08/08/2026 21:30",
+    "ciudad": "Palma de Mallorca",
+    "nombreEvento": "Entradas Toros Palma de Mallorca - Feria de Agosto",
+    "categoria": "Toros Palma de Mallorca",
+    "location": "Avinguda de l'Arquitecte Gaspar Bennàzar, 32 - 07004 Palma de Mallorca.",
+    "link": "https://www.servitoro.com/es/2231-entradas-toros-palma-de-mallorca-feria-de-agosto.html"
+  },
+  {
+    "fecha": "09/08/2026 19:30",
+    "ciudad": "Málaga",
+    "nombreEvento": "Entradas Toros Marbella - Feria taurina",
+    "categoria": "Toros Marbella",
+    "location": "Av. Reina Victoria, S/N, 29600 Marbella, Málaga",
+    "link": "https://www.servitoro.com/es/1279-entradas-toros-marbella-feria-de-agosto.html"
+  },
+  {
+    "fecha": "11/08/2026 19:00",
+    "ciudad": "Jaén",
+    "nombreEvento": "Entradas Toros Baeza - Feria a la Virgen del Alcazar",
+    "categoria": "Toros Baeza",
+    "location": "Sor Felisa Ancín s/n.  23440 Baeza  (Jaén)",
+    "link": "https://www.servitoro.com/es/1824-entradas-toros-baeza-feria-de-la-virgen-del-alcazar.html"
+  },
+  {
+    "fecha": "12/08/2026 19:00",
+    "ciudad": "Murcia",
+    "nombreEvento": "Entradas Toros Blanca - Festejo taurino",
+    "categoria": "Toros Blanca",
+    "location": "Plaza de toros de Blanca, 30540 Blanca, Murcia",
+    "link": "https://www.servitoro.com/es/3700-entradas-toros-blanca.html"
+  },
+  {
+    "fecha": "12/08/2026 20:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Leganés - Festejo Taurino",
+    "categoria": "Toros Leganés",
+    "location": "Del Maestro, s/n, 28914 Leganés, Madrid",
+    "link": "https://www.servitoro.com/es/1540-feria-taurina-leganes.html"
+  },
+  {
+    "fecha": "14/08/2026 17:00",
+    "ciudad": "Asturias",
+    "nombreEvento": "Entradas Toros Gijón - Feria Nuestra señora de Begoña",
+    "categoria": "Toros Gijón",
+    "location": "Avenida de la costa 1, 33201 Gijon, Asturias.",
+    "link": "https://www.servitoro.com/es/2163-entradas-toros-gijon-feria-nuestra-senora-de-begona.html"
+  },
+  {
+    "fecha": "14/08/2026 18:00",
+    "ciudad": "Guipúzcoa",
+    "nombreEvento": "Entradas Toros San Sebastián de Guipúzcoa - Semana Grande",
+    "categoria": "Toros Illumbe San Sebastián",
+    "location": "Paseo de Miramón, 2, 20014 San Sebastián. Gipúzcoa",
+    "link": "https://www.servitoro.com/es/2162-entradas-toros-san-sebastian-guipuzcoa-feria-de-semana-grande.html"
+  },
+  {
+    "fecha": "14/08/2026 19:00",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Herrera del Duque - Feria taurina agosto",
+    "categoria": "Toros Herrera del Duque",
+    "location": "Av. de los Toreros s/n, 06670 Herrera del Duque. Badajoz.",
+    "link": "https://www.servitoro.com/es/1322-entradas-toros-herrera-del-duque-festival-taurino.html"
+  },
+  {
+    "fecha": "15/08/2026 18:00",
+    "ciudad": "Salamanca",
+    "nombreEvento": "Entradas Toros Vitigudino - Feria y Fiestas de agosto",
+    "categoria": "Toros Vitigudino",
+    "location": "37210 Vitigudino, Salamanca",
+    "link": "https://www.servitoro.com/es/2885-entradas-toros-vitigudino-salamanca.html"
+  },
+  {
+    "fecha": "15/08/2026 18:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "Entradas Toros Xátiva - Feria de Agosto",
+    "categoria": "Toros Xátiva",
+    "location": "Avda. Virrey L Despui, 2 - 46800 Xàtiva (Valencia)",
+    "link": "https://www.servitoro.com/es/1235-entradas-toros-xativa-feria-de-agosto.html"
+  },
+  {
+    "fecha": "15/08/2026 18:30",
+    "ciudad": "Burgos",
+    "nombreEvento": "Entradas Toros Roa - San Roque and Ntra Sra de La Asunción",
+    "categoria": "Toros Roa",
+    "location": "Plaza De Toros Calle Puerta de la Villa, 09300 Roa",
+    "link": "https://www.servitoro.com/es/2888-entradas-toros-roa-burgos.html"
+  },
+  {
+    "fecha": "15/08/2026 18:30",
+    "ciudad": "Soria",
+    "nombreEvento": "Entradas Toros El Burgo de Osma - Virgen del Espino y San Roque",
+    "categoria": "Toros  El Burgo de Osma",
+    "location": "Universidad 23, 42300 El Burgos de Osma. Soria",
+    "link": "https://www.servitoro.com/es/2269-entradas-toros-burgos-de-osma-soria.html"
+  },
+  {
+    "fecha": "15/08/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros El Castillo de las Guardas - Festejo taurino",
+    "categoria": "Toros  El Castillo de las Guardas",
+    "location": "El castillo de los guardas cp 41890",
+    "link": "https://www.servitoro.com/es/3640-entradas-toros-el-castillo-de-las-guardas.html"
+  },
+  {
+    "fecha": "15/08/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "15/08 Madrid (19:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "15/08/2026 19:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas toros San Roque - Feria taurina agosto",
+    "categoria": "Toros San Roque",
+    "location": "Calle Velázquez 11, 11360 San Roque (Cádiz)‎",
+    "link": "https://www.servitoro.com/es/2319-entradas-toros-san-roque-cadiz.html"
+  },
+  {
+    "fecha": "15/08/2026 19:00",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Almendralejo - Feria taurina agosto",
+    "categoria": "Toros Almendralejo",
+    "location": "Carretera Gijón-Sevilla s/n. 06200 Almedralejo. Badajoz.",
+    "link": "https://www.servitoro.com/es/959-entradas-toros-almendralejo-feria-fiestas-de-la-piedad.html"
+  },
+  {
+    "fecha": "16/08/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "16/08 Madrid (19:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "16/08/2026 19:30",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Toros Ciudad Real - Feria de la Virgen del Prado",
+    "categoria": "Toros Ciudad Real",
+    "location": "Espino 1. 13003  Ciudad Real. Ciudad Real.",
+    "link": "https://www.servitoro.com/es/2179-entradas-toros-ciudad-real-feria-de-la-virgen-del-prado.html"
+  },
+  {
+    "fecha": "17/08/2026 19:00",
+    "ciudad": "Málaga",
+    "nombreEvento": "Entradas Toros Málaga - Feria de Agosto",
+    "categoria": "Toros Málaga. La Malagueta",
+    "location": "Paseo de Reding 8, 29016 Málaga. Málaga",
+    "link": "https://www.servitoro.com/es/2233-entradas-toros-malaga-feria-de-agosto.html"
+  },
+  {
+    "fecha": "17/08/2026 19:30",
+    "ciudad": "Málaga",
+    "nombreEvento": "17/08 Málaga (19:30) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Málaga. La Malagueta",
+    "location": "Paseo de Reding 8, 29016 Málaga. Málaga",
+    "link": null
+  },
+  {
+    "fecha": "18/08/2026 19:00",
+    "ciudad": "Cuenca",
+    "nombreEvento": "Entradas Toros Cuenca - Feria de San Julian",
+    "categoria": "Toros Cuenca",
+    "location": "Avenida de los Reyes Católicos, s/n, 16003 Cuenca. Cuenca",
+    "link": "https://www.servitoro.com/es/2270-entradas-toros-cuenca-feria-de-san-julian.html"
+  },
+  {
+    "fecha": "18/08/2026 19:30",
+    "ciudad": "Málaga",
+    "nombreEvento": "18/08 Málaga (19:30) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Málaga. La Malagueta",
+    "location": "Paseo de Reding 8, 29016 Málaga. Málaga",
+    "link": null
+  },
+  {
+    "fecha": "19/08/2026 19:30",
+    "ciudad": "Málaga",
+    "nombreEvento": "19/08 Málaga (19:30) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Málaga. La Malagueta",
+    "location": "Paseo de Reding 8, 29016 Málaga. Málaga",
+    "link": null
+  },
+  {
+    "fecha": "20/08/2026 19:00",
+    "ciudad": "Almería",
+    "nombreEvento": "Entradas Toros Almería - Feria de Almería",
+    "categoria": "Toros Almería",
+    "location": "Circunvalación Plaza de Toros 29, 04008 Almería",
+    "link": "https://www.servitoro.com/es/1537-entradas-toros-almeria-feria-de-almeria.html"
+  },
+  {
+    "fecha": "20/08/2026 19:30",
+    "ciudad": "Málaga",
+    "nombreEvento": "20/08 Málaga (19:30) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Málaga. La Malagueta",
+    "location": "Paseo de Reding 8, 29016 Málaga. Málaga",
+    "link": null
+  },
+  {
+    "fecha": "21/08/2026 18:00",
+    "ciudad": "La Rioja",
+    "nombreEvento": "Entradas Toros Logroño - Fiestas de San Mateo",
+    "categoria": "Toros Logroño",
+    "location": "De La Ribera, 7.  26004 Logroño. La Rioja",
+    "link": "https://www.servitoro.com/es/2329-entradas-toros-logrono-fiestas-de-san-mateo.html"
+  },
+  {
+    "fecha": "21/08/2026 18:00",
+    "ciudad": "León",
+    "nombreEvento": "Entradas Toros Astorga (León) - Feria Taurina",
+    "categoria": "Toros Astorga",
+    "location": "Carretera de Sanabria 114, 24700 Astorga",
+    "link": "https://www.servitoro.com/es/3003-entradas-toros-astorga.html"
+  },
+  {
+    "fecha": "21/08/2026 18:30",
+    "ciudad": "Albacete",
+    "nombreEvento": "Entradas Toros Tarazona de la Mancha - San Bartolome",
+    "categoria": "Toros Tarazona de la Mancha",
+    "location": "Calle Proyecto 14, 2, 02100 Tarazona de la Mancha, Albacete",
+    "link": "https://www.servitoro.com/es/2876-entradas-toros-tarazona-de-la-mancha-feria-san-bartolome.html"
+  },
+  {
+    "fecha": "21/08/2026 19:30",
+    "ciudad": "Málaga",
+    "nombreEvento": "21/08 Málaga (19:30) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Málaga. La Malagueta",
+    "location": "Paseo de Reding 8, 29016 Málaga. Málaga",
+    "link": null
+  },
+  {
+    "fecha": "22/08/2026 18:00",
+    "ciudad": "Zaragoza",
+    "nombreEvento": "Entradas Toros Calatayud - Feria de San Roque",
+    "categoria": "Toros Calatayud",
+    "location": "Avenida Barón de Warsage. 50300 Calatayud. Zaragoza",
+    "link": "https://www.servitoro.com/es/1777-entradas-toros-calatayud-feria-de-san-roque.html"
+  },
+  {
+    "fecha": "22/08/2026 18:00",
+    "ciudad": "Vizcaya",
+    "nombreEvento": "Entradas Toros Bilbao - Festejos taurinos",
+    "categoria": "Toros Bilbao. Vista Alegre",
+    "location": "Vista Alegre. Martín Agüero, 1. 48012 Bilbao. Vizcaya",
+    "link": "https://www.servitoro.com/es/1263-entradas-toros-bilbao-semana-grande-de-bilbao.html"
+  },
+  {
+    "fecha": "22/08/2026 18:00",
+    "ciudad": "Valencia",
+    "nombreEvento": "Entradas Toros Bocairent - Feria Taurina Agosto",
+    "categoria": "Toros Bocairent",
+    "location": "Plaça de Bous 9 46880 Bocairent, Valencia.",
+    "link": "https://www.servitoro.com/es/1522-entradas-toros-bocairent-virgen-de-los-desamparados.html"
+  },
+  {
+    "fecha": "22/08/2026 18:30",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas toros Fuentes de Andalucía - Festejo taurino",
+    "categoria": "Toros Fuentes de Andalucía",
+    "location": "Carretera 407 con cruce con la calle Falla, 41420 Fuentes de Andalucía, Sevilla",
+    "link": "https://www.servitoro.com/es/3363-entradas-toros-fuentes-de-andalucia.html"
+  },
+  {
+    "fecha": "22/08/2026 19:00",
+    "ciudad": "Soria",
+    "nombreEvento": "Entradas Toros Almazán - Feria Taurina agosto",
+    "categoria": "Toros Almazán",
+    "location": "Calle Nuestra sra. del Pilar - Av Estación 42200",
+    "link": "https://www.servitoro.com/es/3057-entradas-toros-almazan.html"
+  },
+  {
+    "fecha": "22/08/2026 19:00",
+    "ciudad": "Teruel",
+    "nombreEvento": "Entradas Toros Santa Eulalia del Campo - Feria taurina",
+    "categoria": "Toros Santa Eulalia del Campo",
+    "location": "Plaza de toros de Santa Eulalia del Campo. Ctra Cella, s/n - 44360, Santa Eulalia del Campo, Teruel.",
+    "link": "https://www.servitoro.com/es/2531-entradas-toros-santa-eulalia-del-campo-teruel.html"
+  },
+  {
+    "fecha": "23/08/2026 06:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Toros Almagro - Feria Taurina",
+    "categoria": "Toros Almagro",
+    "location": "Paseo de la Plaza de Toros, 13270 Almagro. Ciudad Real.",
+    "link": "https://www.servitoro.com/es/1237-entradas-toros-almagro-feria-taurina.html"
+  },
+  {
+    "fecha": "23/08/2026 20:30",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Toros Villanueva del Fresno - Feria San Ginés de la Jara",
+    "categoria": "Toros Villanueva del Fresno",
+    "location": "Tr.ª Luis Chamizo, 1, 06110 Villanueva del Fresno, Badajoz",
+    "link": "https://www.servitoro.com/es/4080-toros-villanueva-del-fresno-feria-san-gines-de-la-jara.html"
+  },
+  {
+    "fecha": "24/08/2026 18:00",
+    "ciudad": "Ávila",
+    "nombreEvento": "Entradas toros Arenas de San pedro - Feria taurina agosto",
+    "categoria": "Toros Arenas de San pedro",
+    "location": "Paseo Pintor Martínez Vázquez, 17 05400, san pedro de las arenas, avila",
+    "link": "https://www.servitoro.com/es/2741-entradas-toros-arenas-de-san-pedro-avila.html"
+  },
+  {
+    "fecha": "25/08/2026 19:00",
+    "ciudad": "Granada",
+    "nombreEvento": "Entradas Toros Pinos Puente - Feria taurina",
+    "categoria": "Toros Pinos Puente",
+    "location": "Portable bullring located on the site next to the \"Pub Laurel\".",
+    "link": "https://www.servitoro.com/es/4042-entradas-toros-pinos-puente-festejo-1.html"
+  },
+  {
+    "fecha": "26/08/2026 18:00",
+    "ciudad": "Burgos",
+    "nombreEvento": "Entradas Toros Belorado - Feria taurina agosto",
+    "categoria": "Toros Belorado",
+    "location": "Av. Campo de los Deportes, 24, 09250 Belorado, Burgos",
+    "link": "https://www.servitoro.com/es/2709-entradas-toros-belorado-ferias-y-fiestas.html"
+  },
+  {
+    "fecha": "26/08/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros San Sebastián de los Reyes - Fiestas Cristo de los Remedios",
+    "categoria": "Toros S. Sebastián Reyes",
+    "location": "Av de la Plaza de Toros, 2, 28701 San Sebastián de los Reyes, Madrid",
+    "link": "https://www.servitoro.com/es/2277-entradas-toros-san-sebastian-de-los-reyes-madrid.html"
+  },
+  {
+    "fecha": "28/08/2026 18:30",
+    "ciudad": "Albacete",
+    "nombreEvento": "Entradas Toros Casas-Ibáñez - Feria taurina agosto",
+    "categoria": "Toros Casas-Ibáñez",
+    "location": "C. Ruedo, 2, 02200 Casas-Ibáñez, Albacete",
+    "link": "https://www.servitoro.com/es/3069-entradas-toros-casas-ibanez.html"
+  },
+  {
+    "fecha": "29/08/2026 16:03",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Constantina - Festival Taurino",
+    "categoria": "Toros Constantina",
+    "location": "C. Pablo Iglesias, 12 41450 Constantina, Sevilla",
+    "link": "https://www.servitoro.com/es/3119-entradas-toros-constantina.html"
+  },
+  {
+    "fecha": "29/08/2026 18:00",
+    "ciudad": "Soria",
+    "nombreEvento": "Entradas toros Berlanga de Duero - Feria Taurina",
+    "categoria": "Toros Berlanga de Duero",
+    "location": "Berlanga de Duero, 42360, Soria",
+    "link": "https://www.servitoro.com/es/3291-entradas-toros-berlanga-de-duero.html"
+  },
+  {
+    "fecha": "29/08/2026 18:30",
+    "ciudad": "Zaragoza",
+    "nombreEvento": "Entradas Toros Tarazona de Aragón - Festejo Taurino",
+    "categoria": "Toros Tarazona De Aragón",
+    "location": "Plaza Toros Vieja 20 50500 Tarazona, Zaragoza",
+    "link": "https://www.servitoro.com/es/3253-entradas-toros-tarazona-de-aragon-feria-taurina.html"
+  },
+  {
+    "fecha": "29/08/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Alcalá de Henares - Festejo Taurino",
+    "categoria": "Toros Alcalá de Henares",
+    "location": "Av Miguel de Unamuno, 7, 28806 Alcalá de Henares. Madrid",
+    "link": "https://www.servitoro.com/es/1818-festejo-taurino-alcala-de-henares.html"
+  },
+  {
+    "fecha": "29/08/2026 19:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas toros Olvera - Feria de San Agustín",
+    "categoria": "Toros Olvera",
+    "location": "Recinto Ferial. Av. Iberoamérica, 55, 11690  Olvera, Cádiz",
+    "link": "https://www.servitoro.com/es/3328-entradas-toros-olvera-cadiz.html"
+  },
+  {
+    "fecha": "30/08/2026 19:00",
+    "ciudad": "Granada",
+    "nombreEvento": "Entradas Toros Huétor Tájar - Feria de Nuestro Padre Jesús Nazareno",
+    "categoria": "Toros Huétor Tájar",
+    "location": "Plaza de toros de Huetor Tajar",
+    "link": "https://www.servitoro.com/es/1325-entradas-toros-huetor-tajar-jesus-nazareno.html"
+  },
+  {
+    "fecha": "30/08/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Colmenar Viejo - Feria Virgen de los Remedios",
+    "categoria": "Toros Colmenar Viejo",
+    "location": "Avenida de los Remedios 6, 28770 Colmenar Viejo. Madrid",
+    "link": "https://www.servitoro.com/es/2279-entradas-toros-colmenar-viejo-madrid.html"
+  },
+  {
+    "fecha": "31/08/2026 18:00",
+    "ciudad": "Granada",
+    "nombreEvento": "Entradas Toros Guadix - Festejo taurino",
+    "categoria": "Toros Guadix",
+    "location": "Guadix 18500 Granada",
+    "link": "https://www.servitoro.com/es/3335-entradas-toros-guadix.html"
+  },
+  {
+    "fecha": "31/08/2026 19:00",
+    "ciudad": "Córdoba",
+    "nombreEvento": "Entradas Toros Priego de Cordoba - Real Feria de Septiembre",
+    "categoria": "Toros Priego de Córdoba",
+    "location": "Avda. de España, s/n - 14800 Priego de Córdoba (Córdoba)",
+    "link": "https://www.servitoro.com/es/2441-entradas-toros-priego-de-cordoba-feria-real-de-septiembre.html"
+  },
+  {
+    "fecha": "31/08/2026 19:00",
+    "ciudad": "La Rioja",
+    "nombreEvento": "Entradas Toros Calahorra - Feria taurina Honor San Emeterio y San Celedonio",
+    "categoria": "Toros Calahorra",
+    "location": "Calle Bebricio, 69. 26500 Calahorra, La Rioja",
+    "link": "https://www.servitoro.com/es/2328-entradas-toros-calahorra-feria-taurina-en-honor-san-emeterio-y-san-celedonio.html"
+  },
+  {
+    "fecha": "31/08/2026 19:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Toros Valdepeñas- Feria taurina agosto",
+    "categoria": "Toros Valdepeñas",
+    "location": "PLAZA DE TOROS MUNICIPAL de Valdepeñas., Calle Del Gral. Margallo, 81, 13300 Valdepeñas, Ciudad Real",
+    "link": "https://www.servitoro.com/es/4000-entradas-toros-valdepenas-feria-taurina.html"
+  },
+  {
+    "fecha": "01/09/2026 19:00",
+    "ciudad": "Málaga",
+    "nombreEvento": "Entradas Toros Ronda - Feria de Pedro Romero",
+    "categoria": "Toros Ronda",
+    "location": "Virgen de la Paz, 15. 29400 Ronda. Málaga",
+    "link": "https://www.servitoro.com/es/2259-entradas-toros-ronda-feria-de-pedro-romero.html"
+  },
+  {
+    "fecha": "02/09/2026 18:00",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Mérida - Feria taurina Septiembre",
+    "categoria": "Toros Mérida",
+    "location": "Coso de San Albín. Plaza de toros de Mérida. C/Oviedo s/n. 06800 Mérida, Badajoz.",
+    "link": "https://www.servitoro.com/es/1239-entradas-toros-merida-feria-de-septiembre.html"
+  },
+  {
+    "fecha": "02/09/2026 18:00",
+    "ciudad": "Jaén",
+    "nombreEvento": "Entradas toros para Villanueva del Arzobispo - festivales",
+    "categoria": "Toros Villanueva del Arzobispo",
+    "location": "Calle Alameda de la Fuensanta, 1A, 23330 Villanueva del Arzobispo, Jaén",
+    "link": "https://www.servitoro.com/es/3063-entradas-toros-villanueva-del-arzobispo-septiembre.html"
+  },
+  {
+    "fecha": "02/09/2026 18:00",
+    "ciudad": "Palencia",
+    "nombreEvento": "Entradas Toros Palencia - Feria de San Antolín",
+    "categoria": "Toros Palencia",
+    "location": "Avenida de los Campos Góticos, 14. 34003 Palencia. Palencia",
+    "link": "https://www.servitoro.com/es/2205-entradas-toros-palencia-feria-de-san-antolin.html"
+  },
+  {
+    "fecha": "02/09/2026 18:30",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Toros Alcazar de San Juan - Feria Taurina Septiembre",
+    "categoria": "Toros Alcazar de San Juan",
+    "location": "Plaza de toros. Av. Constitución, 62 13600 Alcázar de San Juan, Ciudad Real.",
+    "link": "https://www.servitoro.com/es/2353-entradas-toros-alcazar-de-san-juan-ciudad-real.html"
+  },
+  {
+    "fecha": "02/09/2026 19:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Toros Daimiel - Feria Taurina",
+    "categoria": "Toros Daimiel",
+    "location": "Calle de Faustino Torquito, 1, 13250 Daimiel, Ciudad Real",
+    "link": "https://www.servitoro.com/es/2575-entradas-toros-daimiel-ciudad-real.html"
+  },
+  {
+    "fecha": "04/09/2026 18:00",
+    "ciudad": "Cuenca",
+    "nombreEvento": "Entradas toros Motilla del Palancar - Festejo Taurino",
+    "categoria": "Toros Motilla del Palancar",
+    "location": "Plaza de toros. C. Murillo, 2, 16200 Motilla del Palancar, Cuenca",
+    "link": "https://www.servitoro.com/es/3334-entradas-toros-motilla-del-palancar.html"
+  },
+  {
+    "fecha": "04/09/2026 18:30",
+    "ciudad": "Jaén",
+    "nombreEvento": "Entradas Toros Jódar - Feria y Fiestas",
+    "categoria": "Toros Jódar",
+    "location": "Calle Domingo Arroquia, 51, 23500 Jódar, Jaén",
+    "link": "https://www.servitoro.com/es/2363-entradas-toros-jodar-jaen.html"
+  },
+  {
+    "fecha": "05/09/2026 17:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Espartinas - Festival Taurino",
+    "categoria": "Toros Espartinas",
+    "location": "Calle Sierra de Aracena 41807 Espartinas, Sevilla",
+    "link": "https://www.servitoro.com/es/1966-entradas-toros-espartinas-festival-taurino.html"
+  },
+  {
+    "fecha": "05/09/2026 18:00",
+    "ciudad": "Toledo",
+    "nombreEvento": "Entradas Toros Navamorcuende - Festejo Taurino",
+    "categoria": "Toros Navamorcuende",
+    "location": "Plaza de toros de Navamorcuende.",
+    "link": "https://www.servitoro.com/es/1161-entradas-toros-navamorcuende-toledo.html"
+  },
+  {
+    "fecha": "05/09/2026 18:30",
+    "ciudad": "Valencia",
+    "nombreEvento": "Entradas Toros Requena - Feria Taurina de La Vendimia",
+    "categoria": "Toros Requena",
+    "location": "Av Rafael Duyos s/n. 46340 Requena, Valencia",
+    "link": "https://www.servitoro.com/es/2216-festival-taurino-requena.html"
+  },
+  {
+    "fecha": "05/09/2026 19:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Utrera - Feria y Fiestas Ntra. Sra. de Consolación",
+    "categoria": "Toros Utrera",
+    "location": "Constelación Ave del paraíso. Utrera, Sevilla.",
+    "link": "https://www.servitoro.com/es/1229-entradas-toros-utrera-feria-y-fiestas-de-nuestra-sra-de-consolacion.html"
+  },
+  {
+    "fecha": "06/09/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "06/09 Madrid (18:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "06/09/2026 18:30",
+    "ciudad": "Alicante",
+    "nombreEvento": "Entradas Toros Villena - Feria taurina septiembre",
+    "categoria": "Toros Villena",
+    "location": "Avenida de la Constitución, 145, 03400 Villena, Alicante",
+    "link": "https://www.servitoro.com/es/4290-entradas-toros-Villena-feria-taurina-septiembre.html"
+  },
+  {
+    "fecha": "06/09/2026 18:30",
+    "ciudad": "Cantabria",
+    "nombreEvento": "Entradas toros Ampuero - Feria taurina septiembre",
+    "categoria": "Toros Ampuero",
+    "location": "Av. Federico Somarriba, 8-12, 39840 Ampuero, Cantabria",
+    "link": "https://www.servitoro.com/es/2904-entradas-toros-ampuero-cantabria.html"
+  },
+  {
+    "fecha": "07/09/2026 18:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas toros Tarifa - Feria taurina septiembre",
+    "categoria": "Toros Tarifa",
+    "location": "Calle Bering, 12.  11380 Tarifa, Cádiz",
+    "link": "https://www.servitoro.com/es/1827-entradas-toros-tarifa-feria-y-fiestas.html"
+  },
+  {
+    "fecha": "07/09/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Aranjuez - Feria taurina del Motin",
+    "categoria": "Toros Aranjuez",
+    "location": "Av Plaza de Toros 28300 Aranjuez",
+    "link": "https://www.servitoro.com/es/1159-entradas-toros-aranjuez-feria-taurina-del-motin.html"
+  },
+  {
+    "fecha": "07/09/2026 18:00",
+    "ciudad": "Salamanca",
+    "nombreEvento": "Entradas Toros Salamanca - Feria Virgen de la Vega",
+    "categoria": "Toros Salamanca",
+    "location": "Avda San agustin,1-37005 - Salamanca",
+    "link": "https://www.servitoro.com/es/2250-entradas-toros-salamanca-virgen-de-la-vega.html"
+  },
+  {
+    "fecha": "07/09/2026 18:30",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Barcarrota - Feria de Nuestra Señora del Soterrano",
+    "categoria": "Toros Barcarrota",
+    "location": "Calle Albarracín, 06160 Barcarrota, Badajoz.",
+    "link": "https://www.servitoro.com/es/4076-entradas-toros-barcarrota-feria-de-nuestra-senora-del-soterrano.html"
+  },
+  {
+    "fecha": "08/09/2026 18:00",
+    "ciudad": "Cantabria",
+    "nombreEvento": "Entradas Toros Santoña - Virgen del Puerto",
+    "categoria": "Toros Santoña",
+    "location": "Plaza de toros. Avda. de España, s/n - 14800 Priego de Córdoba (Córdoba)",
+    "link": "https://www.servitoro.com/es/2706-entradas-toros-santona-cantabria.html"
+  },
+  {
+    "fecha": "08/09/2026 18:00",
+    "ciudad": "Albacete",
+    "nombreEvento": "Entradas Toros Albacete - Feria Virgen de los Llanos",
+    "categoria": "Toros Albacete",
+    "location": "Feria, 56.  02005 Albacete.",
+    "link": "https://www.servitoro.com/es/2292-entradas-toros-albacete-feria-virgen-de-los-llanos.html"
+  },
+  {
+    "fecha": "08/09/2026 18:00",
+    "ciudad": "Albacete",
+    "nombreEvento": "08/09 Albacete (18:00) Toros PDF-IMPRIMIR",
+    "categoria": "Toros Albacete",
+    "location": "Feria, 56.  02005 Albacete.",
+    "link": "https://www.servitoro.com/es/2293-entradas-toros-albacete-festejo-1.html"
+  },
+  {
+    "fecha": "08/09/2026 18:00",
+    "ciudad": "Huesca",
+    "nombreEvento": "Entradas Toros Barbastro - Natividad de Nuestra Señora de Barbastro",
+    "categoria": "Toros Barbastro",
+    "location": "Plaza de Toros Barbastro. Calle Vía Taurina, s/n - 22300 Barbastro (Huesca)",
+    "link": "https://www.servitoro.com/es/2704-entradas-toros-barbastro-feria-de-natividad-de-nuestra-senora.html"
+  },
+  {
+    "fecha": "08/09/2026 18:00",
+    "ciudad": "Murcia",
+    "nombreEvento": "08/09 Calasparra (18:30) Novillos RECOGER EN TAQUILLA",
+    "categoria": "Toros Calasparra",
+    "location": "Calle Ordóñez, 35. 30420 Calasparra Murcia",
+    "link": "https://www.servitoro.com/es/4282-entradas-toros-calasparra-festejo-6.html"
+  },
+  {
+    "fecha": "09/09/2026 02:00",
+    "ciudad": "Albacete",
+    "nombreEvento": "09/09 Albacete (18:00) Novillos PDF-IMPRIMIR",
+    "categoria": "Toros Albacete",
+    "location": "Feria, 56.  02005 Albacete.",
+    "link": "https://www.servitoro.com/es/2297-entradas-toros-albacete-festejo-2.html"
+  },
+  {
+    "fecha": "09/09/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros San Martín de Valdeiglesias - Feria Taurina",
+    "categoria": "Toros San Martín de Valdeiglesias",
+    "location": "Calle de la Corredera Alta, 17. 28680 San Martín de Valdeiglesias, (Madrid)",
+    "link": "https://www.servitoro.com/es/2396-entradas-toros-san-martin-valdeiglesias-madrid.html"
+  },
+  {
+    "fecha": "10/09/2026 17:30",
+    "ciudad": "Valencia",
+    "nombreEvento": "Entradas Toros Utiel - Feria y fiestas de Utiel",
+    "categoria": "Toros Utiel",
+    "location": "Av. Marín Lázaro 2.  46300 Utiel (Valencia)",
+    "link": "https://www.servitoro.com/es/2290-entradas-toros-utiel-feria-y-fiestas-virgen-del-rosario.html"
+  },
+  {
+    "fecha": "10/09/2026 18:00",
+    "ciudad": "Albacete",
+    "nombreEvento": "10/09 Albacete (18:00) Novillos PDF-IMPRIMIR",
+    "categoria": "Toros Albacete",
+    "location": "Feria, 56.  02005 Albacete.",
+    "link": "https://www.servitoro.com/es/3923-entradas-toros-albacete-festejo-3.html"
+  },
+  {
+    "fecha": "10/09/2026 18:00",
+    "ciudad": "Almería",
+    "nombreEvento": "Entradas toros Albox - Feria taurina septiembre",
+    "categoria": "Toros Albox",
+    "location": "plaza de toros de Albox 04800",
+    "link": "https://www.servitoro.com/es/3327-entradas-toros-albox.html"
+  },
+  {
+    "fecha": "10/09/2026 18:00",
+    "ciudad": "León",
+    "nombreEvento": "Entradas toros Valencia de Don Juan - Santísimo Cristo de Santa María",
+    "categoria": "Toros Valencia de Don Juan",
+    "location": "Párroco Salvador Valbuena, 34, 24200 Valencia de Don Juan,",
+    "link": "https://www.servitoro.com/es/2379-entradas-toros-valencia-de-don-juan-leon.html"
+  },
+  {
+    "fecha": "10/09/2026 18:30",
+    "ciudad": "Córdoba",
+    "nombreEvento": "Entradas Toros Lucena - Feria Real de Nuestra Señora La Virgen del Valle",
+    "categoria": "Toros Lucena",
+    "location": "Calle de los Claveles 20, 14900 Lucena, Córdoba",
+    "link": "https://www.servitoro.com/es/1277-entradas-toros-lucena-feria-real-virgen-del-valle.html"
+  },
+  {
+    "fecha": "11/09/2026 18:00",
+    "ciudad": "Albacete",
+    "nombreEvento": "11/09 Albacete (18:00) Toros PDF-IMPRIMIR",
+    "categoria": "Toros Albacete",
+    "location": "Feria, 56.  02005 Albacete.",
+    "link": "https://www.servitoro.com/es/3588-entradas-toros-albacete-festejo-4.html"
+  },
+  {
+    "fecha": "12/09/2026 18:00",
+    "ciudad": "Salamanca",
+    "nombreEvento": "Abono Salamanca (18:00)  Septiembre. PDF-IMPRIMIR",
+    "categoria": "Toros Salamanca",
+    "location": "Avda San agustin,1-37005 - Salamanca",
+    "link": "https://www.servitoro.com/es/1808-abono-toros-salamanca.html"
+  },
+  {
+    "fecha": "12/09/2026 18:00",
+    "ciudad": "Valladolid",
+    "nombreEvento": "Entradas Toros Valladolid - Feria de Nuestra Señora de San Lorenzo",
+    "categoria": "Toros Valladolid Septiembre",
+    "location": "Paseo Zorrilla, 47-49 47007 Valladolid",
+    "link": "https://www.servitoro.com/es/2305-entradas-toros-valladolid-san-lorenzo.html"
+  },
+  {
+    "fecha": "12/09/2026 18:00",
+    "ciudad": "Teruel",
+    "nombreEvento": "Entradas Toros Alcañiz - Virgen de los pueyos y Santo Ángel Custodio",
+    "categoria": "Toros Alcañiz",
+    "location": "Plaza de Toros de Alcañiz,, Av. Galán Bergua, 32, 44600 Alcañiz, Teruel",
+    "link": "https://www.servitoro.com/es/2444-entradas-toros-alcaniz-virgen-de-los-pueblos-y-santo-angel-custodio.html"
+  },
+  {
+    "fecha": "12/09/2026 18:30",
+    "ciudad": "Granada",
+    "nombreEvento": "Entradas Toros Baza - Feria Virgen de la piedad",
+    "categoria": "Toros Baza",
+    "location": "Plaza Toros 42, 18800 Baza, Granada",
+    "link": "https://www.servitoro.com/es/2376-entradas-toros-baza-feria-de-virgen-de-la-piedad.html"
+  },
+  {
+    "fecha": "13/09/2026 17:00",
+    "ciudad": "Cádiz",
+    "nombreEvento": "Entradas Toros Ubrique - Feria taurina septiembre",
+    "categoria": "Toros Ubrique",
+    "location": "Avenida Jesulín de Ubrique s/n. 11600 Ubrique, Cádiz",
+    "link": "https://www.servitoro.com/es/2393-entradas-toros-ubrique-feria-y-fiestas.html"
+  },
+  {
+    "fecha": "13/09/2026 18:00",
+    "ciudad": "Palma de Mallorca",
+    "nombreEvento": "Entradas Toros Muro - Festejo Taurino",
+    "categoria": "Toros Muro",
+    "location": "Carrer Cervantes, 11, 07440 Muro, Illes Balears",
+    "link": "https://www.servitoro.com/es/2443-entradas-toros-muro-festejo-taurino.html"
+  },
+  {
+    "fecha": "13/09/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "13/09 Madrid (18:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "13/09/2026 19:00",
+    "ciudad": "Cáceres",
+    "nombreEvento": "Entradas Peraleda de la Mata - Feria taurina septiembre",
+    "categoria": "Toros Peraleda de la Mata",
+    "location": "10335 - Peraleda de la Mata, Cáceres",
+    "link": "https://www.servitoro.com/es/1176-entradas-toros-peraleda-de-la-mata-festejo.html"
+  },
+  {
+    "fecha": "14/09/2026 18:30",
+    "ciudad": "Murcia",
+    "nombreEvento": "Entradas Toros Murcia - Feria Taurina",
+    "categoria": "Toros Murcia",
+    "location": "Ronda de Garay 48, 30003 - Murcia",
+    "link": "https://www.servitoro.com/es/1281-entradas-toros-murcia-septiembre.html"
+  },
+  {
+    "fecha": "15/09/2026 17:30",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas toros Brazatortas - Fiestas Patronales en honor al Cristo de Orense.",
+    "categoria": "Toros Brazatortas",
+    "location": "Plaza de Toros de Brazatortas. Ciudad real",
+    "link": "https://www.servitoro.com/es/2401-entradas-toros-brazatortas-ciudad-real-festejos.html"
+  },
+  {
+    "fecha": "15/09/2026 18:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas toros Torralba de Calatrava - Feria taurina septiembre",
+    "categoria": "Toros Torralba de Calatrava",
+    "location": "C. Sta. Cruz, 32, 13160 Torralba de Calatrava, Ciudad Real",
+    "link": "https://www.servitoro.com/es/3330-entradas-toros-torralba-de-calatrava.html"
+  },
+  {
+    "fecha": "15/09/2026 18:30",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Higuera La Real- Feria Taurina Septiembre",
+    "categoria": "Toros Higuera La real",
+    "location": "C. Buenavista, 29, 06350 Higuera la Real, Badajoz",
+    "link": "https://www.servitoro.com/es/4013-feria-taurina-higuera-la-real.html"
+  },
+  {
+    "fecha": "16/09/2026 17:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Galapagar - Feria Taurina Septiembre",
+    "categoria": "Toros Galapagar",
+    "location": "Plaza de Toros de Galapagar, Madrid",
+    "link": "https://www.servitoro.com/es/2399-entradas-toros-galapagar-madrid.html"
+  },
+  {
+    "fecha": "17/09/2026 18:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Bolaños de Calatrava - Feria taurina septiembre",
+    "categoria": "Toros Bolaños de Calatrava",
+    "location": "Avda Generalisimo s/n  13230 Bolaños de Calatrava, Ciudad Real",
+    "link": "https://www.servitoro.com/es/3329-entradas-toros-bolanos-de-calatrava.html"
+  },
+  {
+    "fecha": "18/09/2026 18:00",
+    "ciudad": "Ciudad Real",
+    "nombreEvento": "Entradas Toros Almodovar del Campo - Feria Taurina",
+    "categoria": "Toros Almodóvar del Campo",
+    "location": "Ciudad Real. C/ Doctor Fleming s/n.",
+    "link": "https://www.servitoro.com/es/1453-entradas-toros-almodovar-del-campo-feria-taurina.html"
+  },
+  {
+    "fecha": "18/09/2026 18:00",
+    "ciudad": "Guadalajara",
+    "nombreEvento": "Entradas Toros Guadalajara - Feria de la Antigua",
+    "categoria": "Toros Guadalajara",
+    "location": "Calle del Capitán Arenas 19, 19003 Guadalajara.",
+    "link": "https://www.servitoro.com/es/2458-entradas-toros-guadalajara-feria-antigua.html"
+  },
+  {
+    "fecha": "18/09/2026 23:00",
+    "ciudad": "Guadalajara",
+    "nombreEvento": "Abono Guadalajara (18:00) Sep 18-21. PDF - IMPRIMIR",
+    "categoria": "Toros Guadalajara",
+    "location": "Calle del Capitán Arenas 19, 19003 Guadalajara.",
+    "link": "https://www.servitoro.com/es/2072-entradas-toros-guadalajara-abono.html"
+  },
+  {
+    "fecha": "19/09/2026 17:30",
+    "ciudad": "Toledo",
+    "nombreEvento": "Entradas Toros Consuegra - Cristo de La Vera Cruz",
+    "categoria": "Toros Consuegra",
+    "location": "Urda 88. 45700 Consuegra, Toledo.",
+    "link": "https://www.servitoro.com/es/1880-entradas-toros-consuegra-stmo-cristo-de-la-vera-cruz.html"
+  },
+  {
+    "fecha": "19/09/2026 18:00",
+    "ciudad": "Teruel",
+    "nombreEvento": "Entradas Toros Cella - Feria Taurina San Clemente",
+    "categoria": "Toros Cella",
+    "location": "Av. de la Fuente, nº 14, Cella, Teruel",
+    "link": "https://www.servitoro.com/es/2555-entradas-toros-cella-san-clemente.html"
+  },
+  {
+    "fecha": "19/09/2026 18:00",
+    "ciudad": "Málaga",
+    "nombreEvento": "Entradas Toros Torremolinos - Fiestas y Feria de San Miguel",
+    "categoria": "Toros Torremolinos",
+    "location": "Avda del Real, S/N, 29620 Torremolinos, Málaga",
+    "link": "https://www.servitoro.com/es/1226-entradas-toros-torremolinos-fiestas-y-feria-de-san-miguel.html"
+  },
+  {
+    "fecha": "19/09/2026 20:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Morón - Ferias y Fiestas",
+    "categoria": "Toros de Morón de La Frontera",
+    "location": "Plaza de toros, 41530 Morón de la Frontera, Sevilla",
+    "link": "https://www.servitoro.com/es/2356-entradas-toros-moron-ferias-fiestas.html"
+  },
+  {
+    "fecha": "20/09/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "20/09 Madrid (18:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "21/09/2026 17:30",
+    "ciudad": "Valencia",
+    "nombreEvento": "Entradas Toros Algemesi - Setmana de Bous",
+    "categoria": "Toros Algemesí",
+    "location": "Algemesí 46680 Valencia",
+    "link": "https://www.servitoro.com/es/2760-entradas-toros-algemesi.html"
+  },
+  {
+    "fecha": "21/09/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas toros Majadahonda - Taquilla oficial",
+    "categoria": "Toros Majadahonda",
+    "location": "Majadahonda, Madrid",
+    "link": "https://www.servitoro.com/es/2731-entradas-toros-majadahonda-madrid.html"
+  },
+  {
+    "fecha": "22/09/2026 19:00",
+    "ciudad": "Jaén",
+    "nombreEvento": "Entradas toros La Puerta De Segura - Festejo taurino",
+    "categoria": "Toros La Puerta De Segura",
+    "location": "La Puerta de Segura 23360 Jaén",
+    "link": "https://www.servitoro.com/es/3339-entradas-toros-la-puerta-de-segura.html"
+  },
+  {
+    "fecha": "24/09/2026 18:00",
+    "ciudad": "Cáceres",
+    "nombreEvento": "Entradas Toros Navalmoral de la Mata - Feria de San Miguel",
+    "categoria": "Toros Navalmoral de la Mata",
+    "location": "Plaza de toros de Navalmoral de la Mata. Avda. de las Angustias, s/n - 10300 Navalamoral de la Mata",
+    "link": "https://www.servitoro.com/es/1282-entradas-toros-navalmoral-de-la-mata-feria-de-san-miguel.html"
+  },
+  {
+    "fecha": "26/09/2026 18:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas Toros Sevilla - Feria de San Miguel",
+    "categoria": "Toros Sevilla Septiembre. San Miguel",
+    "location": "Paseo de Cristobal Colón s/n. 41001 Sevilla",
+    "link": "https://www.servitoro.com/es/1998-entradas-toros-sevilla-feria-de-san-miguel.html"
+  },
+  {
+    "fecha": "27/09/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "27/09 Madrid (18:00) Espectáculo taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "28/09/2026 17:30",
+    "ciudad": "Jaén",
+    "nombreEvento": "Entradas Toros Úbeda - Feria de San Miguel",
+    "categoria": "Toros Úbeda",
+    "location": "Calle Sagasta, 10 - 23400 Úbeda (Jaén)",
+    "link": "https://www.servitoro.com/es/2459-entradas-toros-ubeda-jaen.html"
+  },
+  {
+    "fecha": "30/09/2026 19:00",
+    "ciudad": "Granada",
+    "nombreEvento": "Entradas toros Darro - Festejo taurino",
+    "categoria": "Toros Darro",
+    "location": "Darro 18181 Granada",
+    "link": "https://www.servitoro.com/es/3724-entradas-toros-darro-feria-taurina.html"
+  },
+  {
+    "fecha": "01/10/2026 17:30",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Zafra - Feria de San Miguel",
+    "categoria": "Toros Zafra",
+    "location": "Calle Gregorio Fernández 4, 06300 Zafra, Badajoz.",
+    "link": "https://www.servitoro.com/es/1859-entradas-toros-zafra-feria-de-san-miguel.html"
+  },
+  {
+    "fecha": "02/10/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "02/10 Madrid Otoño (18:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "03/10/2026 17:00",
+    "ciudad": "Murcia",
+    "nombreEvento": "Entradas toros Torre-Pacheco - festejo taurino",
+    "categoria": "Toros Torre-Pacheco",
+    "location": "Av. Balsicas, 14, next to the indoor swimming pool.",
+    "link": "https://www.servitoro.com/es/3372-entradas-toros-torre-pacheco.html"
+  },
+  {
+    "fecha": "03/10/2026 17:30",
+    "ciudad": "Zaragoza",
+    "nombreEvento": "Entradas Toros Zaragoza - Feria del El Pilar",
+    "categoria": "Toros Zaragoza. El Pilar",
+    "location": "Vicente Gómez Salvo, 58 50004 Zaragoza",
+    "link": "https://www.servitoro.com/es/2406-entradas-toros-zaragoza-feria-de-pilar.html"
+  },
+  {
+    "fecha": "03/10/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "03/10 Madrid Otoño (18:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "04/10/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "Entradas Toros Las Rozas - Feria Taurina",
+    "categoria": "Toros Las Rozas",
+    "location": "c/ Plaza Mayor, 1. 28230 Las Rozas, Madrid.",
+    "link": "https://www.servitoro.com/es/2432-entradas-toros-las-rozas-feria-taurina.html"
+  },
+  {
+    "fecha": "04/10/2026 19:00",
+    "ciudad": "Salamanca",
+    "nombreEvento": "Entradas Toros Ledesma - Feria del Corpus",
+    "categoria": "Toros Ledesma",
+    "location": "Pl. Toros 1 37100 Ledesma, Salamanca",
+    "link": "https://www.servitoro.com/es/3203-entradas-toros-ledesma.html"
+  },
+  {
+    "fecha": "04/10/2026 19:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "04/10 Madrid Otoño (18:00) Espectáculo Taurino FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "05/10/2026 18:00",
+    "ciudad": "Córdoba",
+    "nombreEvento": "Entradas Toros Montoro - Ntra Señora del Rosario",
+    "categoria": "Toros Montoro",
+    "location": "C/ Plano de la Feria 1, 14600 - Montoro, Córdoba.",
+    "link": "https://www.servitoro.com/es/2435-entradas-toros-montoro-feria-de-nuestra-senora-del-rosario.html"
+  },
+  {
+    "fecha": "06/10/2026 08:00",
+    "ciudad": "Zaragoza",
+    "nombreEvento": "Festejos populares Zaragoza - El Pilar",
+    "categoria": "Toros Zaragoza. El Pilar. Festejos Populares",
+    "location": "Vicente Gómez Salvo, 58. 50004 Zaragoza",
+    "link": "https://www.servitoro.com/es/2416-entradas-festejos-populares-zaragoza.html"
+  },
+  {
+    "fecha": "09/10/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "09/10 Madrid Otoño (18:00) Espectáculo Taurino FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "10/10/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "10/10 Madrid Otoño (18:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "11/10/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "11/10 Madrid Otoño (18:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "12/10/2026 17:15",
+    "ciudad": "Badajoz",
+    "nombreEvento": "Entradas Toros Frenegal de La Sierra - Feria taurina octubre",
+    "categoria": "Toros Frenegal de La Sierra",
+    "location": "C. Cava, 12, 06340 Fregenal de la Sierra, Badajoz",
+    "link": "https://www.servitoro.com/es/4079-entradas-toros-frenegal-de-la-sierra.html"
+  },
+  {
+    "fecha": "12/10/2026 17:30",
+    "ciudad": "Jaén",
+    "nombreEvento": "Entradas Toros Jaén - Feria Taurina en Jaén",
+    "categoria": "Toros Jaén",
+    "location": "Alameda de Calvo Sotelo, 1, 23003 Jaén.",
+    "link": "https://www.servitoro.com/es/1590-entradas-toros-jaen-feria-de-san-lucas.html"
+  },
+  {
+    "fecha": "12/10/2026 17:30",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas toros Sevilla - Festejo Taurino Octubre",
+    "categoria": "Toros Sevilla octubre",
+    "location": "Paseo de Cristobal Colón 12. 41001 Sevilla",
+    "link": "https://www.servitoro.com/es/2962-entradas-toros-sevilla-octubre-hispanidad.html"
+  },
+  {
+    "fecha": "12/10/2026 18:00",
+    "ciudad": "Madrid",
+    "nombreEvento": "12/10 Madrid Otoño (18:00) Espectáculo Taurino. FORMATO PDF",
+    "categoria": "Toros Madrid. Las Ventas",
+    "location": "Alcalá 237. 28028 Madrid.",
+    "link": null
+  },
+  {
+    "fecha": "12/10/2026 18:30",
+    "ciudad": "Teruel",
+    "nombreEvento": "Entradas Toros Calanda - Fiestas Patronales",
+    "categoria": "Toros Calanda",
+    "location": "Av. Plaza de Toros, 7 44570 Calanda, Teruel",
+    "link": "https://www.servitoro.com/es/2950-entradas-toros-calanda-teruel.html"
+  },
+  {
+    "fecha": "17/10/2026 17:00",
+    "ciudad": "Sevilla",
+    "nombreEvento": "Entradas toros Guillena - Festival Taurino",
+    "categoria": "Toros Guillena",
+    "location": "Calle Joaquín Costa, 31, 41210 Guillena, Sevilla",
+    "link": "https://www.servitoro.com/es/2834-entradas-toros-guillena-festival-taurino.html"
+  },
+  {
+    "fecha": "20/10/2026 00:00",
+    "ciudad": "Almería",
+    "nombreEvento": "Entradas Toros Huercal Overa - Feria Taurina octubre",
+    "categoria": "Toros Huércal-Overa",
+    "location": "Calle Córdoba 3, 04600 - Huércal-Overa",
+    "link": "https://www.servitoro.com/es/2460-entradas-toros-huercal-overa-avila.html"
+  },
+  {
+    "fecha": "29/10/2026 17:00",
+    "ciudad": "Huelva",
+    "nombreEvento": "Entradas toros Manzanilla - Festival Taurino",
+    "categoria": "Toros Manzanilla",
+    "location": "Manzanilla, Huelva",
+    "link": "https://www.servitoro.com/es/3718-entradas-toros-manzanilla-festival.html"
+  },
+  {
+    "fecha": "12/11/2026 12:00",
+    "ciudad": "Murcia",
+    "nombreEvento": "Entradas toros Caravaca de La Cruz - Festejo taurino",
+    "categoria": "Toros Caravaca de la Cruz",
+    "location": "Pl. del Egido, s/n, 30400 Caravaca de la Cruz, Murcia",
+    "link": "https://www.servitoro.com/es/3731-entradas-toros-caravaca-de-la-cruz.html"
+  }
+]
