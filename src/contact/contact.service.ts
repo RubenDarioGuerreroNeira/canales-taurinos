@@ -1,18 +1,20 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ContactService {
-  private readonly contactInfo = {
-    telegram: '@Rubedev',
-    whatsapp: ['+573207710450', '+584160897020'],
-    email: 'rudargeneira@gmail.com',
-  };
+  constructor(private configService: ConfigService) { }
 
   getContactMessage(): string {
+    const telegram = this.configService.get<string>('CONTACT_TELEGRAM') || '@Rubedev';
+    const whatsappStr = this.configService.get<string>('CONTACT_WHATSAPP') || '+573207710450,+584160897020';
+    const email = this.configService.get<string>('CONTACT_EMAIL') || 'rudargeneira@gmail.com';
+
+    const whatsapp = whatsappStr.split(',').map(num => num.trim());
+
     // Genera los enlaces de WhatsApp en formato MarkdownV2: [texto](url)
-    const whatsappLinks = this.contactInfo.whatsapp
+    const whatsappLinks = whatsapp
       .map((num) => {
-        const cleanNum = num.replace(/\s/g, ''); // Elimina solo espacios
         const escapedText = this.escapeMarkdown(num); // Escapa el texto visible: \+57 3207710450
         // Crea el enlace MarkdownV2: texto_escapado
         return `${escapedText}`;
@@ -20,8 +22,8 @@ export class ContactService {
       .join(' / ');
 
     // Escapamos las partes variables para evitar conflictos con MarkdownV2
-    const telegramUser = this.escapeMarkdown(this.contactInfo.telegram);
-    const emailText = this.escapeMarkdown(this.contactInfo.email); // Escapar solo el texto del email
+    const telegramUser = this.escapeMarkdown(telegram);
+    const emailText = this.escapeMarkdown(email); // Escapar solo el texto del email
     const emailLink = `${emailText}`; // Construir el enlace
 
     // Construimos el mensaje final con el formato correcto y los enlaces
