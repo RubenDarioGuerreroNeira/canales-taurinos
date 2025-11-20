@@ -3,29 +3,111 @@
     {
       "fecha": "Viernes 26 de diciembre",
       "ganaderia": "Juan Bernardo Caicedo",
-      "toreros": ["Sebastián Castella", "Juan de Castilla", "Marco Pérez"]
+      "toreros": [
+        "Sebastián Castella",
+        "Juan de Castilla",
+        "Marco Pérez"
+      ]
     },
     {
       "fecha": "Sábado 27 de diciembre",
       "ganaderia": "Campo Real",
-      "toreros": ["Román", "Joaquín Galdós", "Javier Zulueta"]
+      "toreros": [
+        "Román",
+        "Joaquín Galdós",
+        "Javier Zulueta"
+      ]
     },
     {
       "fecha": "Domingo 28 de diciembre",
       "descripcion": "«Corrida Zapatista»",
       "ganaderia": "Ernesto Gutiérrez",
-      "toreros": ["Luis Bolívar", "Alejandro Talavante", "la novillera Olga Casado"]
+      "toreros": [
+        "Luis Bolívar",
+        "Alejandro Talavante",
+        "la novillera Olga Casado"
+      ]
     },
     {
       "fecha": "Lunes 29 de diciembre",
       "descripcion": "Festival",
       "ganaderia": "Juan Bernardo Caicedo",
-      "toreros": ["César Rincón", "Sebastián Castella", "Marco Pérez"]
+      "toreros": [
+        "César Rincón",
+        "Sebastián Castella",
+        "Marco Pérez"
+      ]
     },
     {
       "fecha": "Martes 30 de diciembre",
       "ganaderia": "Salento",
-      "toreros": ["José Arcila", "Luis David", "Jesús Enrique Colombo"]
+      "toreros": [
+        "José Arcila",
+        "Luis David",
+        "Jesús Enrique Colombo"
+      ]
+    }
+  ],
+  "Manizales, Colombia": [
+    {
+      "fecha": "Lunes 05 de enero",
+      "descripcion": "Primera Corrida de Toros",
+      "ganaderia": "6 toros de Mondoñedo.",
+      "toreros": [
+        "Manuel Libardo",
+        "David Galván",
+        "Juan Hernández"
+      ]
+    },
+    {
+      "fecha": "Martes 6 de enero, 3:30 p. m",
+      "descripcion": "Segunda corrida de toros",
+      "ganaderia": "6 toros de Santa Bárbara",
+      "toreros": [
+        "Román",
+        "David Galván",
+        "Juan de Castilla"
+      ]
+    },
+    {
+      "fecha": "Miercoles 07 de enero 3:30 p.m",
+      "descripcion": "Tercera corrida de Toros",
+      "ganaderia": "6 toros de Las Ventas del Espíritu Santo",
+      "toreros": [
+        "Antonio Ferrera",
+        "Borja Jiménez",
+        "José Arcila"
+      ]
+    },
+    {
+      "fecha": "Jueves 8 de enero, 3:30 p. m.",
+      "descripcion": "Corrida mixta",
+      "ganaderia": " 2 toros y 4 novillos de Ernesto Gutiérrez.",
+      "toreros": [
+        "Olga Casado (novillera)",
+        "Alejandro Talavante",
+        "Felipe Miguel Negret (novillero)"
+      ]
+    },
+    {
+      "fecha": "Viernes 9 de enero, 7:00 p. m.",
+      "descripcion": "Festival taurino",
+      "ganaderia": "3 novillos de Juan Bernardo Caicedo y 3 novillos de Ernesto Gutiérrez.",
+      "toreros": [
+        "Alejandro Talavante",
+        "César Rincón",
+        "Andrés Roca Rey"
+      ]
+    },
+    {
+      "fecha": "Sábado 10 de enero, 3:30 p. m.",
+      "descripcion": "Cuarta corrida de toros",
+      "ganaderia": "6 toros de Juan Bernardo Caicedo.",
+      "toreros": [
+        "Luis Bolívar.",
+        "Daniel Luque",
+        "Marco Pérez."
+      ]
     }
   ]
 }
