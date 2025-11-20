@@ -11,6 +11,7 @@ import { ContactService } from '../contact/contact.service';
 import { GeminiService } from '../gemini/gemini.service';
 import { TransmisionesSceneService } from './scenes/transmisiones.scene';
 import { CalendarioSceneService } from './scenes/calendario.scene';
+import { AmericaSceneService } from './scenes/america.scene';
 import { MyContext } from './telegram.interfaces';
 
 @Injectable()
@@ -25,6 +26,7 @@ export class TelegramService implements OnModuleInit {
     private geminiService: GeminiService,
     private transmisionesSceneService: TransmisionesSceneService,
     private calendarioSceneService: CalendarioSceneService,
+    private americaSceneService: AmericaSceneService,
   ) {
     const token = process.env.BOT_TOKEN;
     if (!token) {
@@ -38,6 +40,7 @@ export class TelegramService implements OnModuleInit {
     const stage = new Scenes.Stage<MyContext>([
       this.transmisionesSceneService.create(),
       this.calendarioSceneService.create(),
+      this.americaSceneService.create(),
     ]);
 
     this.bot.use(session(), stage.middleware());
@@ -147,16 +150,14 @@ export class TelegramService implements OnModuleInit {
     this.bot.start((ctx) => {
       ctx.session = {};
       const userName = ctx.from.first_name || 'aficionado';
-      const greeting = this.getGreeting(userName);
-      const welcomeMessage = `${greeting}
 
-Soy tu asistente taurino y estoy aquí para ayudarte\\.
+      const welcomeMessage = `¡Saludos, ${this.escapeMarkdownV2(userName)}\\! 🇪🇸\n` +
+        `Todo listo para informarte\\. Aquí tienes lo que he preparado para ti hoy:\n\n` +
+        `📺 *¿Quieres ver toros?* Consulta la agenda de TV\\.\n` +
+        `🗓️ *¿Planificando la temporada?* Revisa el calendario completo\\.\n` +
+        `🌎 *¿Interesado en América?* Mira los festejos internacionales\\.\n\n` +
+        `¡Tú mandas\\! ¿Qué necesitas saber?`;
 
-*   Para ver los **festejos televisados y que puedes ver por aqui *, pregúntame por la _"agenda de festejos"_\\.
-*   Si quieres consultar el **calendario completo de la temporada Taurina **, solo tienes que decir _"calendario"_\\.
-*   Si quieres **contactar al desarrollador** o dar una sugerencia, pregunta _"¿quién desarrolló este bot?"_\\.
-
-¡También puedes usar los comandos /transmisiones, /calendario y /contacto directamente\\!`;
       ctx.reply(welcomeMessage, { parse_mode: 'MarkdownV2' });
     });
 
@@ -194,6 +195,13 @@ Soy tu asistente taurino y estoy aquí para ayudarte\\.
         );
       if (isCalendarioQuery) {
         await this.handleCalendarioQuery(ctx);
+        return;
+      }
+
+      // Manejar consulta de festejos en América
+      const isAmericaQuery = /américa|america|festejos en américa/i.test(userText);
+      if (isAmericaQuery) {
+        await ctx.scene.enter('americaScene');
         return;
       }
 

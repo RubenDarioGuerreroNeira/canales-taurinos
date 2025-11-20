@@ -1,0 +1,31 @@
+{
+  "Cali, Colombia": [
+    {
+      "fecha": "Viernes 26 de diciembre",
+      "ganaderia": "Juan Bernardo Caicedo",
+      "toreros": ["Sebastián Castella", "Juan de Castilla", "Marco Pérez"]
+    },
+    {
+      "fecha": "Sábado 27 de diciembre",
+      "ganaderia": "Campo Real",
+      "toreros": ["Román", "Joaquín Galdós", "Javier Zulueta"]
+    },
+    {
+      "fecha": "Domingo 28 de diciembre",
+      "descripcion": "«Corrida Zapatista»",
+      "ganaderia": "Ernesto Gutiérrez",
+      "toreros": ["Luis Bolívar", "Alejandro Talavante", "la novillera Olga Casado"]
+    },
+    {
+      "fecha": "Lunes 29 de diciembre",
+      "descripcion": "Festival",
+      "ganaderia": "Juan Bernardo Caicedo",
+      "toreros": ["César Rincón", "Sebastián Castella", "Marco Pérez"]
+    },
+    {
+      "fecha": "Martes 30 de diciembre",
+      "ganaderia": "Salento",
+      "toreros": ["José Arcila", "Luis David", "Jesús Enrique Colombo"]
+    }
+  ]
+}

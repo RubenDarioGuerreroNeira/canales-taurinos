@@ -6,11 +6,17 @@ import { ContactModule } from '../contact/contact.module';
 import { GeminiModule } from '../gemini/gemini.module';
 import { TransmisionesSceneService } from './scenes/transmisiones.scene';
 import { CalendarioSceneService } from './scenes/calendario.scene';
+import { AmericaSceneService } from './scenes/america.scene';
 
 @Module({
   imports: [ScraperModule, ContactModule, GeminiModule],
   controllers: [TelegramController],
-  providers: [TelegramService, TransmisionesSceneService, CalendarioSceneService],
+  providers: [
+    TelegramService,
+    TransmisionesSceneService,
+    CalendarioSceneService,
+    AmericaSceneService,
+  ],
   exports: [TelegramService],
 })
-export class TelegramModule { }
+export class TelegramModule {}
