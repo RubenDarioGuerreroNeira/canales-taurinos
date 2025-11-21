@@ -74,9 +74,9 @@ graph TD
     Bot -- orquesta --> TelegramService
 
     TelegramService -- para consultas complejas --> Gemini
-    TelegramService -- para 'transmisiones' --> ScraperService
-    TelegramService -- para 'calendario' --> ServitoroService
-    TelegramService -- para 'crónicas' --> DesdelcallejonService
+    TelegramService -- para transmisiones --> ScraperService
+    TelegramService -- para calendario --> ServitoroService
+    TelegramService -- para crónicas --> DesdelcallejonService
 
     ScraperService -- extrae datos de --> ElMuletazo
     ServitoroService -- extrae datos de --> Servitoro
