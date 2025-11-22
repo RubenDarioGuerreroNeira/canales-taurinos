@@ -151,12 +151,25 @@ export class TelegramService implements OnModuleInit {
       ctx.session = {};
       const userName = ctx.from.first_name || 'aficionado';
 
-      const welcomeMessage = `¡Saludos, ${this.escapeMarkdownV2(userName)}\\! 🇪🇸\n` +
-        `Todo listo para informarte\\. Aquí tienes lo que he preparado para ti hoy:\n\n` +
-        `📺 *¿Quieres ver toros?* Consulta la agenda de TV\\.\n` +
-        `🗓️ *¿Planificando la temporada?* Revisa el calendario completo\\.\n` +
-        `🌎 *¿Interesado en América?* Mira los festejos internacionales\\.\n\n` +
-        `¡Tú mandas\\! ¿Qué necesitas saber?`;
+      const welcomeMessage =
+        `${this.escapeMarkdownV2('¡Hola')} ${this.escapeMarkdownV2(userName)}${this.escapeMarkdownV2('!')} 👋 ${this.escapeMarkdownV2('¡Bienvenido/a a Muletazo Bot!')} 🎯\n\n` +
+        `Soy tu asistente personal para todo lo relacionado con el mundo taurino\\. Estoy aquí para ayudarte a estar siempre informado sobre corridas, festejos y transmisiones\\.\n\n` +
+        `*📺 Transmisiones en Vivo*\n` +
+        `Consulta qué corridas se transmiten por TV y en qué canales\\.\n` +
+        `${this.escapeMarkdownV2('💬 Escribe: "transmisiones" o "agenda de TV"')}\n\n` +
+        `*🗓️ Calendario de la Temporada Española 2026*\n` +
+        `Revisa todos los festejos programados para la temporada completa\\.\n` +
+        `${this.escapeMarkdownV2('💬 Escribe: "calendario" o "temporada completa"')}\n\n` +
+        `*🌎 Festejos en América*\n` +
+        `Descubre las corridas programadas en países de América como Colombia\\.\n` +
+        `${this.escapeMarkdownV2('💬 Escribe: "América" o "corridas en Colombia"')}\n\n` +
+        `*💬 Conversación Natural*\n` +
+        `También puedes hacerme preguntas sobre tauromaquia y te responderé con gusto\\.\n` +
+        `${this.escapeMarkdownV2('💬 Ejemplo: "¿Quien fue Manolete?"')}\n\n` +
+        `*📞 Contacto*\n` +
+        `${this.escapeMarkdownV2('¿Tienes sugerencias o comentarios?')}\n` +
+        `${this.escapeMarkdownV2('💬 Escribe: "contacto" para saber cómo comunicarte con mi creador')}\n\n` +
+        `${this.escapeMarkdownV2('¡Estoy a tu servicio!')} ${this.escapeMarkdownV2('¿En qué puedo ayudarte hoy?')} 😊`;
 
       ctx.reply(welcomeMessage, { parse_mode: 'MarkdownV2' });
     });
@@ -189,19 +202,19 @@ export class TelegramService implements OnModuleInit {
         return;
       }
 
+      // Manejar consulta de festejos en América
+      const isAmericaQuery = /américa|america|festejos en américa|corridas en américa|corridas en colombia|corridas en calí|corridas en manizales/i.test(userText);
+      if (isAmericaQuery) {
+        await ctx.scene.enter('americaScene');
+        return;
+      }
+
       const isCalendarioQuery =
         /calendario|temporada completa|carteles de la temporada|carteles de toda la temporada/i.test(
           userText,
         );
       if (isCalendarioQuery) {
         await this.handleCalendarioQuery(ctx);
-        return;
-      }
-
-      // Manejar consulta de festejos en América
-      const isAmericaQuery = /américa|america|festejos en américa/i.test(userText);
-      if (isAmericaQuery) {
-        await ctx.scene.enter('americaScene');
         return;
       }
 
@@ -286,23 +299,57 @@ export class TelegramService implements OnModuleInit {
           await ctx.reply(this.getRandomThinkingMessage(this.escapeMarkdownV2(ctx.from.first_name || 'aficionado')));
         }
 
-        let result = await chat.sendMessage(prompt);
-        let geminiResponse = result.response.text().trim();
-        console.log(`[Respuesta de Gemini 1] ${geminiResponse}`);
+        // Lógica de reintento para Gemini
+        let attempts = 0;
+        const maxAttempts = 3;
+        let geminiResponse = '';
+        let success = false;
+
+        while (attempts < maxAttempts && !success) {
+          try {
+            attempts++;
+            if (attempts > 1) {
+              console.log(`Reintentando conexión con Gemini (Intento ${attempts}/${maxAttempts})...`);
+            }
+
+            let result = await chat.sendMessage(prompt);
+            geminiResponse = result.response.text().trim();
+            success = true; // Si llegamos aquí, fue exitoso
+
+          } catch (error) {
+            console.error(`Error en intento ${attempts} con Gemini:`, error);
+            if (attempts === maxAttempts) {
+              // Si fallamos en el último intento, lanzamos el error para que lo capture el catch externo o manejamos aquí
+              throw error;
+            }
+            // Esperar un poco antes de reintentar (backoff exponencial simple o fijo)
+            await new Promise(resolve => setTimeout(resolve, 1000 * attempts));
+          }
+        }
+
+        console.log(`[Respuesta de Gemini] ${geminiResponse}`);
 
         if (geminiResponse === '[ACTION:GET_TRANSMISIONES]') {
           await ctx.scene.enter('transmisionesScene');
         } else if (geminiResponse.toLowerCase().includes('voy a buscar')) {
           const userName = this.getUserName(ctx);
           await ctx.reply(`¡Hola ${this.escapeMarkdownV2(userName)}! ${geminiResponse}`);
-          result = await chat.sendMessage(
-            'Ok, por favor, dame los resultados que encontraste.',
-          );
-          geminiResponse = result.response.text().trim();
-          console.log(`[Respuesta de Gemini 2] ${geminiResponse}`);
-          await ctx.reply(
-            `¡Hola ${this.escapeMarkdownV2(userName)}! ${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026  escribiendo "calendario".`,
-          );
+
+          // Para la segunda llamada (resultados de búsqueda), también podríamos querer reintentos, 
+          // pero por ahora lo dejaremos simple o aplicamos la misma lógica si es crítico.
+          // Asumimos que si la primera pasó, la conexión es estable, pero idealmente se abstraería en un método.
+          try {
+            const result = await chat.sendMessage('Ok, por favor, dame los resultados que encontraste.');
+            geminiResponse = result.response.text().trim();
+            console.log(`[Respuesta de Gemini 2] ${geminiResponse}`);
+            await ctx.reply(
+              `¡Hola ${this.escapeMarkdownV2(userName)}! ${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026  escribiendo "calendario".`,
+            );
+          } catch (secondError) {
+            console.error('Error en la segunda llamada a Gemini:', secondError);
+            await ctx.reply(`Tuve un pequeño problema obteniendo los detalles finales, pero sigo aquí.`);
+          }
+
         } else {
           const userName = this.getUserName(ctx);
           await ctx.reply(
@@ -310,11 +357,21 @@ export class TelegramService implements OnModuleInit {
           );
         }
       } catch (error) {
-        console.error('Error al contactar con Gemini:', error);
+        console.error('Error crítico al contactar con Gemini tras reintentos:', error);
         if (ctx.session) ctx.session.geminiChat = undefined;
         const userName = this.getUserName(ctx);
+
+        let errorMessage = `Lo siento ${this.escapeMarkdownV2(userName)}, estoy teniendo problemas para conectar con mi inteligencia.`;
+
+        // Mensajes de error más específicos según el tipo de error (si es posible identificarlo)
+        if (error.message && error.message.includes('SAFETY')) {
+          errorMessage = `Lo siento ${this.escapeMarkdownV2(userName)}, no puedo procesar esa solicitud debido a mis filtros de seguridad.`;
+        } else if (error.message && (error.message.includes('429') || error.message.includes('Quota'))) {
+          errorMessage = `Lo siento ${this.escapeMarkdownV2(userName)}, estoy un poco saturado en este momento. Por favor intenta de nuevo en unos segundos.`;
+        }
+
         await ctx.reply(
-          `Lo siento ${this.escapeMarkdownV2(userName)}, estoy teniendo problemas para conectar con mi inteligencia. Por favor, intenta usar el comando /transmisiones directamente o reinicia la conversación con /start.`,
+          `${errorMessage} Por favor, intenta usar el comando /transmisiones directamente o reinicia la conversación con /start.`,
         );
       }
     });

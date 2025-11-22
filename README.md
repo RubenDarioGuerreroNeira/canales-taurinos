@@ -48,39 +48,39 @@ El siguiente diagrama ilustra el flujo de datos y la interacción entre los comp
 
 ```mermaid
 graph TD
-    subgraph "Usuario"
-        User[📱 Usuario de Telegram]
+    subgraph Usuario
+        User["📱 Usuario de Telegram"]
     end
 
-    subgraph "Infraestructura del Bot (NestJS)"
-        Bot[🤖 Muletazo Bot]
-        TelegramService[⚙️ TelegramService]
-        Gemini[🧠 IA Generativa (Google Gemini)]
+    subgraph Infraestructura["Infraestructura del Bot - NestJS"]
+        Bot["🤖 Muletazo Bot"]
+        TelegramService["⚙️ TelegramService"]
+        Gemini["🧠 IA Generativa - Google Gemini"]
     end
 
-    subgraph "Módulos de Scraping"
-        ScraperService[📰 Scraper: El Muletazo]
-        ServitoroService[📅 Scraper: Servitoro (Puppeteer)]
-        DesdelcallejonService[✍️ Scraper: Desde el Callejón]
+    subgraph Scraping["Módulos de Scraping"]
+        ScraperService["📰 Scraper: El Muletazo"]
+        ServitoroService["📅 Scraper: Servitoro - Puppeteer"]
+        DesdelcallejonService["✍️ Scraper: Desde el Callejón"]
     end
 
-    subgraph "Fuentes de Datos Externas"
-        ElMuletazo[🌐 elmuletazo.com]
-        Servitoro[🌐 servitoro.com]
-        Desdelcallejon[🌐 desdelcallejon.com]
+    subgraph Fuentes["Fuentes de Datos Externas"]
+        ElMuletazo["🌐 elmuletazo.com"]
+        Servitoro["🌐 servitoro.com"]
+        Desdelcallejon["🌐 desdelcallejon.com"]
     end
 
-    User -- interactúa con --> Bot
-    Bot -- orquesta --> TelegramService
+    User -->|"interactúa con"| Bot
+    Bot -->|"orquesta"| TelegramService
 
-    TelegramService -- para consultas complejas --> Gemini
-    TelegramService -- para transmisiones --> ScraperService
-    TelegramService -- para calendario --> ServitoroService
-    TelegramService -- para crónicas --> DesdelcallejonService
+    TelegramService -->|"para consultas complejas"| Gemini
+    TelegramService -->|"para transmisiones"| ScraperService
+    TelegramService -->|"para calendario"| ServitoroService
+    TelegramService -->|"para crónicas"| DesdelcallejonService
 
-    ScraperService -- extrae datos de --> ElMuletazo
-    ServitoroService -- extrae datos de --> Servitoro
-    DesdelcallejonService -- extrae datos de --> Desdelcallejon
+    ScraperService -->|"extrae datos de"| ElMuletazo
+    ServitoroService -->|"extrae datos de"| Servitoro
+    DesdelcallejonService -->|"extrae datos de"| Desdelcallejon
 ```
 
 ---
