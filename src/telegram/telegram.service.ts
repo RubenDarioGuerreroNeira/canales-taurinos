@@ -203,7 +203,7 @@ export class TelegramService implements OnModuleInit {
 
       // Manejar consulta de festejos en América
       const isAmericaQuery =
-        /américa|america|festejos en américa|corridas en américa|corridas en colombia|corridas en calí|corridas en manizales|Corridas en Colombia/i.test(
+        /américa|america|festejos en américa|corridas en américa|corridas en colombia|corridas en calí|corridas en manizales|Corridas en Colombia|carteles en colombia|Carteles en Colombia/i.test(
           userText,
         );
       if (isAmericaQuery) {
