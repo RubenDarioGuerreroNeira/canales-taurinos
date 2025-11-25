@@ -52,35 +52,23 @@ graph TD
         User["📱 Usuario de Telegram"]
     end
 
-    subgraph Infraestructura["Infraestructura del Bot - NestJS"]
-        Bot["🤖 Muletazo Bot"]
-        TelegramService["⚙️ TelegramService"]
-        Gemini["🧠 IA Generativa - Google Gemini"]
-    end
-
-    subgraph Scraping["Módulos de Scraping"]
-        ScraperService["📰 Scraper: El Muletazo"]
-        ServitoroService["📅 Scraper: Servitoro - Puppeteer"]
-        DesdelcallejonService["✍️ Scraper: Desde el Callejón"]
-    end
-
-    subgraph Fuentes["Fuentes de Datos Externas"]
-        ElMuletazo["🌐 elmuletazo.com"]
-        Servitoro["🌐 servitoro.com"]
-        Desdelcallejon["🌐 desdelcallejon.com"]
-    end
-
     User -->|"interactúa con"| Bot
-    Bot -->|"orquesta"| TelegramService
 
-    TelegramService -->|"para consultas complejas"| Gemini
-    TelegramService -->|"para transmisiones"| ScraperService
-    TelegramService -->|"para calendario"| ServitoroService
-    TelegramService -->|"para crónicas"| DesdelcallejonService
+    subgraph "Infraestructura del Bot (NestJS)"
+        Bot["🤖 Muletazo Bot"] --> TelegramService["⚙️ TelegramService"]
 
-    ScraperService -->|"extrae datos de"| ElMuletazo
-    ServitoroService -->|"extrae datos de"| Servitoro
-    DesdelcallejonService -->|"extrae datos de"| Desdelcallejon
+        TelegramService -->|"Consultas complejas"| Gemini["🧠 IA Generativa (Gemini)"]
+
+        subgraph "Módulos de Scraping"
+            TelegramService -->|"Agenda TV"| ScraperService["📰 Scraper: El Muletazo"]
+            TelegramService -->|"Calendario Temporada"| ServitoroService["📅 Scraper: Servitoro (Puppeteer)"]
+        end
+    end
+
+    subgraph "Fuentes de Datos Externas"
+        ScraperService -->|"extrae datos de"| ElMuletazo["🌐 elmuletazo.com"]
+        ServitoroService -->|"extrae datos de"| Servitoro["🌐 servitoro.com"]
+    end
 ```
 
 ---

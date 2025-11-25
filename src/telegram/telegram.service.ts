@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  OnModuleInit,
-  Logger,
-} from '@nestjs/common';
+import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { Telegraf, Markup, session, Scenes } from 'telegraf';
 import { ScraperService } from '../scraper/scraper.service';
 import { ServitoroService } from '../scraper/servitoro.service';
@@ -188,7 +184,10 @@ export class TelegramService implements OnModuleInit {
         );
         const userName = this.getUserName(ctx);
         const contactMessage = this.contactService.getContactMessage();
-        await ctx.reply(`${this.escapeMarkdownV2(`¡Hola ${userName}!`)} ${contactMessage}`, { parse_mode: 'MarkdownV2' });
+        await ctx.reply(
+          `${this.escapeMarkdownV2(`¡Hola ${userName}!`)} ${contactMessage}`,
+          { parse_mode: 'MarkdownV2' },
+        );
         return;
       }
 
@@ -203,7 +202,10 @@ export class TelegramService implements OnModuleInit {
       }
 
       // Manejar consulta de festejos en América
-      const isAmericaQuery = /américa|america|festejos en américa|corridas en américa|corridas en colombia|corridas en calí|corridas en manizales/i.test(userText);
+      const isAmericaQuery =
+        /américa|america|festejos en américa|corridas en américa|corridas en colombia|corridas en calí|corridas en manizales|Corridas en Colombia/i.test(
+          userText,
+        );
       if (isAmericaQuery) {
         await ctx.scene.enter('americaScene');
         return;
@@ -258,7 +260,11 @@ export class TelegramService implements OnModuleInit {
           );
 
         if (isAgendaQuery) {
-          await ctx.reply(this.getRandomThinkingMessage(this.escapeMarkdownV2(ctx.from.first_name || 'aficionado')));
+          await ctx.reply(
+            this.getRandomThinkingMessage(
+              this.escapeMarkdownV2(ctx.from.first_name || 'aficionado'),
+            ),
+          );
           const eventos = await this.scraperService.scrapeTransmisiones();
           let scraperContext = '';
           if (eventos.length > 0) {
@@ -296,7 +302,11 @@ export class TelegramService implements OnModuleInit {
         }
 
         if (!isAgendaQuery) {
-          await ctx.reply(this.getRandomThinkingMessage(this.escapeMarkdownV2(ctx.from.first_name || 'aficionado')));
+          await ctx.reply(
+            this.getRandomThinkingMessage(
+              this.escapeMarkdownV2(ctx.from.first_name || 'aficionado'),
+            ),
+          );
         }
 
         // Lógica de reintento para Gemini
@@ -309,13 +319,14 @@ export class TelegramService implements OnModuleInit {
           try {
             attempts++;
             if (attempts > 1) {
-              console.log(`Reintentando conexión con Gemini (Intento ${attempts}/${maxAttempts})...`);
+              console.log(
+                `Reintentando conexión con Gemini (Intento ${attempts}/${maxAttempts})...`,
+              );
             }
 
             let result = await chat.sendMessage(prompt);
             geminiResponse = result.response.text().trim();
             success = true; // Si llegamos aquí, fue exitoso
-
           } catch (error) {
             console.error(`Error en intento ${attempts} con Gemini:`, error);
             if (attempts === maxAttempts) {
@@ -323,7 +334,9 @@ export class TelegramService implements OnModuleInit {
               throw error;
             }
             // Esperar un poco antes de reintentar (backoff exponencial simple o fijo)
-            await new Promise(resolve => setTimeout(resolve, 1000 * attempts));
+            await new Promise((resolve) =>
+              setTimeout(resolve, 1000 * attempts),
+            );
           }
         }
 
@@ -333,13 +346,17 @@ export class TelegramService implements OnModuleInit {
           await ctx.scene.enter('transmisionesScene');
         } else if (geminiResponse.toLowerCase().includes('voy a buscar')) {
           const userName = this.getUserName(ctx);
-          await ctx.reply(`¡Hola ${this.escapeMarkdownV2(userName)}! ${geminiResponse}`);
+          await ctx.reply(
+            `¡Hola ${this.escapeMarkdownV2(userName)}! ${geminiResponse}`,
+          );
 
-          // Para la segunda llamada (resultados de búsqueda), también podríamos querer reintentos, 
+          // Para la segunda llamada (resultados de búsqueda), también podríamos querer reintentos,
           // pero por ahora lo dejaremos simple o aplicamos la misma lógica si es crítico.
           // Asumimos que si la primera pasó, la conexión es estable, pero idealmente se abstraería en un método.
           try {
-            const result = await chat.sendMessage('Ok, por favor, dame los resultados que encontraste.');
+            const result = await chat.sendMessage(
+              'Ok, por favor, dame los resultados que encontraste.',
+            );
             geminiResponse = result.response.text().trim();
             console.log(`[Respuesta de Gemini 2] ${geminiResponse}`);
             await ctx.reply(
@@ -347,9 +364,10 @@ export class TelegramService implements OnModuleInit {
             );
           } catch (secondError) {
             console.error('Error en la segunda llamada a Gemini:', secondError);
-            await ctx.reply(`Tuve un pequeño problema obteniendo los detalles finales, pero sigo aquí.`);
+            await ctx.reply(
+              `Tuve un pequeño problema obteniendo los detalles finales, pero sigo aquí.`,
+            );
           }
-
         } else {
           const userName = this.getUserName(ctx);
           await ctx.reply(
@@ -357,7 +375,10 @@ export class TelegramService implements OnModuleInit {
           );
         }
       } catch (error) {
-        console.error('Error crítico al contactar con Gemini tras reintentos:', error);
+        console.error(
+          'Error crítico al contactar con Gemini tras reintentos:',
+          error,
+        );
         if (ctx.session) ctx.session.geminiChat = undefined;
         const userName = this.getUserName(ctx);
 
@@ -366,7 +387,10 @@ export class TelegramService implements OnModuleInit {
         // Mensajes de error más específicos según el tipo de error (si es posible identificarlo)
         if (error.message && error.message.includes('SAFETY')) {
           errorMessage = `Lo siento ${this.escapeMarkdownV2(userName)}, no puedo procesar esa solicitud debido a mis filtros de seguridad.`;
-        } else if (error.message && (error.message.includes('429') || error.message.includes('Quota'))) {
+        } else if (
+          error.message &&
+          (error.message.includes('429') || error.message.includes('Quota'))
+        ) {
           errorMessage = `Lo siento ${this.escapeMarkdownV2(userName)}, estoy un poco saturado en este momento. Por favor intenta de nuevo en unos segundos.`;
         }
 
@@ -392,10 +416,6 @@ export class TelegramService implements OnModuleInit {
   private async handleTransmisionesQuery(ctx: MyContext) {
     await ctx.scene.enter('transmisionesScene');
   }
-
-
-
-
 
   private escapeMarkdownV2(text: string): string {
     if (!text) return '';
