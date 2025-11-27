@@ -6,6 +6,7 @@
       <td align="center"><img src="./images/Tele Madrid.png" width="80" alt="Telemadrid Logo"></td>
        <td align="center"><img src="./images/El Muletazo.jpg" width="80" alt="El Muletazo Logo"></td>
       <td align="center"><img src="./images/Servi Toro.jpg" width="80" alt="Servitoro Logo"></td>
+      <td align="center"><img src="https://www.mundotoro.com/wp-content/uploads/2023/10/cropped-logo-mundotoro-2023-favicon-1-192x192.png" width="80" alt="Mundotoro Logo"></td>
     </tr>
   </table>
 </div>
@@ -15,30 +16,31 @@
   <h1>Bot Taurino para Telegram con NestJS y Gemini</h1>
 </div>
 
-Este proyecto es un bot de Telegram inteligente, desarrollado con **NestJS**, que actúa como un asistente virtual para aficionados a la tauromaquia. El bot es capaz de comprender el lenguaje natural gracias a la **API de Gemini** y extrae información actualizada sobre los próximos festejos televisados mediante web scraping del portal **"El Muletazo"**.
+Este proyecto es un bot de Telegram inteligente, desarrollado con **NestJS**, que actúa como un asistente virtual para aficionados a la tauromaquia. El bot es capaz de comprender el lenguaje natural gracias a la **API de Gemini** y extrae información actualizada de múltiples fuentes mediante técnicas de web scraping.
 
 ---
 
 ## 📜 Descripción del Proyecto
 
-El objetivo principal de este bot es ser el asistente de referencia para los aficionados taurinos, proporcionando una forma rápida y conversacional de consultar tanto la **agenda de festejos televisados** como el **calendario completo de la temporada taurina**. El bot combina la robustez de un backend en NestJS con la inteligencia artificial de Google Gemini para ofrecer una experiencia de usuario fluida e inteligente.
+El objetivo principal de este bot es ser el asistente de referencia para los aficionados taurinos, proporcionando una forma rápida y conversacional de consultar la **agenda de festejos televisados**, el **calendario completo de la temporada** y el **escalafón de matadores**. El bot combina la robustez de un backend en NestJS con la inteligencia artificial de Google Gemini para ofrecer una experiencia de usuario fluida e inteligente.
 
 El bot es capaz de mantener conversaciones con contexto, recordar interacciones previas con el usuario, realizar búsquedas específicas más allá de la información general obtenida por web scraping y guiar al usuario a través de diálogos interactivos para filtrar información.
 
 ### ✨ Características Principales
 
-- **Procesamiento de Lenguaje Natural (NLP)**: Utiliza el modelo `gemini-2.0-flash` para interpretar una amplia gama de solicitudes en lenguaje coloquial (ej: "quiero ver toros", "¿qué corridas televisan?"), responder preguntas generales sobre tauromaquia y realizar búsquedas específicas.
+- **Procesamiento de Lenguaje Natural (NLP)**: Utiliza el modelo `gemini-2.5-flash` para interpretar una amplia gama de solicitudes en lenguaje coloquial (ej: "quiero ver toros", "¿qué corridas televisan?"), responder preguntas generales sobre tauromaquia y realizar búsquedas específicas.
 - **Web Scraping Dual**:
   - **Festejos Televisados**: Extrae la agenda de "El Muletazo" usando `axios` y `cheerio` para obtener información sobre las transmisiones.
   - **Calendario Taurino**: Realiza scraping de "Servitoro" usando `Puppeteer` para obtener el calendario completo de la temporada, manejando contenido cargado dinámicamente.
-- **Sistema de Caché Avanzado**: Implementa un sistema de caché independiente para cada fuente de datos (El Muletazo y Servitoro), optimizando el rendimiento, reduciendo las peticiones a los sitios web y ofreciendo respuestas instantáneas.
+- **Escalafón de Matadores**: Utiliza `Puppeteer` para obtener el ranking actualizado de matadores desde `mundotoro.com`, con técnicas anti-detección y un sistema de caché local.
+- **Sistema de Caché Avanzado**: Implementa un sistema de caché independiente para cada fuente de datos (El Muletazo, Servitoro y Mundotoro), optimizando el rendimiento, reduciendo las peticiones a los sitios web y ofreciendo respuestas instantáneas.
 - **Conversación Persistente con Gestión de Sesiones**: Utiliza `telegraf/session` para recordar el historial de chat de cada usuario, evitando saludos repetitivos y permitiendo conversaciones fluidas y con contexto.
-- **Filtrado Interactivo con Telegraf Scenes**: Guía al usuario a través de diálogos de varios pasos para filtrar tanto las transmisiones (por mes, por canal) como el calendario taurino (por mes, ciudad, etc.).
+- **Filtrado Interactivo con Telegraf Scenes**: Guía al usuario a través de diálogos de varios pasos para filtrar las transmisiones (por mes, por canal), el calendario taurino (por mes, ciudad, etc.) y navegar por el escalafón.
 - **Reconocimiento de Lenguaje Natural**: Entiende una gran variedad de frases coloquiales (ej: "agenda de festejos", "muéstrame el calendario", "¿quién hizo este bot?") para activar funcionalidades sin necesidad de usar comandos.
 - **Flujo de Conversación Robusto**: Gestiona el estado de la conversación de forma inteligente, permitiendo al usuario salir de una función (como el calendario) y continuar con otra sin errores ni comportamientos inesperados.
 - **Interfaz de Usuario Dinámica**: Personaliza los botones de los canales de transmisión con nombres descriptivos (ej: "Canal Sur", "T.Madrid") extraídos directamente de las URLs.
 - **Guía Proactiva al Usuario**: El mensaje de bienvenida (`/start`) ahora presenta claramente los servicios disponibles y sugiere frases en lenguaje natural para interactuar, mejorando la experiencia inicial del usuario.
-- **Comandos Directos**: Incluye comandos como `/transmisiones`, `/calendario` y `/contacto` para un acceso rápido, además de comandos de administración como `/clearcache`.
+- **Comandos Directos**: Incluye comandos como `/transmisiones`, `/calendario`, `/escalafon` y `/contacto` para un acceso rápido, además de comandos de administración como `/clearcache`.
 
 ---
 
@@ -51,23 +53,25 @@ graph TD
     subgraph Usuario
         User["📱 Usuario de Telegram"]
     end
-
+    
     User -->|"interactúa con"| Bot
-
+    
     subgraph "Infraestructura del Bot (NestJS)"
         Bot["🤖 Muletazo Bot"] --> TelegramService["⚙️ TelegramService"]
-
+    
         TelegramService -->|"Consultas complejas"| Gemini["🧠 IA Generativa (Gemini)"]
-
+    
         subgraph "Módulos de Scraping"
             TelegramService -->|"Agenda TV"| ScraperService["📰 Scraper: El Muletazo"]
             TelegramService -->|"Calendario Temporada"| ServitoroService["📅 Scraper: Servitoro (Puppeteer)"]
+            TelegramService -->|"Ranking Matadores"| MundotoroService["🏆 Scraper: Mundotoro (Puppeteer)"]
         end
     end
-
+    
     subgraph "Fuentes de Datos Externas"
         ScraperService -->|"extrae datos de"| ElMuletazo["🌐 elmuletazo.com"]
         ServitoroService -->|"extrae datos de"| Servitoro["🌐 servitoro.com"]
+        MundotoroService -->|"extrae datos de"| Mundotoro["🌐 mundotoro.com"]
     end
 ```
 

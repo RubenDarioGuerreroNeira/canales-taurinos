@@ -8,6 +8,7 @@ import { GeminiService } from '../gemini/gemini.service';
 import { TransmisionesSceneService } from './scenes/transmisiones.scene';
 import { CalendarioSceneService } from './scenes/calendario.scene';
 import { AmericaSceneService } from './scenes/america.scene';
+import { EscalafonSceneService } from './scenes/escalafon.scene';
 import { MyContext } from './telegram.interfaces';
 
 @Injectable()
@@ -23,6 +24,7 @@ export class TelegramService implements OnModuleInit {
     private transmisionesSceneService: TransmisionesSceneService,
     private calendarioSceneService: CalendarioSceneService,
     private americaSceneService: AmericaSceneService,
+    private escalafonSceneService: EscalafonSceneService,
   ) {
     const token = process.env.BOT_TOKEN;
     if (!token) {
@@ -37,6 +39,7 @@ export class TelegramService implements OnModuleInit {
       this.transmisionesSceneService.create(),
       this.calendarioSceneService.create(),
       this.americaSceneService.create(),
+      this.escalafonSceneService.create(),
     ]);
 
     this.bot.use(session(), stage.middleware());
@@ -95,6 +98,10 @@ export class TelegramService implements OnModuleInit {
 
     this.bot.command('calendario', async (ctx) => {
       await this.handleCalendarioQuery(ctx);
+    });
+
+    this.bot.command('escalafon', async (ctx) => {
+      await ctx.scene.enter('escalafonScene');
     });
 
     this.bot.command('contacto', async (ctx) => {
@@ -159,6 +166,9 @@ export class TelegramService implements OnModuleInit {
         `*🌎 Festejos en América*\n` +
         `Descubre las corridas programadas en países de América como Colombia\\.\n` +
         `${this.escapeMarkdownV2('💬 Escribe: "América" o "corridas en Colombia"')}\n\n` +
+        `*🏆 Escalafón Taurino*\n` +
+        `Consulta el ranking actualizado de matadores de toros\\.\n` +
+        `${this.escapeMarkdownV2('💬 Escribe: "escalafón" o "ranking de toreros"')}\n\n` +
         `*💬 Conversación Natural*\n` +
         `También puedes hacerme preguntas sobre tauromaquia y te responderé con gusto\\.\n` +
         `${this.escapeMarkdownV2('💬 Ejemplo: "¿Quien fue Manolete?"')}\n\n` +
@@ -208,6 +218,16 @@ export class TelegramService implements OnModuleInit {
         );
       if (isAmericaQuery) {
         await ctx.scene.enter('americaScene');
+        return;
+      }
+
+      // Manejar consulta de escalafón (variantes: "escalafón", "escalafon", "quiero ver el escalafón", "cuál es el escalafón", etc.)
+      const isEscalafonQuery =
+        /(?:\b(escalaf[oó]n|escalafon|ranking|matadores|toreros)\b|quiero ver el escalaf[oó]n|cual(?:|\s+es) el escalaf[oó]n|cu[aá]l es el escalaf[oó]n)/i.test(
+          userText,
+        );
+      if (isEscalafonQuery) {
+        await ctx.scene.enter('escalafonScene');
         return;
       }
 

@@ -7,6 +7,7 @@ import { GeminiModule } from '../gemini/gemini.module';
 import { TransmisionesSceneService } from './scenes/transmisiones.scene';
 import { CalendarioSceneService } from './scenes/calendario.scene';
 import { AmericaSceneService } from './scenes/america.scene';
+import { EscalafonSceneService } from './scenes/escalafon.scene';
 
 @Module({
   imports: [ScraperModule, ContactModule, GeminiModule],
@@ -16,6 +17,7 @@ import { AmericaSceneService } from './scenes/america.scene';
     TransmisionesSceneService,
     CalendarioSceneService,
     AmericaSceneService,
+    EscalafonSceneService,
   ],
   exports: [TelegramService],
 })

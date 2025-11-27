@@ -1,0 +1,1108 @@
+[
+  {
+    "posicion": "1",
+    "lidiador": "Alejandro Talavante",
+    "festejos": "65",
+    "orejas": "106",
+    "rabos": "6"
+  },
+  {
+    "posicion": "2",
+    "lidiador": "Borja Jiménez",
+    "festejos": "58",
+    "orejas": "95",
+    "rabos": "6"
+  },
+  {
+    "posicion": "3",
+    "lidiador": "Emilio de Justo",
+    "festejos": "52",
+    "orejas": "89",
+    "rabos": "1"
+  },
+  {
+    "posicion": "4",
+    "lidiador": "Juan Ortega",
+    "festejos": "51",
+    "orejas": "44",
+    "rabos": "1"
+  },
+  {
+    "posicion": "5",
+    "lidiador": "Morante de la Puebla",
+    "festejos": "49",
+    "orejas": "55",
+    "rabos": "3"
+  },
+  {
+    "posicion": "6",
+    "lidiador": "Sebastián Castella",
+    "festejos": "48",
+    "orejas": "67",
+    "rabos": "0"
+  },
+  {
+    "posicion": "7",
+    "lidiador": "Roca Rey",
+    "festejos": "39",
+    "orejas": "50",
+    "rabos": "0"
+  },
+  {
+    "posicion": "8",
+    "lidiador": "Manuel Escribano",
+    "festejos": "37",
+    "orejas": "71",
+    "rabos": "2"
+  },
+  {
+    "posicion": "9",
+    "lidiador": "Miguel Ángel Perera",
+    "festejos": "35",
+    "orejas": "42",
+    "rabos": "1"
+  },
+  {
+    "posicion": "10",
+    "lidiador": "Tomás Rufo",
+    "festejos": "34",
+    "orejas": "56",
+    "rabos": "1"
+  },
+  {
+    "posicion": "11",
+    "lidiador": "Daniel Luque",
+    "festejos": "33",
+    "orejas": "56",
+    "rabos": "0"
+  },
+  {
+    "posicion": "12",
+    "lidiador": "José María Manzanares",
+    "festejos": "32",
+    "orejas": "37",
+    "rabos": "1"
+  },
+  {
+    "posicion": "13",
+    "lidiador": "El Fandi",
+    "festejos": "31",
+    "orejas": "78",
+    "rabos": "7"
+  },
+  {
+    "posicion": "14",
+    "lidiador": "Pablo Aguado",
+    "festejos": "31",
+    "orejas": "29",
+    "rabos": "0"
+  },
+  {
+    "posicion": "15",
+    "lidiador": "Marco Pérez",
+    "festejos": "30",
+    "orejas": "66",
+    "rabos": "6"
+  },
+  {
+    "posicion": "16",
+    "lidiador": "Antonio Ferrera",
+    "festejos": "24",
+    "orejas": "44",
+    "rabos": "4"
+  },
+  {
+    "posicion": "17",
+    "lidiador": "David de Miranda",
+    "festejos": "23",
+    "orejas": "61",
+    "rabos": "1"
+  },
+  {
+    "posicion": "18",
+    "lidiador": "David Galván",
+    "festejos": "22",
+    "orejas": "31",
+    "rabos": "2"
+  },
+  {
+    "posicion": "19",
+    "lidiador": "Morenito de Aranda",
+    "festejos": "21",
+    "orejas": "26",
+    "rabos": "0"
+  },
+  {
+    "posicion": "20",
+    "lidiador": "Fortes",
+    "festejos": "21",
+    "orejas": "19",
+    "rabos": "0"
+  },
+  {
+    "posicion": "21",
+    "lidiador": "Fernando Adrián",
+    "festejos": "19",
+    "orejas": "37",
+    "rabos": "4"
+  },
+  {
+    "posicion": "22",
+    "lidiador": "José Fernando Molina",
+    "festejos": "19",
+    "orejas": "22",
+    "rabos": "0"
+  },
+  {
+    "posicion": "23",
+    "lidiador": "Damián Castaño",
+    "festejos": "19",
+    "orejas": "8",
+    "rabos": "0"
+  },
+  {
+    "posicion": "24",
+    "lidiador": "Ginés Marín",
+    "festejos": "17",
+    "orejas": "28",
+    "rabos": "1"
+  },
+  {
+    "posicion": "25",
+    "lidiador": "Samuel Navalón",
+    "festejos": "16",
+    "orejas": "27",
+    "rabos": "2"
+  },
+  {
+    "posicion": "26",
+    "lidiador": "Víctor Hernández",
+    "festejos": "16",
+    "orejas": "25",
+    "rabos": "0"
+  },
+  {
+    "posicion": "27",
+    "lidiador": "Curro Díaz",
+    "festejos": "16",
+    "orejas": "22",
+    "rabos": "0"
+  },
+  {
+    "posicion": "28",
+    "lidiador": "Paco Ureña",
+    "festejos": "16",
+    "orejas": "20",
+    "rabos": "1"
+  },
+  {
+    "posicion": "29",
+    "lidiador": "Cayetano",
+    "festejos": "15",
+    "orejas": "19",
+    "rabos": "0"
+  },
+  {
+    "posicion": "30",
+    "lidiador": "El Cid",
+    "festejos": "15",
+    "orejas": "18",
+    "rabos": "0"
+  },
+  {
+    "posicion": "31",
+    "lidiador": "Juan de Castilla",
+    "festejos": "15",
+    "orejas": "11",
+    "rabos": "0"
+  },
+  {
+    "posicion": "32",
+    "lidiador": "Román",
+    "festejos": "14",
+    "orejas": "12",
+    "rabos": "0"
+  },
+  {
+    "posicion": "33",
+    "lidiador": "Clemente",
+    "festejos": "13",
+    "orejas": "18",
+    "rabos": "1"
+  },
+  {
+    "posicion": "34",
+    "lidiador": "Gómez del Pilar",
+    "festejos": "13",
+    "orejas": "14",
+    "rabos": "1"
+  },
+  {
+    "posicion": "35",
+    "lidiador": "Diego García",
+    "festejos": "12",
+    "orejas": "18",
+    "rabos": "0"
+  },
+  {
+    "posicion": "36",
+    "lidiador": "Sánchez Vara",
+    "festejos": "12",
+    "orejas": "17",
+    "rabos": "1"
+  },
+  {
+    "posicion": "37",
+    "lidiador": "Tristán Barroso",
+    "festejos": "12",
+    "orejas": "14",
+    "rabos": "1"
+  },
+  {
+    "posicion": "38",
+    "lidiador": "Álvaro Lorenzo",
+    "festejos": "11",
+    "orejas": "21",
+    "rabos": "0"
+  },
+  {
+    "posicion": "39",
+    "lidiador": "Ismael Martín",
+    "festejos": "11",
+    "orejas": "19",
+    "rabos": "1"
+  },
+  {
+    "posicion": "40",
+    "lidiador": "Fernando Robleño",
+    "festejos": "11",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "41",
+    "lidiador": "José Garrido",
+    "festejos": "10",
+    "orejas": "22",
+    "rabos": "0"
+  },
+  {
+    "posicion": "42",
+    "lidiador": "Esaú Fernández",
+    "festejos": "10",
+    "orejas": "13",
+    "rabos": "1"
+  },
+  {
+    "posicion": "43",
+    "lidiador": "Jesús Enrique Colombo",
+    "festejos": "9",
+    "orejas": "12",
+    "rabos": "0"
+  },
+  {
+    "posicion": "44",
+    "lidiador": "Diego Urdiales",
+    "festejos": "9",
+    "orejas": "11",
+    "rabos": "0"
+  },
+  {
+    "posicion": "45",
+    "lidiador": "Sergio Rodríguez",
+    "festejos": "8",
+    "orejas": "11",
+    "rabos": "0"
+  },
+  {
+    "posicion": "46",
+    "lidiador": "Rubén Pinar",
+    "festejos": "8",
+    "orejas": "7",
+    "rabos": "0"
+  },
+  {
+    "posicion": "47",
+    "lidiador": "Alejandro Chicharro",
+    "festejos": "7",
+    "orejas": "12",
+    "rabos": "1"
+  },
+  {
+    "posicion": "48",
+    "lidiador": "Joaquín Galdós",
+    "festejos": "7",
+    "orejas": "11",
+    "rabos": "0"
+  },
+  {
+    "posicion": "49",
+    "lidiador": "Jarocho",
+    "festejos": "7",
+    "orejas": "7",
+    "rabos": "0"
+  },
+  {
+    "posicion": "50",
+    "lidiador": "Carlos Olsina",
+    "festejos": "7",
+    "orejas": "6",
+    "rabos": "0"
+  },
+  {
+    "posicion": "51",
+    "lidiador": "Alejandro Peñaranda",
+    "festejos": "7",
+    "orejas": "6",
+    "rabos": "0"
+  },
+  {
+    "posicion": "52",
+    "lidiador": "Jorge Molina",
+    "festejos": "6",
+    "orejas": "9",
+    "rabos": "0"
+  },
+  {
+    "posicion": "53",
+    "lidiador": "Pepe Moral",
+    "festejos": "6",
+    "orejas": "9",
+    "rabos": "0"
+  },
+  {
+    "posicion": "54",
+    "lidiador": "Álvaro Burdiel",
+    "festejos": "6",
+    "orejas": "7",
+    "rabos": "0"
+  },
+  {
+    "posicion": "55",
+    "lidiador": "Daniel Crespo",
+    "festejos": "6",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "56",
+    "lidiador": "Javier Castaño",
+    "festejos": "6",
+    "orejas": "4",
+    "rabos": "0"
+  },
+  {
+    "posicion": "57",
+    "lidiador": "Luis Gerpe",
+    "festejos": "6",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "58",
+    "lidiador": "Manuel Diosleguarde",
+    "festejos": "5",
+    "orejas": "14",
+    "rabos": "1"
+  },
+  {
+    "posicion": "59",
+    "lidiador": "Christian Parejo",
+    "festejos": "5",
+    "orejas": "12",
+    "rabos": "0"
+  },
+  {
+    "posicion": "60",
+    "lidiador": "Montero",
+    "festejos": "5",
+    "orejas": "7",
+    "rabos": "0"
+  },
+  {
+    "posicion": "61",
+    "lidiador": "Uceda Leal",
+    "festejos": "5",
+    "orejas": "6",
+    "rabos": "0"
+  },
+  {
+    "posicion": "62",
+    "lidiador": "El Payo",
+    "festejos": "5",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "63",
+    "lidiador": "Diego San Román",
+    "festejos": "5",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "64",
+    "lidiador": "Juan Leal",
+    "festejos": "5",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "65",
+    "lidiador": "Joselito Adame",
+    "festejos": "5",
+    "orejas": "5",
+    "rabos": "1"
+  },
+  {
+    "posicion": "66",
+    "lidiador": "Javier Cortés",
+    "festejos": "5",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "67",
+    "lidiador": "Antonio Linares",
+    "festejos": "4",
+    "orejas": "13",
+    "rabos": "0"
+  },
+  {
+    "posicion": "68",
+    "lidiador": "Aarón Palacio",
+    "festejos": "4",
+    "orejas": "11",
+    "rabos": "0"
+  },
+  {
+    "posicion": "69",
+    "lidiador": "Oliva Soto",
+    "festejos": "4",
+    "orejas": "8",
+    "rabos": "0"
+  },
+  {
+    "posicion": "70",
+    "lidiador": "Solalito",
+    "festejos": "4",
+    "orejas": "8",
+    "rabos": "0"
+  },
+  {
+    "posicion": "71",
+    "lidiador": "Curro Durán",
+    "festejos": "4",
+    "orejas": "7",
+    "rabos": "0"
+  },
+  {
+    "posicion": "72",
+    "lidiador": "Alejandro Mora",
+    "festejos": "4",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "73",
+    "lidiador": "Jairo Miguel",
+    "festejos": "4",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "74",
+    "lidiador": "Javier Herrero",
+    "festejos": "4",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "75",
+    "lidiador": "Manuel Román",
+    "festejos": "4",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "76",
+    "lidiador": "Emilio Serna",
+    "festejos": "3",
+    "orejas": "9",
+    "rabos": "1"
+  },
+  {
+    "posicion": "77",
+    "lidiador": "Mario Palacios",
+    "festejos": "3",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "78",
+    "lidiador": "Víctor Cerrato",
+    "festejos": "3",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "79",
+    "lidiador": "Luis David Adame",
+    "festejos": "3",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "80",
+    "lidiador": "Miguel de Pablo",
+    "festejos": "3",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "81",
+    "lidiador": "Álvaro Alarcón",
+    "festejos": "3",
+    "orejas": "4",
+    "rabos": "0"
+  },
+  {
+    "posicion": "82",
+    "lidiador": "Fabio Jiménez",
+    "festejos": "3",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "83",
+    "lidiador": "Francisco José Espada",
+    "festejos": "3",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "84",
+    "lidiador": "João Silva Juanito",
+    "festejos": "3",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "85",
+    "lidiador": "Adrián de Torres",
+    "festejos": "3",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "86",
+    "lidiador": "Germán Vidal El Melli",
+    "festejos": "3",
+    "orejas": "2",
+    "rabos": "1"
+  },
+  {
+    "posicion": "87",
+    "lidiador": "Rafael Serna",
+    "festejos": "3",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "88",
+    "lidiador": "Cristóbal Reyes",
+    "festejos": "3",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "89",
+    "lidiador": "Jorge Martínez",
+    "festejos": "2",
+    "orejas": "5",
+    "rabos": "0"
+  },
+  {
+    "posicion": "90",
+    "lidiador": "Octavio Chacón",
+    "festejos": "2",
+    "orejas": "5",
+    "rabos": "1"
+  },
+  {
+    "posicion": "91",
+    "lidiador": "Guillermo García Pulido",
+    "festejos": "2",
+    "orejas": "4",
+    "rabos": "0"
+  },
+  {
+    "posicion": "92",
+    "lidiador": "Fernando Tendero",
+    "festejos": "2",
+    "orejas": "4",
+    "rabos": "0"
+  },
+  {
+    "posicion": "93",
+    "lidiador": "Víctor Janeiro",
+    "festejos": "2",
+    "orejas": "4",
+    "rabos": "0"
+  },
+  {
+    "posicion": "94",
+    "lidiador": "José Ruiz Muñoz",
+    "festejos": "2",
+    "orejas": "4",
+    "rabos": "0"
+  },
+  {
+    "posicion": "95",
+    "lidiador": "Sebastián Ritter",
+    "festejos": "2",
+    "orejas": "4",
+    "rabos": "1"
+  },
+  {
+    "posicion": "96",
+    "lidiador": "Rafael Cerro",
+    "festejos": "2",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "97",
+    "lidiador": "Javier Zulueta",
+    "festejos": "2",
+    "orejas": "3",
+    "rabos": "1"
+  },
+  {
+    "posicion": "98",
+    "lidiador": "David Garzón",
+    "festejos": "2",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "99",
+    "lidiador": "Francisco Expósito",
+    "festejos": "2",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "100",
+    "lidiador": "Imanol Sánchez",
+    "festejos": "2",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "101",
+    "lidiador": "Lama de Góngora",
+    "festejos": "2",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "102",
+    "lidiador": "Rafael Rubio Rafaelillo",
+    "festejos": "2",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "103",
+    "lidiador": "Diogo Peseiro",
+    "festejos": "2",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "104",
+    "lidiador": "Carlos Aranda",
+    "festejos": "2",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "105",
+    "lidiador": "Dorian Canton",
+    "festejos": "2",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "106",
+    "lidiador": "Alberto Álvarez",
+    "festejos": "2",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "107",
+    "lidiador": "El Rafi",
+    "festejos": "2",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "108",
+    "lidiador": "Lalo de María",
+    "festejos": "2",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "109",
+    "lidiador": "Miguel Andrades",
+    "festejos": "2",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "110",
+    "lidiador": "Rubén Sanz",
+    "festejos": "2",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "111",
+    "lidiador": "Juan Pablo Sánchez",
+    "festejos": "2",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "112",
+    "lidiador": "Pedro Gutiérrez El Capea",
+    "festejos": "1",
+    "orejas": "5",
+    "rabos": "1"
+  },
+  {
+    "posicion": "113",
+    "lidiador": "Antonio Puerta",
+    "festejos": "1",
+    "orejas": "4",
+    "rabos": "0"
+  },
+  {
+    "posicion": "114",
+    "lidiador": "Pérez Mota",
+    "festejos": "1",
+    "orejas": "4",
+    "rabos": "0"
+  },
+  {
+    "posicion": "115",
+    "lidiador": "Salvador Cortés",
+    "festejos": "1",
+    "orejas": "4",
+    "rabos": "0"
+  },
+  {
+    "posicion": "116",
+    "lidiador": "Tomás Angulo",
+    "festejos": "1",
+    "orejas": "4",
+    "rabos": "0"
+  },
+  {
+    "posicion": "117",
+    "lidiador": "David Galán",
+    "festejos": "1",
+    "orejas": "4",
+    "rabos": "1"
+  },
+  {
+    "posicion": "118",
+    "lidiador": "Jesús Almería",
+    "festejos": "1",
+    "orejas": "4",
+    "rabos": "1"
+  },
+  {
+    "posicion": "119",
+    "lidiador": "Jesuli de Torrecera",
+    "festejos": "1",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "120",
+    "lidiador": "Jorge Isiegas",
+    "festejos": "1",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "121",
+    "lidiador": "Juan Herrero",
+    "festejos": "1",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "122",
+    "lidiador": "Luis Miguel Vázquez",
+    "festejos": "1",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "123",
+    "lidiador": "Villita",
+    "festejos": "1",
+    "orejas": "3",
+    "rabos": "0"
+  },
+  {
+    "posicion": "124",
+    "lidiador": "Juan Bautista",
+    "festejos": "1",
+    "orejas": "3",
+    "rabos": "1"
+  },
+  {
+    "posicion": "125",
+    "lidiador": "Alberto Lamelas",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "126",
+    "lidiador": "Alejandro Marcos",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "127",
+    "lidiador": "César Jiménez",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "128",
+    "lidiador": "Filiberto",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "129",
+    "lidiador": "Gonzalo Caballero",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "130",
+    "lidiador": "Javier Blanco",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "131",
+    "lidiador": "José María Trigueros",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "132",
+    "lidiador": "Juan del Álamo",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "133",
+    "lidiador": "Yon Lamothe",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "134",
+    "lidiador": "Ángel Jiménez",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "135",
+    "lidiador": "Manuel Caballero (hijo)",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "136",
+    "lidiador": "Cristiano Torres",
+    "festejos": "1",
+    "orejas": "2",
+    "rabos": "0"
+  },
+  {
+    "posicion": "137",
+    "lidiador": "André Lagravere El Galo",
+    "festejos": "1",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "138",
+    "lidiador": "Aníbal Ruiz",
+    "festejos": "1",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "139",
+    "lidiador": "Clemente Jaume",
+    "festejos": "1",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "140",
+    "lidiador": "Maxime Solera",
+    "festejos": "1",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "141",
+    "lidiador": "Miguel Giménez",
+    "festejos": "1",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "142",
+    "lidiador": "Nek Romero",
+    "festejos": "1",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "143",
+    "lidiador": "Santana Claros",
+    "festejos": "1",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "144",
+    "lidiador": "Tibo García",
+    "festejos": "1",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "145",
+    "lidiador": "Isaac Fonseca",
+    "festejos": "1",
+    "orejas": "1",
+    "rabos": "0"
+  },
+  {
+    "posicion": "146",
+    "lidiador": "Calita",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "147",
+    "lidiador": "Francisco Martínez",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "148",
+    "lidiador": "Javier Conde",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "149",
+    "lidiador": "Joselillo",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "150",
+    "lidiador": "Juan de Félix",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "151",
+    "lidiador": "Manuel Dias Gomes",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "152",
+    "lidiador": "Nuno Casquinha",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "153",
+    "lidiador": "Sergio Flores",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "154",
+    "lidiador": "Francisco de Manuel",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "155",
+    "lidiador": "Juan Pedro García Calerito",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "156",
+    "lidiador": "Pablo Páez",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "157",
+    "lidiador": "Rafael de Julia",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  },
+  {
+    "posicion": "158",
+    "lidiador": "Raúl Rivera",
+    "festejos": "1",
+    "orejas": "0",
+    "rabos": "0"
+  }
+]

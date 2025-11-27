@@ -8,6 +8,7 @@ export interface Transmision {
   enlaces: { texto: string; url: string }[];
 }
 
+
 @Injectable()
 export class ScraperService {
   private readonly url =

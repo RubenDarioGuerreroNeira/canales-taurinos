@@ -1,0 +1,76 @@
+Aquí puedes guardar tu configuración de colores de VSCode para llevarla a otros IDEs.
+
+Simplemente copia las secciones "workbench.colorCustomizations" y "editor.tokenColorCustomizations"
+de tu archivo settings.json y pégalas aquí dentro.
+
+Ejemplo de cómo se vería:
+
+{
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#282c34",
+    "titleBar.activeBackground": "#21252b",
+    "titleBar.activeForeground": "#c8c8c8",
+    "editor.background": "#282c34",
+    "editor.foreground": "#abb2bf",
+    "editorCursor.foreground": "#528bff",
+    "sideBar.background": "#21252b",
+    "list.hoverBackground": "#2c313a"
+    // ... y muchos más colores
+  },
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "comment",
+        "settings": {
+          "foreground": "#5c6370",
+          "fontStyle": "italic"
+        }
+      }
+      // ... y muchas más reglas de sintaxis
+    ]
+  }
+}
+
+
+--- el que tenia -----------
+
+{
+	"editor.minimap.enabled": false,
+	"antigravity.marketplaceGalleryItemURL": "",
+	"editor.codeActionsOnSave": {},
+	"workbench.colorTheme": "Material Palenight Theme",
+	"workbench.iconTheme": "material-icon-theme",
+	"workbench.colorCustomizations": {
+		"tab.activeForeground": "#ffffff",
+		"tab.inactiveForeground": "#b0bec5",
+		"gitDecoration.modifiedResourceForeground": "#ffcb6b",
+		"gitDecoration.untrackedResourceForeground": "#c3e88d"
+	},
+	"editor.tokenColorCustomizations": {
+		"strings": "#0be6d7fe",
+		"textMateRules": [
+			{
+				"scope": [
+					"keyword",
+					"storage",
+					"storage.type",
+					"storage.modifier"
+				],
+				"settings": {
+					"foreground": "#ffe252"
+				}
+			},
+			{
+				"scope": [
+					"variable",
+					"variable.other",
+					"variable.parameter",
+					"entity.name.variable"
+				],
+				"settings": {
+					"foreground": "#91d3fa"
+				}
+			}
+		]
+	}
+}
