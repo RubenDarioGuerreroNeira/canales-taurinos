@@ -10,6 +10,10 @@ import { CalendarioSceneService } from './scenes/calendario.scene';
 import { AmericaSceneService } from './scenes/america.scene';
 import { EscalafonSceneService } from './scenes/escalafon.scene';
 import { MyContext } from './telegram.interfaces';
+import {
+  escapeMarkdownV2,
+  escapeMarkdownUrl,
+} from '../utils/telegram-format';
 
 @Injectable()
 export class TelegramService implements OnModuleInit {
@@ -74,7 +78,7 @@ export class TelegramService implements OnModuleInit {
       greeting = '¡Buenas noches';
     }
 
-    return `${greeting}, ${this.escapeMarkdownV2(userName)}!`;
+    return `${greeting}, ${escapeMarkdownV2(userName)}!`;
   }
 
   private setupCommands() {
@@ -92,7 +96,7 @@ export class TelegramService implements OnModuleInit {
       );
       const userName = this.getUserName(ctx);
       await ctx.reply(
-        `¡Hola ${this.escapeMarkdownV2(userName)}! 🧹 La caché de transmisiones y del calendario de temporada ha sido limpiada. ¡Intenta tu búsqueda de nuevo!`,
+        `¡Hola ${escapeMarkdownV2(userName)}! 🧹 La caché de transmisiones y del calendario de temporada ha sido limpiada. ¡Intenta tu búsqueda de nuevo!`,
       );
     });
 
@@ -114,7 +118,7 @@ export class TelegramService implements OnModuleInit {
       await ctx.answerCbQuery();
       const userName = this.getUserName(ctx);
       await ctx.reply(
-        `¡Hola ${this.escapeMarkdownV2(userName)}! 📡 Consultando el calendario taurino de Servitoro para la temporada 2026...`,
+        `¡Hola ${escapeMarkdownV2(userName)}! 📡 Consultando el calendario taurino de Servitoro para la temporada 2026...`,
       );
       try {
         // Envolvemos la llamada al scraper en un timeout de 85 segundos.
@@ -125,7 +129,7 @@ export class TelegramService implements OnModuleInit {
 
         if (!eventos || eventos.length === 0) {
           await ctx.reply(
-            `Lo siento ${this.escapeMarkdownV2(userName)}, no se encontraron eventos en el calendario en este momento.`,
+            `Lo siento ${escapeMarkdownV2(userName)}, no se encontraron eventos en el calendario en este momento.`,
           );
           return;
         }
@@ -139,7 +143,7 @@ export class TelegramService implements OnModuleInit {
           error.stack,
         );
         await ctx.reply(
-          `Lo siento ${this.escapeMarkdownV2(userName)}, la consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos.`,
+          `Lo siento ${escapeMarkdownV2(userName)}, la consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos.`,
         );
       }
     });
@@ -155,27 +159,27 @@ export class TelegramService implements OnModuleInit {
       const userName = ctx.from.first_name || 'aficionado';
 
       const welcomeMessage =
-        `${this.escapeMarkdownV2('¡Hola')} ${this.escapeMarkdownV2(userName)}${this.escapeMarkdownV2('!')} 👋 ${this.escapeMarkdownV2('¡Bienvenido/a a Muletazo Bot!')} 🎯\n\n` +
+        `${escapeMarkdownV2('¡Hola')} ${escapeMarkdownV2(userName)}${escapeMarkdownV2('!')} 👋 ${escapeMarkdownV2('¡Bienvenido/a a Muletazo Bot!')} 🎯\n\n` +
         `Soy tu asistente personal para todo lo relacionado con el mundo taurino\\. Estoy aquí para ayudarte a estar siempre informado sobre corridas, festejos y transmisiones\\.\n\n` +
         `*📺 Transmisiones en Vivo*\n` +
         `Consulta qué corridas se transmiten por TV y en qué canales\\.\n` +
-        `${this.escapeMarkdownV2('💬 Escribe: "transmisiones" o "agenda de TV"')}\n\n` +
+        `${escapeMarkdownV2('💬 Escribe: "transmisiones" o "agenda de TV"')}\n\n` +
         `*🗓️ Calendario de la Temporada Española 2026*\n` +
         `Revisa todos los festejos programados para la temporada completa\\.\n` +
-        `${this.escapeMarkdownV2('💬 Escribe: "calendario" o "temporada completa"')}\n\n` +
+        `${escapeMarkdownV2('💬 Escribe: "calendario" o "temporada completa"')}\n\n` +
         `*🌎 Festejos en América*\n` +
         `Descubre las corridas programadas en países de América como Colombia\\.\n` +
-        `${this.escapeMarkdownV2('💬 Escribe: "América" o "corridas en Colombia"')}\n\n` +
+        `${escapeMarkdownV2('💬 Escribe: "América" o "corridas en Colombia"')}\n\n` +
         `*🏆 Escalafón Taurino*\n` +
         `Consulta el ranking actualizado de matadores de toros\\.\n` +
-        `${this.escapeMarkdownV2('💬 Escribe: "escalafón" o "ranking de toreros"')}\n\n` +
+        `${escapeMarkdownV2('💬 Escribe: "escalafón" o "ranking de toreros"')}\n\n` +
         `*💬 Conversación Natural*\n` +
         `También puedes hacerme preguntas sobre tauromaquia y te responderé con gusto\\.\n` +
-        `${this.escapeMarkdownV2('💬 Ejemplo: "¿Quien fue Manolete?"')}\n\n` +
+        `${escapeMarkdownV2('💬 Ejemplo: "¿Quien fue Manolete?"')}\n\n` +
         `*📞 Contacto*\n` +
-        `${this.escapeMarkdownV2('¿Tienes sugerencias o comentarios?')}\n` +
-        `${this.escapeMarkdownV2('💬 Escribe: "contacto" para saber cómo comunicarte con mi creador')}\n\n` +
-        `${this.escapeMarkdownV2('¡Estoy a tu servicio!')} ${this.escapeMarkdownV2('¿En qué puedo ayudarte hoy?')} 😊`;
+        `${escapeMarkdownV2('¿Tienes sugerencias o comentarios?')}\n` +
+        `${escapeMarkdownV2('💬 Escribe: "contacto" para saber cómo comunicarte con mi creador')}\n\n` +
+        `${escapeMarkdownV2('¡Estoy a tu servicio!')} ${escapeMarkdownV2('¿En qué puedo ayudarte hoy?')} 😊`;
 
       ctx.reply(welcomeMessage, { parse_mode: 'MarkdownV2' });
     });
@@ -195,7 +199,7 @@ export class TelegramService implements OnModuleInit {
         const userName = this.getUserName(ctx);
         const contactMessage = this.contactService.getContactMessage();
         await ctx.reply(
-          `${this.escapeMarkdownV2(`¡Hola ${userName}!`)} ${contactMessage}`,
+          `${escapeMarkdownV2(`¡Hola ${userName}!`)} ${contactMessage}`,
           { parse_mode: 'MarkdownV2' },
         );
         return;
@@ -268,7 +272,7 @@ export class TelegramService implements OnModuleInit {
           console.error('La sesión de chat no se pudo inicializar.');
           const userName = this.getUserName(ctx);
           await ctx.reply(
-            `Lo siento ${this.escapeMarkdownV2(userName)}, hubo un problema al iniciar la conversación. Por favor, intenta de nuevo.`,
+            `Lo siento ${escapeMarkdownV2(userName)}, hubo un problema al iniciar la conversación. Por favor, intenta de nuevo.`,
           );
           return;
         }
@@ -282,7 +286,7 @@ export class TelegramService implements OnModuleInit {
         if (isAgendaQuery) {
           await ctx.reply(
             this.getRandomThinkingMessage(
-              this.escapeMarkdownV2(ctx.from.first_name || 'aficionado'),
+              escapeMarkdownV2(ctx.from.first_name || 'aficionado'),
             ),
           );
           const eventos = await this.scraperService.scrapeTransmisiones();
@@ -324,7 +328,7 @@ export class TelegramService implements OnModuleInit {
         if (!isAgendaQuery) {
           await ctx.reply(
             this.getRandomThinkingMessage(
-              this.escapeMarkdownV2(ctx.from.first_name || 'aficionado'),
+              escapeMarkdownV2(ctx.from.first_name || 'aficionado'),
             ),
           );
         }
@@ -367,7 +371,7 @@ export class TelegramService implements OnModuleInit {
         } else if (geminiResponse.toLowerCase().includes('voy a buscar')) {
           const userName = this.getUserName(ctx);
           await ctx.reply(
-            `¡Hola ${this.escapeMarkdownV2(userName)}! ${geminiResponse}`,
+            `¡Hola ${escapeMarkdownV2(userName)}! ${geminiResponse}`,
           );
 
           // Para la segunda llamada (resultados de búsqueda), también podríamos querer reintentos,
@@ -380,7 +384,7 @@ export class TelegramService implements OnModuleInit {
             geminiResponse = result.response.text().trim();
             console.log(`[Respuesta de Gemini 2] ${geminiResponse}`);
             await ctx.reply(
-              `¡Hola ${this.escapeMarkdownV2(userName)}! ${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026  escribiendo "calendario".`,
+              `¡Hola ${escapeMarkdownV2(userName)}! ${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026  escribiendo "calendario".`,
             );
           } catch (secondError) {
             console.error('Error en la segunda llamada a Gemini:', secondError);
@@ -391,7 +395,7 @@ export class TelegramService implements OnModuleInit {
         } else {
           const userName = this.getUserName(ctx);
           await ctx.reply(
-            `¡Hola ${this.escapeMarkdownV2(userName)}! ${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026 escribiendo "calendario".`,
+            `¡Hola ${escapeMarkdownV2(userName)}! ${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026 escribiendo "calendario".`,
           );
         }
       } catch (error) {
@@ -402,16 +406,16 @@ export class TelegramService implements OnModuleInit {
         if (ctx.session) ctx.session.geminiChat = undefined;
         const userName = this.getUserName(ctx);
 
-        let errorMessage = `Lo siento ${this.escapeMarkdownV2(userName)}, estoy teniendo problemas para conectar con mi inteligencia.`;
+        let errorMessage = `Lo siento ${escapeMarkdownV2(userName)}, estoy teniendo problemas para conectar con mi inteligencia.`;
 
         // Mensajes de error más específicos según el tipo de error (si es posible identificarlo)
         if (error.message && error.message.includes('SAFETY')) {
-          errorMessage = `Lo siento ${this.escapeMarkdownV2(userName)}, no puedo procesar esa solicitud debido a mis filtros de seguridad.`;
+          errorMessage = `Lo siento ${escapeMarkdownV2(userName)}, no puedo procesar esa solicitud debido a mis filtros de seguridad.`;
         } else if (
           error.message &&
           (error.message.includes('429') || error.message.includes('Quota'))
         ) {
-          errorMessage = `Lo siento ${this.escapeMarkdownV2(userName)}, estoy un poco saturado en este momento. Por favor intenta de nuevo en unos segundos.`;
+          errorMessage = `Lo siento ${escapeMarkdownV2(userName)}, estoy un poco saturado en este momento. Por favor intenta de nuevo en unos segundos.`;
         }
 
         await ctx.reply(
@@ -425,7 +429,7 @@ export class TelegramService implements OnModuleInit {
     // En lugar de ir directo a una función, preguntamos al usuario qué calendario quiere ver.
     const userName = this.getUserName(ctx);
     await ctx.reply(
-      `¡Claro ${this.escapeMarkdownV2(userName)}! ¿Qué calendario te gustaría consultar?`,
+      `¡Claro ${escapeMarkdownV2(userName)}! ¿Qué calendario te gustaría consultar?`,
       Markup.inlineKeyboard([
         Markup.button.callback('Transmisiones 📺', 'show_transmisiones'),
         Markup.button.callback('Temporada 2026 🗓️ ', 'show_temporada'),
@@ -435,16 +439,6 @@ export class TelegramService implements OnModuleInit {
 
   private async handleTransmisionesQuery(ctx: MyContext) {
     await ctx.scene.enter('transmisionesScene');
-  }
-
-  private escapeMarkdownV2(text: string): string {
-    if (!text) return '';
-    return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
-  }
-
-  private escapeMarkdownUrl(url: string): string {
-    if (!url) return '';
-    return url.replace(/[()\\]/g, '\\$&');
   }
 
   private getRandomThinkingMessage(userName: string = 'aficionado'): string {
