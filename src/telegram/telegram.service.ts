@@ -7,13 +7,10 @@ import { ContactService } from '../contact/contact.service';
 import { GeminiService } from '../gemini/gemini.service';
 import { TransmisionesSceneService } from './scenes/transmisiones.scene';
 import { CalendarioSceneService } from './scenes/calendario.scene';
-import { AmericaSceneService } from './scenes/america.scene';
 import { EscalafonSceneService } from './scenes/escalafon.scene';
-import { MyContext } from './telegram.interfaces';
-import {
-  escapeMarkdownV2,
-  escapeMarkdownUrl,
-} from '../utils/telegram-format';
+import { MyContext } from './telegram.interfaces'; // Mantener esta línea
+import { escapeMarkdownV2, escapeMarkdownUrl } from '../utils/telegram-format'; // Mantener esta línea
+import { AmericaEventsService } from '../scraper/americaEvents.service'; // Eliminada la extensión .ts
 
 @Injectable()
 export class TelegramService implements OnModuleInit {
@@ -27,8 +24,8 @@ export class TelegramService implements OnModuleInit {
     private geminiService: GeminiService,
     private transmisionesSceneService: TransmisionesSceneService,
     private calendarioSceneService: CalendarioSceneService,
-    private americaSceneService: AmericaSceneService,
     private escalafonSceneService: EscalafonSceneService,
+    private americaEventsService: AmericaEventsService,
   ) {
     const token = process.env.BOT_TOKEN;
     if (!token) {
@@ -42,7 +39,6 @@ export class TelegramService implements OnModuleInit {
     const stage = new Scenes.Stage<MyContext>([
       this.transmisionesSceneService.create(),
       this.calendarioSceneService.create(),
-      this.americaSceneService.create(),
       this.escalafonSceneService.create(),
     ]);
 
@@ -167,9 +163,9 @@ export class TelegramService implements OnModuleInit {
         `*🗓️ Calendario de la Temporada Española 2026*\n` +
         `Revisa todos los festejos programados para la temporada completa\\.\n` +
         `${escapeMarkdownV2('💬 Escribe: "calendario" o "temporada completa"')}\n\n` +
-        `*🌎 Festejos en América*\n` +
+        `*🌎 Festejos en América*\n` + // Actualizado para la nueva interacción
         `Descubre las corridas programadas en países de América como Colombia\\.\n` +
-        `${escapeMarkdownV2('💬 Escribe: "América" o "corridas en Colombia"')}\n\n` +
+        `${escapeMarkdownV2('💬 Escribe: "América" o "corridas en Colombia" para ver las ciudades disponibles, o directamente "corridas en Cali"')}\n\n` +
         `*🏆 Escalafón Taurino*\n` +
         `Consulta el ranking actualizado de matadores de toros\\.\n` +
         `${escapeMarkdownV2('💬 Escribe: "escalafón" o "ranking de toreros"')}\n\n` +
@@ -183,6 +179,39 @@ export class TelegramService implements OnModuleInit {
 
       ctx.reply(welcomeMessage, { parse_mode: 'MarkdownV2' });
     });
+
+    // --- INICIO: Lógica para Eventos en América ---
+
+    // Manejador para "corridas en colombia" o "corridas en américa"
+    this.bot.hears(
+      /^(corridas en colombia|corridas en américa|eventos en américa|eventos en colombia)$/i,
+      (ctx) => this.handleAmericaCitiesQuery(ctx),
+    );
+
+    // Manejador para la acción de un botón de ciudad
+    this.bot.action(/america_city_(.+)/, async (ctx) => {
+      const city = ctx.match[1];
+      this.logger.log(`Botón presionado para la ciudad: ${city}`);
+      await ctx.answerCbQuery(); // Desactiva la animación de carga del botón
+      await this.sendAmericaEventsForCity(ctx, city);
+    });
+
+    // Manejador para "quiero ver corridas en {ciudad}" o "corridas en {ciudad}"
+    this.bot.hears(
+      /^(quiero ver corridas en|corridas en) (.+)$/i,
+      async (ctx) => {
+        const city = ctx.match[2]; // Captura el nombre de la ciudad del grupo regex
+        this.logger.log(`Detectada consulta directa para la ciudad: ${city}`);
+        await this.sendAmericaEventsForCity(ctx, city);
+      },
+    );
+
+    // Manejador para "América" o "Colombia" (como comando directo)
+    this.bot.hears(/^(américa|colombia)$/i, async (ctx) => {
+      await this.handleAmericaCitiesQuery(ctx);
+    });
+
+    // --- FIN: Lógica para Eventos en América ---
 
     this.bot.on('text', async (ctx) => {
       const userText = ctx.message.text.trim();
@@ -212,16 +241,6 @@ export class TelegramService implements OnModuleInit {
         );
       if (isCalendarioDeTransmisionesQuery) {
         await this.handleTransmisionesQuery(ctx);
-        return;
-      }
-
-      // Manejar consulta de festejos en América
-      const isAmericaQuery =
-        /américa|america|festejos en américa|corridas en américa|corridas en colombia|corridas en calí|corridas en manizales|Corridas en Colombia|carteles en colombia|Carteles en Colombia/i.test(
-          userText,
-        );
-      if (isAmericaQuery) {
-        await ctx.scene.enter('americaScene');
         return;
       }
 
@@ -449,5 +468,50 @@ export class TelegramService implements OnModuleInit {
       `Permíteme un instante..., ${userName} 🕗`,
     ];
     return messages[Math.floor(Math.random() * messages.length)];
+  }
+
+  private async handleAmericaCitiesQuery(ctx: MyContext) {
+    this.logger.log('Detectada consulta para ciudades de América.');
+    const cities = await this.americaEventsService.getAvailableCities();
+    if (cities.length === 0) {
+      await ctx.reply(
+        'Lo siento, no tengo información de corridas en América en este momento.',
+      );
+      return;
+    }
+
+    const buttons = cities.map((city) =>
+      Markup.button.callback(city, `america_city_${city}`),
+    );
+
+    await ctx.reply(
+      '¿En qué ciudad de América te gustaría consultar los eventos?',
+      Markup.inlineKeyboard(buttons, { columns: 2 }),
+    );
+  }
+
+  private async sendAmericaEventsForCity(ctx: MyContext, city: string) {
+    const events = await this.americaEventsService.getEventsForCity(city);
+
+    if (!events || events.length === 0) {
+      await ctx.reply(
+        `Lo siento, no encontré eventos para *${escapeMarkdownV2(city)}* en este momento.`,
+        { parse_mode: 'MarkdownV2' },
+      );
+      return;
+    }
+
+    let message = `🎉 *Próximos eventos en ${escapeMarkdownV2(city)}:*\n\n`;
+    events.forEach((event) => {
+      message += `🗓️ *Fecha:* ${escapeMarkdownV2(event.fecha)}\n`;
+      if (event.descripcion) {
+        message += `📝 *Descripción:* ${escapeMarkdownV2(event.descripcion)}\n`;
+      }
+      message += `🐂 *Ganadería:* ${escapeMarkdownV2(event.ganaderia)}\n`;
+      message += `👨‍鬥 *Toreros:* ${escapeMarkdownV2(event.toreros.join(', '))}\n`;
+      message += `\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\n`;
+    });
+
+    await ctx.reply(message, { parse_mode: 'MarkdownV2' });
   }
 }

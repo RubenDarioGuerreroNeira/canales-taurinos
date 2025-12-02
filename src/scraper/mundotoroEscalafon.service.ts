@@ -11,7 +11,7 @@ import { EscalafonEntry } from './interfaces/torero.interface';
 export class MundotoroEscalafonService {
   private readonly logger = new Logger(MundotoroEscalafonService.name);
   private readonly dataPath: string;
-  private readonly url = 'https://www.mundotoro.com/escalafon-toreros/';
+  private readonly url = 'https://www.mundotoro.com/escalafon-toreros'; // URL correcta para el scraping
 
   constructor() {
     this.dataPath = path.join(process.cwd(), 'data', 'escalafon.json');
@@ -285,6 +285,8 @@ export class MundotoroEscalafonService {
       // Selectores candidatos (tablas reales o estructuras con role="table")
       const candidateSelectors = [
         'table',
+        'table.listadoTabla', // Selector específico para la tabla del escalafón
+        'table#sorter', // ID de la tabla en la página
         'div[role="table"]',
         '.tablalistado',
         '.table-responsive table',

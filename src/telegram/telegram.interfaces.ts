@@ -18,6 +18,7 @@ export interface MySceneSession extends Scenes.SceneSessionData {
   currentCalPage?: number;
   escalafonData?: EscalafonEntry[];
   currentPage?: number;
+  americaSearchTerm?: string;
 }
 
 export interface MySession extends Scenes.SceneSession<MySceneSession> {

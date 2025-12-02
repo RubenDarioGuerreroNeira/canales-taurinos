@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Scenes, Markup } from 'telegraf';
-import { MyContext } from '../telegram.interfaces';
+import { MyContext, MySceneSession } from '../telegram.interfaces'; // Import MySceneSession
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import { escapeMarkdownV2 } from '../../utils/telegram-format'; // Import the centralized utility
 
 interface AmericaEvent {
   fecha: string;
@@ -17,11 +18,9 @@ export class AmericaSceneService {
     const scene = new Scenes.BaseScene<MyContext>('americaScene');
 
     scene.enter(async (ctx) => {
-      // Asegurar que userName sea siempre un string válido
       let userName = 'aficionado';
       try {
         if (ctx.from?.first_name) {
-          // Si first_name es un objeto, intentar convertirlo a JSON y luego a string
           if (typeof ctx.from.first_name === 'object') {
             userName = 'aficionado';
           } else {
@@ -42,11 +41,43 @@ export class AmericaSceneService {
           return ctx.scene.leave();
         }
 
-        // Agrupar por País -> Ciudades
+        const sceneState = ctx.scene.state as MySceneSession; // Explicitly cast
+        const searchTerm = sceneState.americaSearchTerm;
+        console.log(`[AmericaScene] Received searchTerm: ${searchTerm}`);
+        console.log(`[AmericaScene] rawLocations keys: ${Object.keys(rawLocations).join(', ')}`);
+
+        // Si el término de búsqueda es general, no hacemos búsqueda directa
+        const isGeneralSearch = searchTerm && ['colombia', 'america', 'américa'].includes(searchTerm);
+        console.log(`[AmericaScene] isGeneralSearch: ${isGeneralSearch}`);
+
+        if (searchTerm && !isGeneralSearch) {
+          // Attempt to find a direct match based on the search term
+          const matchingLocationKey = Object.keys(rawLocations).find(key =>
+            key.split(',')[0].trim().toLowerCase() === searchTerm.toLowerCase()
+          );
+          console.log(`[AmericaScene] Found matchingLocationKey: ${matchingLocationKey}`);
+
+          if (matchingLocationKey) {
+            await this.displayEventsForLocation(ctx, matchingLocationKey, rawLocations);
+            // After displaying events, offer to go back to list or exit
+            await ctx.reply(
+              `¿Deseas consultar otra ciudad?`,
+              Markup.inlineKeyboard([
+                Markup.button.callback('🔙 Volver al listado', 'back_to_list'),
+                Markup.button.callback('❌ Salir', 'exit_america')
+              ])
+            );
+            return; // Exit scene.enter, since events are displayed
+          } else {
+            await ctx.reply(`Lo siento ${userName}, no encontré eventos para "${searchTerm}" directamente.`);
+            // Fall through to show all locations
+          }
+        }
+
+        // --- Original logic if no search term or direct match not found ---
         const countryMap: { [country: string]: string[] } = {};
 
         Object.keys(rawLocations).forEach(key => {
-          // Asumimos formato "Ciudad, País"
           const parts = key.split(',').map(p => p.trim());
           if (parts.length >= 2) {
             const city = parts[0];
@@ -56,30 +87,26 @@ export class AmericaSceneService {
             }
             countryMap[country].push(city);
           } else {
-            // Fallback si no hay coma
             const country = 'Otros';
             if (!countryMap[country]) countryMap[country] = [];
             countryMap[country].push(key);
           }
         });
 
-        // Construir mensaje conversacional - Escapar todo correctamente
-        let message = `${this.escapeMarkdownV2('¡Hola')} ${this.escapeMarkdownV2(userName)}${this.escapeMarkdownV2('!')} 👋\\n\\n`;
+        let message = `${escapeMarkdownV2('¡Hola')} ${escapeMarkdownV2(userName)}${escapeMarkdownV2('!')} 👋\\n\\n`;
 
         const countries = Object.keys(countryMap);
         if (countries.length > 0) {
           countries.forEach(country => {
             const cities = countryMap[country].join(' y ');
-            message += `En ${this.escapeMarkdownV2('América')} en el país de *${this.escapeMarkdownV2(country)}* existen eventos programados para las Ciudades de: *${this.escapeMarkdownV2(cities)}*\\n`;
+            message += `En ${escapeMarkdownV2('América')} en el país de *${escapeMarkdownV2(country)}* existen eventos programados para las Ciudades de: *${escapeMarkdownV2(cities)}*\\n`;
           });
-          message += `\\n${this.escapeMarkdownV2('¿Qué ciudad prefieres?')}`;
+          message += `\\n${escapeMarkdownV2('¿Qué ciudad prefieres?')}`;
         } else {
-          message += `He encontrado eventos pero no pude identificar los países\\. ${this.escapeMarkdownV2('¿Cuál prefieres ver?')}`;
+          message += `He encontrado eventos pero no pude identificar los países\\. ${escapeMarkdownV2('¿Cuál prefieres ver?')}`;
         }
 
-        // Crear botones para cada ubicación original (que es lo que usaremos para filtrar)
         const buttons = Object.keys(rawLocations).map(fullLocation => {
-          // Extraer solo la ciudad para el botón si es posible
           const label = fullLocation.split(',')[0].trim();
           return Markup.button.callback(label, `loc_${fullLocation}`);
         });
@@ -98,7 +125,6 @@ export class AmericaSceneService {
       }
     });
 
-    // Acción para mostrar eventos de una ciudad específica
     scene.action(/loc_(.+)/, async (ctx) => {
       const locationKey = ctx.match[1];
       await ctx.answerCbQuery();
@@ -107,25 +133,8 @@ export class AmericaSceneService {
         const dataPath = path.join(process.cwd(), 'data', 'america-events.json');
         const fileContent = await fs.readFile(dataPath, 'utf-8');
         const rawLocations: { [location: string]: AmericaEvent[] } = JSON.parse(fileContent);
-        const events = rawLocations[locationKey];
 
-        if (!events) {
-          await ctx.reply(`Lo siento, ya no encuentro información para ${locationKey}.`);
-          return ctx.scene.reenter();
-        }
-
-        const header = `*📍 Carteles en ${this.escapeMarkdownV2(locationKey)}*`;
-
-        for (const event of events) {
-          const toreros = event.toreros.join(', ');
-          let eventTitle = `*${this.escapeMarkdownV2(event.fecha)}*`;
-          if (event.descripcion) {
-            eventTitle += ` \\- _${this.escapeMarkdownV2(event.descripcion)}_`;
-          }
-          const details = `🐂 Toros de ${this.escapeMarkdownV2(event.ganaderia)}\n🤺 Para ${this.escapeMarkdownV2(toreros)}`;
-
-          await ctx.reply(`${eventTitle}\n${details}`, { parse_mode: 'MarkdownV2' });
-        }
+        await this.displayEventsForLocation(ctx, locationKey, rawLocations);
 
         // Botón para volver
         await ctx.reply(
@@ -144,6 +153,7 @@ export class AmericaSceneService {
 
     scene.action('back_to_list', async (ctx) => {
       await ctx.answerCbQuery();
+      (ctx.scene.state as MySceneSession).americaSearchTerm = undefined; // Clear search term on back
       return ctx.scene.reenter();
     });
 
@@ -155,16 +165,38 @@ export class AmericaSceneService {
     });
 
     scene.on('text', (ctx) => {
-      // Si escribe algo que no entendemos en este contexto, salimos o re-preguntamos.
-      // Para ser amables, salimos.
-      ctx.scene.leave();
+      // If something is typed that we don't understand in this context, we re-show the list
+      ctx.scene.reenter();
     });
 
     return scene;
   }
 
-  private escapeMarkdownV2(text: string): string {
-    if (!text) return '';
-    return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
+  private async displayEventsForLocation(
+    ctx: MyContext,
+    locationKey: string,
+    rawLocations: { [location: string]: AmericaEvent[] }
+  ): Promise<void> {
+    const events = rawLocations[locationKey];
+    const userName = ctx.from?.first_name || 'aficionado';
+
+    if (!events || events.length === 0) {
+      await ctx.reply(`Lo siento ${userName}, no encuentro información para ${escapeMarkdownV2(locationKey)}.`);
+      return;
+    }
+
+    const header = `*📍 Carteles en ${escapeMarkdownV2(locationKey)}*`;
+    await ctx.reply(header, { parse_mode: 'MarkdownV2' });
+
+    for (const event of events) {
+      const toreros = event.toreros.join(', ');
+      let eventTitle = `*${escapeMarkdownV2(event.fecha)}*`;
+      if (event.descripcion) {
+        eventTitle += ` \\- _${escapeMarkdownV2(event.descripcion)}_`;
+      }
+      const details = `🐂 Toros de ${escapeMarkdownV2(event.ganaderia)}\n🤺 Para ${escapeMarkdownV2(toreros)}`;
+
+      await ctx.reply(`${eventTitle}\n${details}`, { parse_mode: 'MarkdownV2' });
+    }
   }
 }
