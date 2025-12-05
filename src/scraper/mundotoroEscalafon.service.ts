@@ -227,39 +227,31 @@ export class MundotoroEscalafonService {
       // Esperar a que la página esté completamente cargada
       await new Promise((r) => setTimeout(r, 2000));
 
-      // Intentar esperar por una tabla o estructura tipo tabla que cargue dinámicamente
-      try {
-        this.logger.log(
-          'Esperando a que aparezca una tabla (selector) en la página...',
+      // Guardado condicional de archivos de depuración
+      const SAVE_DEBUG_FILES = process.env.PUPPETEER_DEBUG_FILES === 'true';
+
+      if (SAVE_DEBUG_FILES) {
+        const screenshotPath = path.join(
+          process.cwd(),
+          'data',
+          'debug_screenshot.png',
         );
-        await page.waitForSelector('table, div[role="table"], .tablalistado', {
-          timeout: 15000,
-        });
-        this.logger.log('Se detectó un selector de tabla en la página.');
-      } catch (waitErr) {
+        await page.screenshot({ path: screenshotPath, fullPage: true });
         this.logger.log(
-          'No se detectó un selector de tabla en el tiempo esperado. Continuando igualmente.',
+          `Screenshot para depuración guardado en: ${screenshotPath}`,
         );
       }
-
-      const screenshotPath = path.join(
-        process.cwd(),
-        'data',
-        'debug_screenshot.png',
-      );
-      await page.screenshot({ path: screenshotPath, fullPage: true });
-      this.logger.log(
-        `Screenshot para depuración guardado en: ${screenshotPath}`,
-      );
-
+      
       const content = await page.content();
 
       // Guardar el HTML para depuración
-      const htmlPath = path.join(process.cwd(), 'data', 'debug_page.html');
-      await fs.writeFile(htmlPath, content, 'utf-8');
-      this.logger.log(
-        `HTML de la página guardado para depuración en: ${htmlPath}`,
-      );
+      if (SAVE_DEBUG_FILES) {
+        const htmlPath = path.join(process.cwd(), 'data', 'debug_page.html');
+        await fs.writeFile(htmlPath, content, 'utf-8');
+        this.logger.log(
+          `HTML de la página guardado para depuración en: ${htmlPath}`,
+        );
+      }
 
       // Verificar si hay mensajes de bloqueo
       if (
