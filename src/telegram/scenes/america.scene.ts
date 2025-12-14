@@ -69,8 +69,8 @@ export class AmericaSceneService {
             );
             return; // Exit scene.enter, since events are displayed
           } else {
-            await ctx.reply(`Lo siento ${userName}, no encontré eventos para "${searchTerm}" directamente.`);
-            // Fall through to show all locations
+            await ctx.reply('Lo siento no tengo esa respuesta por ahora');
+            return ctx.scene.leave();
           }
         }
 
