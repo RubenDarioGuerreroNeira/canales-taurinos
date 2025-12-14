@@ -197,15 +197,14 @@ export class TelegramService implements OnModuleInit {
     });
 
     // Manejador para "quiero ver corridas en {ciudad}" o "corridas en {ciudad}"
-    this.bot.hears(
-      /^(quiero ver corridas en|corridas en) (.+)$/i,
-      async (ctx) => {
-        const city = ctx.match[2]; // Captura el nombre de la ciudad del grupo regex
-        this.logger.log(`Detectada consulta directa para la ciudad: ${city}`);
-        await this.sendAmericaEventsForCity(ctx, city);
-      },
-    );
-
+            this.bot.hears(
+              /^(quiero ver corridas en|corridas en) (.+)$/i,
+              async (ctx) => {
+                const city = ctx.match[2]; // Captura el nombre de la ciudad del grupo regex
+                this.logger.log(`Detectada consulta directa para la ciudad: ${city}`);
+                await this.sendAmericaEventsForCity(ctx, city);
+              },
+            );
     // Manejador para "América" o "Colombia" (como comando directo)
     this.bot.hears(/^(américa|colombia)$/i, async (ctx) => {
       await this.handleAmericaCitiesQuery(ctx);
@@ -491,27 +490,40 @@ export class TelegramService implements OnModuleInit {
   }
 
   private async sendAmericaEventsForCity(ctx: MyContext, city: string) {
-    const events = await this.americaEventsService.getEventsForCity(city);
+    try {
+      const events = await this.americaEventsService.getEventsForCity(city);
 
-    if (!events || events.length === 0) {
-      await ctx.reply(
-        `Lo siento, no encontré eventos para *${escapeMarkdownV2(city)}* en este momento.`,
-        { parse_mode: 'MarkdownV2' },
-      );
-      return;
-    }
-
-    let message = `🎉 *Próximos eventos en ${escapeMarkdownV2(city)}:*\n\n`;
-    events.forEach((event) => {
-      message += `🗓️ *Fecha:* ${escapeMarkdownV2(event.fecha)}\n`;
-      if (event.descripcion) {
-        message += `📝 *Descripción:* ${escapeMarkdownV2(event.descripcion)}\n`;
+      if (!events || events.length === 0) {
+        await ctx.reply(
+          `Lo siento no tengo esa respuesta por ahora.`,
+        );
+        return;
       }
-      message += `🐂 *Ganadería:* ${escapeMarkdownV2(event.ganaderia)}\n`;
-      message += `👨‍鬥 *Toreros:* ${escapeMarkdownV2(event.toreros.join(', '))}\n`;
-      message += `\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\n`;
-    });
 
-    await ctx.reply(message, { parse_mode: 'MarkdownV2' });
+      let message = `🎉 *Próximos eventos en ${escapeMarkdownV2(city)}:*\n\n`;
+      events.forEach((event) => {
+        message += `🗓️ *Fecha:* ${escapeMarkdownV2(event.fecha)}\n`;
+        if (event.descripcion) {
+          message += `📝 *Descripción:* ${escapeMarkdownV2(
+            event.descripcion,
+          )}\n`;
+        }
+        message += `🐂 *Ganadería:* ${escapeMarkdownV2(event.ganaderia)}\n`;
+        message += `👨‍鬥 *Toreros:* ${escapeMarkdownV2(
+          event.toreros.join(', '),
+        )}\n`;
+        message += `\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\n`;
+      });
+
+      await ctx.reply(message, { parse_mode: 'MarkdownV2' });
+    } catch (error) {
+      this.logger.error(
+        `Error al obtener eventos para la ciudad: ${city}`,
+        error.stack,
+      );
+      await ctx.reply(
+        `Lo siento, no tengo esa respuesta por ahora.`,
+      );
+    }
   }
 }
