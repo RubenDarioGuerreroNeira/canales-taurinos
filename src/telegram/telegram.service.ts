@@ -9,8 +9,9 @@ import { TransmisionesSceneService } from './scenes/transmisiones.scene';
 import { CalendarioSceneService } from './scenes/calendario.scene';
 import { EscalafonSceneService } from './scenes/escalafon.scene';
 import { MyContext } from './telegram.interfaces'; // Mantener esta línea
-import { escapeMarkdownV2, escapeMarkdownUrl } from '../utils/telegram-format'; // Mantener esta línea
+import { escapeMarkdownV2, escapeMarkdownUrl, parseSpanishDate } from '../utils/telegram-format'; // Mantener esta línea
 import { AmericaEventsService } from '../scraper/americaEvents.service'; // Eliminada la extensión .ts
+import { WeatherService } from '../weather/weather.service';
 
 @Injectable()
 export class TelegramService implements OnModuleInit {
@@ -26,6 +27,7 @@ export class TelegramService implements OnModuleInit {
     private calendarioSceneService: CalendarioSceneService,
     private escalafonSceneService: EscalafonSceneService,
     private americaEventsService: AmericaEventsService,
+    private weatherService: WeatherService,
   ) {
     const token = process.env.BOT_TOKEN;
     if (!token) {
@@ -197,14 +199,14 @@ export class TelegramService implements OnModuleInit {
     });
 
     // Manejador para "quiero ver corridas en {ciudad}" o "corridas en {ciudad}"
-            this.bot.hears(
-              /^(quiero ver corridas en|corridas en) (.+)$/i,
-              async (ctx) => {
-                const city = ctx.match[2]; // Captura el nombre de la ciudad del grupo regex
-                this.logger.log(`Detectada consulta directa para la ciudad: ${city}`);
-                await this.sendAmericaEventsForCity(ctx, city);
-              },
-            );
+    this.bot.hears(
+      /^(quiero ver corridas en|corridas en) (.+)$/i,
+      async (ctx) => {
+        const city = ctx.match[2]; // Captura el nombre de la ciudad del grupo regex
+        this.logger.log(`Detectada consulta directa para la ciudad: ${city}`);
+        await this.sendAmericaEventsForCity(ctx, city);
+      },
+    );
     // Manejador para "América" o "Colombia" (como comando directo)
     this.bot.hears(/^(américa|colombia)$/i, async (ctx) => {
       await this.handleAmericaCitiesQuery(ctx);
@@ -501,7 +503,37 @@ export class TelegramService implements OnModuleInit {
       }
 
       let message = `🎉 *Próximos eventos en ${escapeMarkdownV2(city)}:*\n\n`;
-      events.forEach((event) => {
+
+      // Usamos un bucle for-of para poder usar await dentro
+      for (const event of events) {
+        let weatherInfo = '';
+        const eventDate = parseSpanishDate(event.fecha);
+
+        if (eventDate) {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const eventDateOnly = new Date(eventDate);
+          eventDateOnly.setHours(0, 0, 0, 0);
+
+          const diffTime = eventDateOnly.getTime() - today.getTime();
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+          if (diffDays > 7) {
+            weatherInfo = `\n📅 _El pronóstico del clima estará disponible 7 días antes del evento_`;
+          } else if (diffDays >= 0) {
+            try {
+              const weather = await this.weatherService.getWeather(city, eventDate);
+              if (weather.success && weather.data) {
+                const temp = Math.round(weather.data.temperature);
+                const desc = weather.data.description;
+                weatherInfo = `\n🌤 _Pronóstico:_ ${temp}°C \- ${desc}`;
+              }
+            } catch (e) {
+              this.logger.error(`Error al obtener clima para ${city}: ${e.message}`);
+            }
+          }
+        }
+
         message += `🗓️ *Fecha:* ${escapeMarkdownV2(event.fecha)}\n`;
         if (event.descripcion) {
           message += `📝 *Descripción:* ${escapeMarkdownV2(
@@ -512,8 +544,11 @@ export class TelegramService implements OnModuleInit {
         message += `👨‍鬥 *Toreros:* ${escapeMarkdownV2(
           event.toreros.join(', '),
         )}\n`;
+        if (weatherInfo) {
+          message += `${escapeMarkdownV2(weatherInfo)}\n`;
+        }
         message += `\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\n`;
-      });
+      }
 
       await ctx.reply(message, { parse_mode: 'MarkdownV2' });
     } catch (error) {

@@ -5,11 +5,19 @@ import { ServitoroEvent } from '../../scraper/servitoro.service';
 import {
   escapeMarkdownV2,
   escapeMarkdownUrl,
+  parseSpanishDate,
 } from '../../utils/telegram-format';
+import { WeatherService } from '../../weather/weather.service';
+import {
+  WeatherData,
+  WeatherResult,
+} from '../../weather/interfaces/weather.interface';
 
 @Injectable()
 export class CalendarioSceneService {
   private readonly EVENTS_PER_PAGE = 3;
+
+  constructor(private readonly weatherService: WeatherService) { }
 
   create(): Scenes.BaseScene<MyContext> {
     const scene = new Scenes.BaseScene<MyContext>('calendarioScene');
@@ -230,18 +238,48 @@ export class CalendarioSceneService {
       return;
     }
 
-    const mensajes = eventsToShow.map((e) => {
-      const fecha = escapeMarkdownV2(e.fecha);
+    const mensajes: string[] = [];
+
+    for (const e of eventsToShow) {
+      const fechaMsg = escapeMarkdownV2(e.fecha);
       const ciudad = escapeMarkdownV2(e.ciudad);
       const nombreEvento = escapeMarkdownV2(e.nombreEvento);
       const categoria = escapeMarkdownV2(e.categoria);
-      const location = escapeMarkdownV2(e.location);
+      const locationMsg = escapeMarkdownV2(e.location);
       const link = e.link
         ? `\n[🔗 Ver entradas](${escapeMarkdownUrl(e.link)})`
         : '';
 
-      return `📅 *${fecha}* \\- ${ciudad}\n*${nombreEvento}*\n_${categoria}_\n📍 ${location}${link}`;
-    });
+      let weatherInfo = '';
+      const eventDate = parseSpanishDate(e.fecha);
+      if (eventDate) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const eventDateOnly = new Date(eventDate);
+        eventDateOnly.setHours(0, 0, 0, 0);
+
+        const diffTime = eventDateOnly.getTime() - today.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays > 7) {
+          weatherInfo = `\n📅 _El pronóstico se habilita 7 días antes_`;
+        } else if (diffDays >= 0) {
+          try {
+            const city = e.ciudad.split(',')[0].trim();
+            const weather = await this.weatherService.getWeather(city, eventDate);
+            if (weather.success && weather.data) {
+              const temp = Math.round(weather.data.temperature);
+              const desc = weather.data.description;
+              weatherInfo = `\n🌤 _Clima:_ ${temp}°C \- ${desc}`;
+            }
+          } catch (err) {
+            // Silently ignore or log
+          }
+        }
+      }
+
+      mensajes.push(`📅 *${fechaMsg}* \\- ${ciudad}\n*${nombreEvento}*\n_${categoria}_\n📍 ${locationMsg}${escapeMarkdownV2(weatherInfo)}${link}`);
+    }
 
     const headerText = `Resultados (${start + 1}-${Math.min(end, filteredEvents.length)} de ${filteredEvents.length}):`;
     const messageHeader = `${escapeMarkdownV2(headerText)}\n\n`;

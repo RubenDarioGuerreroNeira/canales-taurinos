@@ -8,6 +8,7 @@ import { AppController } from './app.controller';
 import { ContactModule } from './contact/contact.module';
 import { AppService } from './app.service';
 import { GeminiModule } from './gemini/gemini.module';
+import { WeatherModule } from './weather/weather.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { GeminiModule } from './gemini/gemini.module';
     TelegramModule,
     ContactModule,
     GeminiModule,
+    WeatherModule,
   ],
   // El AppController es necesario para que el endpoint /ping esté disponible
   controllers: [AppController],
