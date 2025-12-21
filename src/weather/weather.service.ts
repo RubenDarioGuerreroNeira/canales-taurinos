@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { WeatherResult, WeatherData } from './interfaces/weather.interface';
 
@@ -17,8 +16,7 @@ export class WeatherService {
 
   constructor(
     private readonly httpService: HttpService,
-    private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   async getWeather(city: string, date: Date): Promise<WeatherResult> {
     try {
@@ -65,6 +63,45 @@ export class WeatherService {
       return { success: false, message };
     }
   }
+
+  /**
+   * Genera un mensaje formateado con el pronóstico del clima o aviso de disponibilidad.
+   * Centraliza la lógica de diferencia de fechas y límites de pronóstico.
+   */
+  async getWeatherForecastMessage(city: string, eventDate: Date): Promise<string> {
+    try {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const targetDate = new Date(eventDate);
+      targetDate.setHours(0, 0, 0, 0);
+
+      const diffTime = targetDate.getTime() - today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays > 7) {
+        return `\n📅 _El pronóstico del clima estará disponible 7 días antes del evento_`;
+      }
+
+      if (diffDays < 0) {
+        return ''; // Evento pasado, no mostramos clima
+      }
+
+      const weather = await this.getWeather(city, eventDate);
+      if (weather.success && weather.data) {
+        const temp = Math.round(weather.data.temperature);
+        const desc = weather.data.description;
+        // Retornamos el mensaje listo para MarkdownV2 (escapado si es necesario, 
+        // aunque usualmente se escapa en el consumidor final)
+        return `\n🌤 _Pronóstico:_ ${temp}°C \- ${desc}`;
+      }
+
+      return '';
+    } catch (error) {
+      this.logger.error(`Error generating weather forecast message: ${error.message}`);
+      return '';
+    }
+  }
+
 
   private async getCoordinates(city: string): Promise<CoordsResult> {
     try {

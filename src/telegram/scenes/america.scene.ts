@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Scenes, Markup } from 'telegraf';
 import { MyContext, MySceneSession } from '../telegram.interfaces'; // Import MySceneSession
 import * as fs from 'fs/promises';
@@ -15,6 +15,8 @@ interface AmericaEvent {
 
 @Injectable()
 export class AmericaSceneService {
+  private readonly logger = new Logger(AmericaSceneService.name);
+
   constructor(private readonly weatherService: WeatherService) { }
 
   create(): Scenes.BaseScene<MyContext> {
@@ -46,19 +48,16 @@ export class AmericaSceneService {
 
         const sceneState = ctx.scene.state as MySceneSession; // Explicitly cast
         const searchTerm = sceneState.americaSearchTerm;
-        console.log(`[AmericaScene] Received searchTerm: ${searchTerm}`);
-        console.log(`[AmericaScene] rawLocations keys: ${Object.keys(rawLocations).join(', ')}`);
+        this.logger.log(`Received searchTerm: ${searchTerm}`);
 
         // Si el término de búsqueda es general, no hacemos búsqueda directa
-        const isGeneralSearch = searchTerm && ['colombia', 'america', 'américa'].includes(searchTerm);
-        console.log(`[AmericaScene] isGeneralSearch: ${isGeneralSearch}`);
+        const isGeneralSearch = searchTerm && ['colombia', 'america', 'américa', 'corridas en colombia', 'festejos en colombia', 'corridas en manizales', 'corridas en cali'].includes(searchTerm);
 
         if (searchTerm && !isGeneralSearch) {
           // Attempt to find a direct match based on the search term
           const matchingLocationKey = Object.keys(rawLocations).find(key =>
             key.split(',')[0].trim().toLowerCase() === searchTerm.toLowerCase()
           );
-          console.log(`[AmericaScene] Found matchingLocationKey: ${matchingLocationKey}`);
 
           if (matchingLocationKey) {
             await this.displayEventsForLocation(ctx, matchingLocationKey, rawLocations);
@@ -122,7 +121,7 @@ export class AmericaSceneService {
         });
 
       } catch (error) {
-        console.error('Error reading or parsing america-events.json:', error);
+        this.logger.error(`Error reading or parsing america-events.json: ${error.message}`, error.stack);
         await ctx.reply(`Lo siento ${userName}, ha ocurrido un error al cargar los carteles.`);
         return ctx.scene.leave();
       }
@@ -149,7 +148,7 @@ export class AmericaSceneService {
         );
 
       } catch (error) {
-        console.error('Error fetching details:', error);
+        this.logger.error(`Error fetching details: ${error.message}`, error.stack);
         await ctx.reply(`Ocurrió un error al obtener los detalles.`);
       }
     });
@@ -201,43 +200,25 @@ export class AmericaSceneService {
 
       let weatherInfo = '';
       const eventDate = parseSpanishDate(event.fecha);
-
       if (eventDate) {
-        const today = new Date();
-        // Reset time to compare dates properly
-        today.setHours(0, 0, 0, 0);
-        const eventDateOnly = new Date(eventDate);
-        eventDateOnly.setHours(0, 0, 0, 0);
-
-        const diffTime = eventDateOnly.getTime() - today.getTime();
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        // Open-Meteo free forecast is usually up to 7 days, sometimes up to 14 or 16 depending on settings.
-        // But to be safe/consistent with user request logic:
-        if (diffDays > 7) {
-          weatherInfo = `\n📅 _El pronóstico del clima estará disponible 7 días antes del evento_`;
-        } else if (diffDays < 0) {
-          // Event passed
-          weatherInfo = '';
-        } else {
-          try {
-            const weather = await this.weatherService.getWeather(city, eventDate);
-            if (weather.success && weather.data) {
-              const temp = Math.round(weather.data.temperature);
-              const desc = weather.data.description;
-              weatherInfo = `\n🌤 _Pronóstico:_ ${temp}°C \- ${desc}`;
-            }
-          } catch (e) {
-            console.error(`Error getting weather for ${city} on ${eventDate}:`, e);
-          }
-        }
+        weatherInfo = await this.weatherService.getWeatherForecastMessage(city, eventDate);
       }
+
 
       const details = `🐂 Toros de ${escapeMarkdownV2(event.ganaderia)}
 🤺 Para ${escapeMarkdownV2(toreros)}${escapeMarkdownV2(weatherInfo)}`;
 
       await ctx.reply(`${eventTitle}\n${details}`, { parse_mode: 'MarkdownV2' });
     }
+
+    // Mensaje de seguimiento final
+    await ctx.reply(
+      escapeMarkdownV2(`¿Qué más te gustaría saber sobre los festejos en ${locationKey}?`),
+      Markup.inlineKeyboard([
+        [Markup.button.callback('📅 Volver a la Lista', 'back_to_list')],
+        [Markup.button.callback('🏠 Salir', 'exit_america')],
+      ])
+    );
   }
 
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Scenes, Markup } from 'telegraf';
 import { MyContext } from '../telegram.interfaces';
 import { ServitoroEvent } from '../../scraper/servitoro.service';
@@ -15,6 +15,7 @@ import {
 
 @Injectable()
 export class CalendarioSceneService {
+  private readonly logger = new Logger(CalendarioSceneService.name);
   private readonly EVENTS_PER_PAGE = 3;
 
   constructor(private readonly weatherService: WeatherService) { }
@@ -118,43 +119,52 @@ export class CalendarioSceneService {
     });
 
     scene.action('exit_cal', async (ctx) => {
-      await ctx.answerCbQuery();
-      ctx.scene.session.filterStateCal = undefined;
-      const userName = ctx.from?.first_name || 'aficionado';
-      await ctx.reply(
-        `¡De acuerdo ${userName}! ¿En qué más puedo ayudarte?\n\nPuedes preguntar por la "tarnsmisiones de festejos que puedes ver aquí " o consultar el "calendario taurino" de nuevo cuando quieras, solo escribiendo "calendario".`,
-      );
-      await ctx.scene.leave();
+      try {
+        await ctx.answerCbQuery();
+        ctx.scene.session.filterStateCal = undefined;
+        const userName = ctx.from?.first_name || 'aficionado';
+        await ctx.reply(
+          `¡De acuerdo ${userName}! ¿En qué más puedo ayudarte?\n\nPuedes preguntar por la "tarnsmisiones de festejos que puedes ver aquí " o consultar el "calendario español taurino 2026" de nuevo cuando quieras, solo escribiendo "calendario".`,
+        );
+        await ctx.scene.leave();
+      } catch (error) {
+        this.logger.error(`Error in exit_cal action: ${error.message}`, error.stack);
+      }
     });
 
     scene.on('text', async (ctx) => {
-      const filterState = ctx.scene.session.filterStateCal;
-      const userText = ctx.message.text.trim();
+      try {
+        const filterState = ctx.scene.session.filterStateCal;
+        const userText = ctx.message.text.trim();
 
-      if (filterState === 'awaiting_month_cal') {
-        await this.showFilteredCalendarioEvents(ctx, {
-          type: 'month',
-          value: userText,
-        });
-        ctx.scene.session.filterStateCal = undefined;
-      } else if (filterState === 'awaiting_city_cal') {
-        await this.showFilteredCalendarioEvents(ctx, {
-          type: 'city',
-          value: userText,
-        });
-        ctx.scene.session.filterStateCal = undefined;
-      } else if (filterState === 'awaiting_location_cal') {
-        await this.showFilteredCalendarioEvents(ctx, {
-          type: 'location',
-          value: userText,
-        });
-        ctx.scene.session.filterStateCal = undefined;
-      } else if (filterState === 'awaiting_free_text_cal') {
-        await this.showFilteredCalendarioEvents(ctx, {
-          type: 'free',
-          value: userText,
-        });
-        ctx.scene.session.filterStateCal = undefined;
+        if (filterState === 'awaiting_month_cal') {
+          await this.showFilteredCalendarioEvents(ctx, {
+            type: 'month',
+            value: userText,
+          });
+          ctx.scene.session.filterStateCal = undefined;
+        } else if (filterState === 'awaiting_city_cal') {
+          await this.showFilteredCalendarioEvents(ctx, {
+            type: 'city',
+            value: userText,
+          });
+          ctx.scene.session.filterStateCal = undefined;
+        } else if (filterState === 'awaiting_location_cal') {
+          await this.showFilteredCalendarioEvents(ctx, {
+            type: 'location',
+            value: userText,
+          });
+          ctx.scene.session.filterStateCal = undefined;
+        } else if (filterState === 'awaiting_free_text_cal') {
+          await this.showFilteredCalendarioEvents(ctx, {
+            type: 'free',
+            value: userText,
+          });
+          ctx.scene.session.filterStateCal = undefined;
+        }
+      } catch (error) {
+        this.logger.error(`Error in text handler: ${error.message}`, error.stack);
+        await ctx.reply('Lo siento, ha ocurrido un error al procesar tu búsqueda.');
       }
     });
 
@@ -253,29 +263,8 @@ export class CalendarioSceneService {
       let weatherInfo = '';
       const eventDate = parseSpanishDate(e.fecha);
       if (eventDate) {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const eventDateOnly = new Date(eventDate);
-        eventDateOnly.setHours(0, 0, 0, 0);
-
-        const diffTime = eventDateOnly.getTime() - today.getTime();
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        if (diffDays > 7) {
-          weatherInfo = `\n📅 _El pronóstico se habilita 7 días antes_`;
-        } else if (diffDays >= 0) {
-          try {
-            const city = e.ciudad.split(',')[0].trim();
-            const weather = await this.weatherService.getWeather(city, eventDate);
-            if (weather.success && weather.data) {
-              const temp = Math.round(weather.data.temperature);
-              const desc = weather.data.description;
-              weatherInfo = `\n🌤 _Clima:_ ${temp}°C \- ${desc}`;
-            }
-          } catch (err) {
-            // Silently ignore or log
-          }
-        }
+        const city = e.ciudad.split(',')[0].trim();
+        weatherInfo = await this.weatherService.getWeatherForecastMessage(city, eventDate);
       }
 
       mensajes.push(`📅 *${fechaMsg}* \\- ${ciudad}\n*${nombreEvento}*\n_${categoria}_\n📍 ${locationMsg}${escapeMarkdownV2(weatherInfo)}${link}`);

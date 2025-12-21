@@ -1,6 +1,6 @@
 export function escapeMarkdownV2(text: string): string {
   if (!text) return '';
-  return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
+  return text.replace(/[_*[\]()~`>#+\-=|{}.!}]/g, '\\$&');
 }
 
 export function escapeMarkdownUrl(url: string): string {
@@ -9,8 +9,8 @@ export function escapeMarkdownUrl(url: string): string {
 }
 
 export function parseSpanishDate(dateStr: string): Date | null {
-  // Ejemplo 1: "Viernes 26 de diciembre de 2025" o "Viernes 26 de diciembre de 2025, 3:30 p.m"
-  // Ejemplo 2: "01/01/2026 00:00"
+  // Ejemplo 1: "Viernes 26 de diciembre de 2025"
+
   try {
     const months: { [key: string]: number } = {
       'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5,
