@@ -253,29 +253,8 @@ export class CalendarioSceneService {
       let weatherInfo = '';
       const eventDate = parseSpanishDate(e.fecha);
       if (eventDate) {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const eventDateOnly = new Date(eventDate);
-        eventDateOnly.setHours(0, 0, 0, 0);
-
-        const diffTime = eventDateOnly.getTime() - today.getTime();
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        if (diffDays > 7) {
-          weatherInfo = `\n📅 _El pronóstico se habilita 7 días antes_`;
-        } else if (diffDays >= 0) {
-          try {
-            const city = e.ciudad.split(',')[0].trim();
-            const weather = await this.weatherService.getWeather(city, eventDate);
-            if (weather.success && weather.data) {
-              const temp = Math.round(weather.data.temperature);
-              const desc = weather.data.description;
-              weatherInfo = `\n🌤 _Clima:_ ${temp}°C \- ${desc}`;
-            }
-          } catch (err) {
-            // Silently ignore or log
-          }
-        }
+        const city = e.ciudad.split(',')[0].trim();
+        weatherInfo = await this.weatherService.getWeatherForecastMessage(city, eventDate);
       }
 
       mensajes.push(`📅 *${fechaMsg}* \\- ${ciudad}\n*${nombreEvento}*\n_${categoria}_\n📍 ${locationMsg}${escapeMarkdownV2(weatherInfo)}${link}`);

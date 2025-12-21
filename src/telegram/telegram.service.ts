@@ -508,31 +508,10 @@ export class TelegramService implements OnModuleInit {
       for (const event of events) {
         let weatherInfo = '';
         const eventDate = parseSpanishDate(event.fecha);
-
         if (eventDate) {
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          const eventDateOnly = new Date(eventDate);
-          eventDateOnly.setHours(0, 0, 0, 0);
-
-          const diffTime = eventDateOnly.getTime() - today.getTime();
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-          if (diffDays > 7) {
-            weatherInfo = `\n📅 _El pronóstico del clima estará disponible 7 días antes del evento_`;
-          } else if (diffDays >= 0) {
-            try {
-              const weather = await this.weatherService.getWeather(city, eventDate);
-              if (weather.success && weather.data) {
-                const temp = Math.round(weather.data.temperature);
-                const desc = weather.data.description;
-                weatherInfo = `\n🌤 _Pronóstico:_ ${temp}°C \- ${desc}`;
-              }
-            } catch (e) {
-              this.logger.error(`Error al obtener clima para ${city}: ${e.message}`);
-            }
-          }
+          weatherInfo = await this.weatherService.getWeatherForecastMessage(city, eventDate);
         }
+
 
         message += `🗓️ *Fecha:* ${escapeMarkdownV2(event.fecha)}\n`;
         if (event.descripcion) {

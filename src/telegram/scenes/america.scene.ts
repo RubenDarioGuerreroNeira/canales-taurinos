@@ -201,37 +201,10 @@ export class AmericaSceneService {
 
       let weatherInfo = '';
       const eventDate = parseSpanishDate(event.fecha);
-
       if (eventDate) {
-        const today = new Date();
-        // Reset time to compare dates properly
-        today.setHours(0, 0, 0, 0);
-        const eventDateOnly = new Date(eventDate);
-        eventDateOnly.setHours(0, 0, 0, 0);
-
-        const diffTime = eventDateOnly.getTime() - today.getTime();
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        // Open-Meteo free forecast is usually up to 7 days, sometimes up to 14 or 16 depending on settings.
-        // But to be safe/consistent with user request logic:
-        if (diffDays > 7) {
-          weatherInfo = `\n📅 _El pronóstico del clima estará disponible 7 días antes del evento_`;
-        } else if (diffDays < 0) {
-          // Event passed
-          weatherInfo = '';
-        } else {
-          try {
-            const weather = await this.weatherService.getWeather(city, eventDate);
-            if (weather.success && weather.data) {
-              const temp = Math.round(weather.data.temperature);
-              const desc = weather.data.description;
-              weatherInfo = `\n🌤 _Pronóstico:_ ${temp}°C \- ${desc}`;
-            }
-          } catch (e) {
-            console.error(`Error getting weather for ${city} on ${eventDate}:`, e);
-          }
-        }
+        weatherInfo = await this.weatherService.getWeatherForecastMessage(city, eventDate);
       }
+
 
       const details = `🐂 Toros de ${escapeMarkdownV2(event.ganaderia)}
 🤺 Para ${escapeMarkdownV2(toreros)}${escapeMarkdownV2(weatherInfo)}`;
