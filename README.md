@@ -40,6 +40,9 @@ El bot es capaz de mantener conversaciones con contexto, recordar interacciones 
 - **Flujo de Conversación Robusto**: Gestiona el estado de la conversación de forma inteligente, permitiendo al usuario salir de una función (como el calendario) y continuar con otra sin errores ni comportamientos inesperados.
 - **Interfaz de Usuario Dinámica**: Personaliza los botones de los canales de transmisión con nombres descriptivos (ej: "Canal Sur", "T.Madrid") extraídos directamente de las URLs.
 - **Guía Proactiva al Usuario**: El mensaje de bienvenida (`/start`) ahora presenta claramente los servicios disponibles y sugiere frases en lenguaje natural para interactuar, mejorando la experiencia inicial del usuario.
+- **Pronóstico del Clima Integrado**: Ofrece información meteorológica en tiempo real para eventos en América y la temporada española.
+  - **Lógica de Pronóstico a 7 Días**: Muestra la temperatura y descripción del clima para eventos cercanos o un aviso preventivo si el evento es a más de 7 días, respetando los límites de las APIs meteorológicas.
+  - **Centralización de Fechas**: Sistema robusto de procesamiento de fechas en español que soporta múltiples formatos (texto y numérico con barras) para una integración fluida entre diferentes proveedores de datos.
 - **Comandos Directos**: Incluye comandos como `/transmisiones`, `/calendario`, `/escalafon` y `/contacto` para un acceso rápido, además de comandos de administración como `/clearcache`.
 
 ---

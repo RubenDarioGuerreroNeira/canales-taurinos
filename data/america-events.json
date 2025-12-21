@@ -1,7 +1,7 @@
 {
   "Cali, Colombia": [
     {
-      "fecha": "Viernes 26 de diciembre",
+      "fecha": "Viernes 26 de diciembre de 2025",
       "ganaderia": "Juan Bernardo Caicedo",
       "toreros": [
         "Sebastián Castella",
@@ -10,7 +10,7 @@
       ]
     },
     {
-      "fecha": "Sábado 27 de diciembre",
+      "fecha": "Sábado 27 de diciembre de 2025",
       "ganaderia": "Campo Real",
       "toreros": [
         "Román",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "fecha": "Domingo 28 de diciembre",
+      "fecha": "Domingo 28 de diciembre de 2025",
       "descripcion": "«Corrida Zapatista»",
       "ganaderia": "Ernesto Gutiérrez",
       "toreros": [
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "fecha": "Lunes 29 de diciembre",
+      "fecha": "Lunes 29 de diciembre de 2025",
       "descripcion": "Festival",
       "ganaderia": "Juan Bernardo Caicedo",
       "toreros": [
@@ -39,7 +39,7 @@
       ]
     },
     {
-      "fecha": "Martes 30 de diciembre",
+      "fecha": "Martes 30 de diciembre de 2025",
       "ganaderia": "Salento",
       "toreros": [
         "José Arcila",
@@ -50,7 +50,7 @@
   ],
   "Manizales, Colombia": [
     {
-      "fecha": "Lunes 05 de enero",
+      "fecha": "Lunes 05 de enero de 2026",
       "descripcion": "Primera Corrida de Toros",
       "ganaderia": "6 toros de Mondoñedo.",
       "toreros": [
@@ -60,7 +60,7 @@
       ]
     },
     {
-      "fecha": "Martes 6 de enero, 3:30 p. m",
+      "fecha": "Martes 6 de enero de 2026, 3:30 p. m",
       "descripcion": "Segunda corrida de toros",
       "ganaderia": "6 toros de Santa Bárbara",
       "toreros": [
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "fecha": "Miercoles 07 de enero 3:30 p.m",
+      "fecha": "Miercoles 07 de enero de 2026 3:30 p.m",
       "descripcion": "Tercera corrida de Toros",
       "ganaderia": "6 toros de Las Ventas del Espíritu Santo",
       "toreros": [
@@ -80,7 +80,7 @@
       ]
     },
     {
-      "fecha": "Jueves 8 de enero, 3:30 p. m.",
+      "fecha": "Jueves 8 de enero de 2026, 3:30 p. m.",
       "descripcion": "Corrida mixta",
       "ganaderia": " 2 toros y 4 novillos de Ernesto Gutiérrez.",
       "toreros": [
@@ -90,7 +90,7 @@
       ]
     },
     {
-      "fecha": "Viernes 9 de enero, 7:00 p. m.",
+      "fecha": "Viernes 9 de enero de 2026, 7:00 p. m.",
       "descripcion": "Festival taurino",
       "ganaderia": "3 novillos de Juan Bernardo Caicedo y 3 novillos de Ernesto Gutiérrez.",
       "toreros": [
@@ -100,8 +100,8 @@
       ]
     },
     {
-      "fecha": "Sábado 10 de enero, 3:30 p. m.",
-      "descripcion": "Cuarta corrida de toros",
+      "fecha": "Sábado 10 de enero de 2026, 3:30 p. m."
+      ,"descripcion": "Cuarta corrida de toros",
       "ganaderia": "6 toros de Juan Bernardo Caicedo.",
       "toreros": [
         "Luis Bolívar.",

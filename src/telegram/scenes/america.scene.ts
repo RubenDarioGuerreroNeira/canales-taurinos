@@ -3,7 +3,8 @@ import { Scenes, Markup } from 'telegraf';
 import { MyContext, MySceneSession } from '../telegram.interfaces'; // Import MySceneSession
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { escapeMarkdownV2 } from '../../utils/telegram-format'; // Import the centralized utility
+import { escapeMarkdownV2, parseSpanishDate } from '../../utils/telegram-format'; // Import the centralized utility
+import { WeatherService } from '../../weather/weather.service';
 
 interface AmericaEvent {
   fecha: string;
@@ -14,6 +15,8 @@ interface AmericaEvent {
 
 @Injectable()
 export class AmericaSceneService {
+  constructor(private readonly weatherService: WeatherService) { }
+
   create(): Scenes.BaseScene<MyContext> {
     const scene = new Scenes.BaseScene<MyContext>('americaScene');
 
@@ -93,17 +96,17 @@ export class AmericaSceneService {
           }
         });
 
-        let message = `${escapeMarkdownV2('¡Hola')} ${escapeMarkdownV2(userName)}${escapeMarkdownV2('!')} 👋\\n\\n`;
+        let message = `${escapeMarkdownV2('¡Hola')} ${escapeMarkdownV2(userName)}${escapeMarkdownV2('!')} 👋\n\n`;
 
         const countries = Object.keys(countryMap);
         if (countries.length > 0) {
           countries.forEach(country => {
             const cities = countryMap[country].join(' y ');
-            message += `En ${escapeMarkdownV2('América')} en el país de *${escapeMarkdownV2(country)}* existen eventos programados para las Ciudades de: *${escapeMarkdownV2(cities)}*\\n`;
+            message += `En ${escapeMarkdownV2('América')} en el país de *${escapeMarkdownV2(country)}* existen eventos programados para las Ciudades de: *${escapeMarkdownV2(cities)}*\n`;
           });
-          message += `\\n${escapeMarkdownV2('¿Qué ciudad prefieres?')}`;
+          message += `\n${escapeMarkdownV2('¿Qué ciudad prefieres?')}`;
         } else {
-          message += `He encontrado eventos pero no pude identificar los países\\. ${escapeMarkdownV2('¿Cuál prefieres ver?')}`;
+          message += `He encontrado eventos pero no pude identificar los países\. ${escapeMarkdownV2('¿Cuál prefieres ver?')}`;
         }
 
         const buttons = Object.keys(rawLocations).map(fullLocation => {
@@ -179,6 +182,7 @@ export class AmericaSceneService {
   ): Promise<void> {
     const events = rawLocations[locationKey];
     const userName = ctx.from?.first_name || 'aficionado';
+    const city = locationKey.split(',')[0].trim();
 
     if (!events || events.length === 0) {
       await ctx.reply(`Lo siento ${userName}, no encuentro información para ${escapeMarkdownV2(locationKey)}.`);
@@ -192,11 +196,48 @@ export class AmericaSceneService {
       const toreros = event.toreros.join(', ');
       let eventTitle = `*${escapeMarkdownV2(event.fecha)}*`;
       if (event.descripcion) {
-        eventTitle += ` \\- _${escapeMarkdownV2(event.descripcion)}_`;
+        eventTitle += ` \- _${escapeMarkdownV2(event.descripcion)}_`;
       }
-      const details = `🐂 Toros de ${escapeMarkdownV2(event.ganaderia)}\n🤺 Para ${escapeMarkdownV2(toreros)}`;
+
+      let weatherInfo = '';
+      const eventDate = parseSpanishDate(event.fecha);
+
+      if (eventDate) {
+        const today = new Date();
+        // Reset time to compare dates properly
+        today.setHours(0, 0, 0, 0);
+        const eventDateOnly = new Date(eventDate);
+        eventDateOnly.setHours(0, 0, 0, 0);
+
+        const diffTime = eventDateOnly.getTime() - today.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        // Open-Meteo free forecast is usually up to 7 days, sometimes up to 14 or 16 depending on settings.
+        // But to be safe/consistent with user request logic:
+        if (diffDays > 7) {
+          weatherInfo = `\n📅 _El pronóstico del clima estará disponible 7 días antes del evento_`;
+        } else if (diffDays < 0) {
+          // Event passed
+          weatherInfo = '';
+        } else {
+          try {
+            const weather = await this.weatherService.getWeather(city, eventDate);
+            if (weather.success && weather.data) {
+              const temp = Math.round(weather.data.temperature);
+              const desc = weather.data.description;
+              weatherInfo = `\n🌤 _Pronóstico:_ ${temp}°C \- ${desc}`;
+            }
+          } catch (e) {
+            console.error(`Error getting weather for ${city} on ${eventDate}:`, e);
+          }
+        }
+      }
+
+      const details = `🐂 Toros de ${escapeMarkdownV2(event.ganaderia)}
+🤺 Para ${escapeMarkdownV2(toreros)}${escapeMarkdownV2(weatherInfo)}`;
 
       await ctx.reply(`${eventTitle}\n${details}`, { parse_mode: 'MarkdownV2' });
     }
   }
+
 }

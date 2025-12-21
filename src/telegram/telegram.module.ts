@@ -8,9 +8,10 @@ import { TransmisionesSceneService } from './scenes/transmisiones.scene';
 import { CalendarioSceneService } from './scenes/calendario.scene';
 import { AmericaSceneService } from './scenes/america.scene';
 import { EscalafonSceneService } from './scenes/escalafon.scene';
+import { WeatherModule } from '../weather/weather.module';
 
 @Module({
-  imports: [ScraperModule, ContactModule, GeminiModule],
+  imports: [ScraperModule, ContactModule, GeminiModule, WeatherModule],
   controllers: [TelegramController],
   providers: [
     TelegramService,
