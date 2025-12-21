@@ -76,7 +76,7 @@ export class TelegramService implements OnModuleInit {
       greeting = '¡Buenas noches';
     }
 
-    return `${greeting}, ${escapeMarkdownV2(userName)}!`;
+    return `${greeting}, ${userName}!`;
   }
 
   private setupCommands() {
@@ -152,41 +152,37 @@ export class TelegramService implements OnModuleInit {
       await ctx.scene.enter('transmisionesScene');
     });
 
+    this.bot.action('filter_america_cities', async (ctx) => {
+      await ctx.answerCbQuery();
+      await this.handleAmericaCitiesQuery(ctx);
+    });
+
+    this.bot.action('show_escalafon_action', async (ctx) => {
+      await ctx.answerCbQuery();
+      await ctx.scene.enter('escalafonScene');
+    });
+
+    this.bot.action('show_intro', async (ctx) => {
+      await ctx.answerCbQuery();
+      await this.sendBotIntroduction(ctx);
+    });
+
+    this.bot.action('show_contacto_action', async (ctx) => {
+      await ctx.answerCbQuery();
+      const contactMessage = this.contactService.getContactMessage();
+      await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
+    });
+
     this.bot.start((ctx) => {
       ctx.session = {};
-      const userName = ctx.from.first_name || 'aficionado';
-
-      const welcomeMessage =
-        `${escapeMarkdownV2('¡Hola')} ${escapeMarkdownV2(userName)}${escapeMarkdownV2('!')} 👋 ${escapeMarkdownV2('¡Bienvenido/a a Muletazo Bot!')} 🎯\n\n` +
-        `Soy tu asistente personal para todo lo relacionado con el mundo taurino\\. Estoy aquí para ayudarte a estar siempre informado sobre corridas, festejos y transmisiones\\.\n\n` +
-        `*📺 Transmisiones en Vivo*\n` +
-        `Consulta qué corridas se transmiten por TV y en qué canales\\.\n` +
-        `${escapeMarkdownV2('💬 Escribe: "transmisiones" o "agenda de TV"')}\n\n` +
-        `*🗓️ Calendario de la Temporada Española 2026*\n` +
-        `Revisa todos los festejos programados para la temporada completa\\.\n` +
-        `${escapeMarkdownV2('💬 Escribe: "calendario" o "temporada completa"')}\n\n` +
-        `*🌎 Festejos en América*\n` + // Actualizado para la nueva interacción
-        `Descubre las corridas programadas en países de América como Colombia\\.\n` +
-        `${escapeMarkdownV2('💬 Escribe: "América" o "corridas en Colombia" para ver las ciudades disponibles, o directamente "corridas en Cali"')}\n\n` +
-        `*🏆 Escalafón Taurino*\n` +
-        `Consulta el ranking actualizado de matadores de toros\\.\n` +
-        `${escapeMarkdownV2('💬 Escribe: "escalafón" o "ranking de toreros"')}\n\n` +
-        `*💬 Conversación Natural*\n` +
-        `También puedes hacerme preguntas sobre tauromaquia y te responderé con gusto\\.\n` +
-        `${escapeMarkdownV2('💬 Ejemplo: "¿Quien fue Manolete?"')}\n\n` +
-        `*📞 Contacto*\n` +
-        `${escapeMarkdownV2('¿Tienes sugerencias o comentarios?')}\n` +
-        `${escapeMarkdownV2('💬 Escribe: "contacto" para saber cómo comunicarte con mi creador')}\n\n` +
-        `${escapeMarkdownV2('¡Estoy a tu servicio!')} ${escapeMarkdownV2('¿En qué puedo ayudarte hoy?')} 😊`;
-
-      ctx.reply(welcomeMessage, { parse_mode: 'MarkdownV2' });
+      return this.sendBotIntroduction(ctx);
     });
 
     // --- INICIO: Lógica para Eventos en América ---
 
-    // Manejador para "corridas en colombia" o "corridas en américa"
+    // Manejador para "corridas en colombia" o "corridas en américa" y variantes
     this.bot.hears(
-      /^(corridas en colombia|corridas en américa|eventos en américa|eventos en colombia)$/i,
+      /^(corridas en colombia|corridas en américa|eventos en américa|eventos en colombia|qué corridas hay en américa|qué corridas hay en colombia)$/i,
       (ctx) => this.handleAmericaCitiesQuery(ctx),
     );
 
@@ -194,25 +190,34 @@ export class TelegramService implements OnModuleInit {
     this.bot.action(/america_city_(.+)/, async (ctx) => {
       const city = ctx.match[1];
       this.logger.log(`Botón presionado para la ciudad: ${city}`);
-      await ctx.answerCbQuery(); // Desactiva la animación de carga del botón
+      await ctx.answerCbQuery();
       await this.sendAmericaEventsForCity(ctx, city);
     });
 
     // Manejador para "quiero ver corridas en {ciudad}" o "corridas en {ciudad}"
     this.bot.hears(
-      /^(quiero ver corridas en|corridas en) (.+)$/i,
+      /^(quiero ver corridas en|corridas en|eventos en|carteles en) (.+)$/i,
       async (ctx) => {
-        const city = ctx.match[2]; // Captura el nombre de la ciudad del grupo regex
+        const city = ctx.match[2];
+        // Si el usuario escribió algo como "colombia" o "américa", redirigimos al selector de ciudades
+        if (/^(américa|colombia)$/i.test(city.trim())) {
+          return this.handleAmericaCitiesQuery(ctx);
+        }
         this.logger.log(`Detectada consulta directa para la ciudad: ${city}`);
         await this.sendAmericaEventsForCity(ctx, city);
       },
     );
-    // Manejador para "América" o "Colombia" (como comando directo)
+    // Manejador para "América" o "Colombia" (como comando directo o palabra suelta)
     this.bot.hears(/^(américa|colombia)$/i, async (ctx) => {
       await this.handleAmericaCitiesQuery(ctx);
     });
 
     // --- FIN: Lógica para Eventos en América ---
+
+    this.bot.hears(
+      /^(que sabes hacer|qué sabes hacer|para que estas diseñado|para qué estás diseñado|ayuda|quien eres|quién eres)$/i,
+      (ctx) => this.sendBotIntroduction(ctx)
+    );
 
     this.bot.on('text', async (ctx) => {
       const userText = ctx.message.text.trim();
@@ -322,20 +327,25 @@ export class TelegramService implements OnModuleInit {
           }
 
           prompt = `
-            Tu personalidad: Eres 'Muletazo Bot', un asistente virtual experto en tauromaquia. Eres amable, formal y muy servicial.
+            Tu personalidad: Eres 'TauryBot' (antes conocido como Muletazo Bot), un asistente virtual experto en tauromaquia. Eres sumamente amable, formal y servicial. Siempre saludas por el nombre del usuario si está disponible.
+
+            Tus funciones principales son:
+            1.  **Transmisiones en TV**: Agendas de festejos televisados (proporcionados en el contexto abajo).
+            2.  **Calendario de Temporada 2026**: Festejos programados en España y otras ferias importantes.
+            3.  **Eventos en América**: Corridas en ciudades como Cali y Manizales (Colombia), incluyendo pronóstico del clima.
+            4.  **Escalafón**: El ranking actualizado de matadores.
 
             Instrucciones clave:
             1.  **Búsqueda Específica vs. General**:
-                - Si la pregunta es sobre un **lugar específico** (ej: "carteles en Mérida, Venezuela"), **IGNORA EL CONTEXTO** y busca en la web. Responde con "Voy a buscar en la red..." y luego presenta los resultados.
-                - Si la pregunta es **general sobre la agenda** ("¿qué corridas hay?", "dame fechas", "¿dónde las puedo ver?", "canales", "filtrar"), responde ÚNICA Y EXCLUSIVAMENTE con el texto: [ACTION:GET_TRANSMISIONES]. No añadas nada más.
+                - Si la pregunta es sobre un **lugar específico de América** (ej: "corridas en Cali"), redirige amablemente o menciona que puedes buscarlo. 
+                - Si la pregunta es **general sobre la agenda de TV** ("¿qué hay hoy?", "canales"), usa [ACTION:GET_TRANSMISIONES].
+                - Si te preguntan "¿qué sabes hacer?" o "¿quién eres?", responde de forma muy completa y amable describiendo tus 4 funciones principales y sugiriendo cómo usarlas.
 
-            2.  **Validación de Fechas**: Siempre que des una fecha, asegúrate de que sea posterior a la fecha actual (${new Date().toLocaleDateString('es-ES')}). Descarta eventos pasados.
+            2.  **Contexto de América**: Si alguien pregunta por "Colombia" o "América", recuérdale que tienes información detallada de Cali y Manizales, incluyendo el clima para los próximos 7 días.
 
-            3.  **Respuesta a Saludos**: Si el usuario solo saluda (ej: "Hola", "Buenas"), responde de forma cordial y recuérdale que puede usar 'transmisiones' ó 'calendario' para obtener más información.
- 
-            4.  **Sin Resultados**: Si después de buscar no encuentras información para un lugar específico, responde amablemente: "Lo siento, aún no dispongo de información sobre festejos en esa localidad. Vuelve a consultarme más adelante."
+            3.  **Clima**: Menciona que ofreces pronósticos meteorológicos integrados para los eventos cercanos (menos de 7 días).
 
-            5.  **Otras Preguntas**: Para preguntas generales sobre tauromaquia (historia, toreros, etc.), responde de forma cordial y precisa.
+            4.  **Respuesta a Saludos**: Siempre responde con calidez. Ejemplo: "¡Hola [Nombre]! Es un gusto saludarte. Soy TauryBot, tu compañero taurino. ¿Deseas consultar las transmisiones, el calendario de temporada o quizás los eventos en América?"
 
             ${scraperContext}
 
@@ -530,6 +540,24 @@ export class TelegramService implements OnModuleInit {
       }
 
       await ctx.reply(message, { parse_mode: 'MarkdownV2' });
+
+      // Mensaje de seguimiento para mejorar la interacción
+      const userName = this.getUserName(ctx);
+      await ctx.reply(
+        escapeMarkdownV2(
+          `¡Listo ${userName}! ¿Qué más te gustaría saber o qué otra info necesitas? 😊`,
+        ),
+        {
+          parse_mode: 'MarkdownV2',
+          ...Markup.inlineKeyboard([
+            [
+              Markup.button.callback('📺 Transmisiones', 'show_transmisiones'),
+              Markup.button.callback('🌎 Otras Ciudades', 'filter_america_cities'),
+            ],
+            [Markup.button.callback('🏠 Ir al Inicio', 'show_intro')],
+          ]),
+        },
+      );
     } catch (error) {
       this.logger.error(
         `Error al obtener eventos para la ciudad: ${city}`,
@@ -539,5 +567,59 @@ export class TelegramService implements OnModuleInit {
         `Lo siento, no tengo esa respuesta por ahora.`,
       );
     }
+  }
+
+  /**
+   * Envía una introducción completa y amable de todas las funcionalidades del bot.
+   */
+  private async sendBotIntroduction(ctx: MyContext) {
+    const userName = this.getUserName(ctx);
+    const greeting = this.getGreeting(userName); // Ya viene escapado
+
+    const rawMessage =
+      `${greeting}\n\n` +
+      `Soy TauryBot, tu asistente taurino experto. He sido diseñado para ofrecerte absolutamente todo lo que necesitas para seguir la fiesta brava:\n\n` +
+      `📺 *Transmisiones en Vivo*\n` +
+      `Entérate de qué corridas se televisan, los horarios y los canales exactos.\n` +
+      `💬 Prueba escribiendo: "agenda de TV" o "transmisiones"\n\n` +
+      `🗓️ *Calendario de Temporada Española 2026*\n` +
+      `Toda la programación de las ferias en España al alcance de tu mano.\n` +
+      `💬 Prueba escribiendo: "temporada completa" o "calendario"\n\n` +
+      `🌎 *Festejos en América *\n` +
+      `Información detallada de ferias en América (como: Cali y Manizales) con *pronóstico del clima el día de la corrida.\n` +
+      `💬 Prueba escribiendo: "América", "corridas en Colombia" \n\n` +
+      `🏆 *Escalafón Taurino 2025*\n` +
+      `Mira quién lidera el ranking de toreros en la actualidad.\n` +
+      `💬 Prueba escribiendo: "escalafón" o "ranking"\n\n` +
+      `🧠 *Búsqueda con IA*\n` +
+      `Pregúntame lo que quieras sobre historia taurina o toreros legendarios.\n` +
+      `💬 Ejemplo: "¿Quién fue Joselito el Gallo?"\n\n` +
+      `📞 *Contacto*\n` +
+      `¿Quieres saber quién me diseñó o darnos tu opinión?\n` +
+      `💬 Prueba escribiendo: "contacto"\n\n` +
+      `¡Estoy a tu completa disposición! ¿Por dónde te gustaría empezar?`;
+
+    // Escapamos todo y luego "re-activamos" el formato de negrita (*)
+    const welcomeMessage = escapeMarkdownV2(rawMessage).replace(/\\\*/g, '*');
+
+    await ctx.reply(welcomeMessage, {
+      parse_mode: 'MarkdownV2',
+      ...Markup.inlineKeyboard([
+        [
+          Markup.button.callback('📺 Transmisiones', 'show_transmisiones'),
+          Markup.button.callback('🗓️ Temporada', 'show_temporada'),
+        ],
+        [
+          Markup.button.callback('🌎 América', 'filter_america_cities'),
+          Markup.button.callback('🏆 Escalafón', 'show_escalafon_action'),
+        ],
+        [
+          Markup.button.callback(
+            '📞 Contacto / Creador',
+            'show_contacto_action',
+          ),
+        ],
+      ]),
+    });
   }
 }

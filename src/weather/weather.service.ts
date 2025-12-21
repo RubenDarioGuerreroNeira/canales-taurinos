@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { WeatherResult, WeatherData } from './interfaces/weather.interface';
 
@@ -17,7 +16,6 @@ export class WeatherService {
 
   constructor(
     private readonly httpService: HttpService,
-    private readonly configService: ConfigService,
   ) { }
 
   async getWeather(city: string, date: Date): Promise<WeatherResult> {
