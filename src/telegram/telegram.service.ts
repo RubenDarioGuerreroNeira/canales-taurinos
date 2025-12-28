@@ -585,8 +585,8 @@ export class TelegramService implements OnModuleInit {
       `🗓️ *Calendario de Temporada Española 2026*\n` +
       `Toda la programación de las ferias en España al alcance de tu mano.\n` +
       `💬 Prueba escribiendo: "temporada completa" o "calendario"\n\n` +
-      `🌎 *Festejos en América *\n` +
-      `Información detallada de ferias en América (como: Cali y Manizales) con *pronóstico del clima el día de la corrida.\n` +
+      `🌎 *Festejos en América*\n` +
+      `Información detallada de ferias en América (como: Cali y Manizales) con *pronóstico del clima el día de la corrida*.\n` +
       `💬 Prueba escribiendo: "América", "corridas en Colombia" \n\n` +
       `🏆 *Escalafón Taurino 2025*\n` +
       `Mira quién lidera el ranking de toreros en la actualidad.\n` +

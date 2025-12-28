@@ -16,141 +16,134 @@ interface AmericaEvent {
 @Injectable()
 export class AmericaSceneService {
   private readonly logger = new Logger(AmericaSceneService.name);
+  private eventsCache: { [location: string]: AmericaEvent[] } | null = null;
+  private lastCacheTime = 0;
+  private readonly CACHE_TTL = 1000 * 60 * 10; // 10 minutos de caché
 
   constructor(private readonly weatherService: WeatherService) { }
+
+  private async getEventsData(): Promise<{ [location: string]: AmericaEvent[] }> {
+    if (this.eventsCache && Date.now() - this.lastCacheTime < this.CACHE_TTL) {
+      return this.eventsCache;
+    }
+
+    try {
+      const dataPath = path.join(process.cwd(), 'data', 'america-events.json');
+      const fileContent = await fs.readFile(dataPath, 'utf-8');
+      const data = JSON.parse(fileContent);
+      this.eventsCache = data;
+      this.lastCacheTime = Date.now();
+      return data;
+    } catch (error) {
+      this.logger.error(`Error reading or parsing america-events.json: ${error.message}`, error.stack);
+      return {};
+    }
+  }
 
   create(): Scenes.BaseScene<MyContext> {
     const scene = new Scenes.BaseScene<MyContext>('americaScene');
 
     scene.enter(async (ctx) => {
-      let userName = 'aficionado';
-      try {
-        if (ctx.from?.first_name) {
-          if (typeof ctx.from.first_name === 'object') {
-            userName = 'aficionado';
-          } else {
-            userName = String(ctx.from.first_name);
-          }
-        }
-      } catch (e) {
-        userName = 'aficionado';
-      }
+      const userName = ctx.from?.first_name || 'aficionado';
 
-      try {
-        const dataPath = path.join(process.cwd(), 'data', 'america-events.json');
-        const fileContent = await fs.readFile(dataPath, 'utf-8');
-        const rawLocations: { [location: string]: AmericaEvent[] } = JSON.parse(fileContent);
+      const rawLocations = await this.getEventsData();
 
-        if (!rawLocations || Object.keys(rawLocations).length === 0) {
-          await ctx.reply(`Lo siento ${userName}, no hay carteles de América disponibles en este momento.`);
-          return ctx.scene.leave();
-        }
-
-        const sceneState = ctx.scene.state as MySceneSession; // Explicitly cast
-        const searchTerm = sceneState.americaSearchTerm;
-        this.logger.log(`Received searchTerm: ${searchTerm}`);
-
-        // Si el término de búsqueda es general, no hacemos búsqueda directa
-        const isGeneralSearch = searchTerm && ['colombia', 'america', 'américa', 'corridas en colombia', 'festejos en colombia', 'corridas en manizales', 'corridas en cali'].includes(searchTerm);
-
-        if (searchTerm && !isGeneralSearch) {
-          // Attempt to find a direct match based on the search term
-          const matchingLocationKey = Object.keys(rawLocations).find(key =>
-            key.split(',')[0].trim().toLowerCase() === searchTerm.toLowerCase()
-          );
-
-          if (matchingLocationKey) {
-            await this.displayEventsForLocation(ctx, matchingLocationKey, rawLocations);
-            // After displaying events, offer to go back to list or exit
-            await ctx.reply(
-              `¿Deseas consultar otra ciudad?`,
-              Markup.inlineKeyboard([
-                Markup.button.callback('🔙 Volver al listado', 'back_to_list'),
-                Markup.button.callback('❌ Salir', 'exit_america')
-              ])
-            );
-            return; // Exit scene.enter, since events are displayed
-          } else {
-            await ctx.reply('Lo siento no tengo esa respuesta por ahora');
-            return ctx.scene.leave();
-          }
-        }
-
-        // --- Original logic if no search term or direct match not found ---
-        const countryMap: { [country: string]: string[] } = {};
-
-        Object.keys(rawLocations).forEach(key => {
-          const parts = key.split(',').map(p => p.trim());
-          if (parts.length >= 2) {
-            const city = parts[0];
-            const country = parts[1];
-            if (!countryMap[country]) {
-              countryMap[country] = [];
-            }
-            countryMap[country].push(city);
-          } else {
-            const country = 'Otros';
-            if (!countryMap[country]) countryMap[country] = [];
-            countryMap[country].push(key);
-          }
-        });
-
-        let message = `${escapeMarkdownV2('¡Hola')} ${escapeMarkdownV2(userName)}${escapeMarkdownV2('!')} 👋\n\n`;
-
-        const countries = Object.keys(countryMap);
-        if (countries.length > 0) {
-          countries.forEach(country => {
-            const cities = countryMap[country].join(' y ');
-            message += `En ${escapeMarkdownV2('América')} en el país de *${escapeMarkdownV2(country)}* existen eventos programados para las Ciudades de: *${escapeMarkdownV2(cities)}*\n`;
-          });
-          message += `\n${escapeMarkdownV2('¿Qué ciudad prefieres?')}`;
-        } else {
-          message += `He encontrado eventos pero no pude identificar los países\. ${escapeMarkdownV2('¿Cuál prefieres ver?')}`;
-        }
-
-        const buttons = Object.keys(rawLocations).map(fullLocation => {
-          const label = fullLocation.split(',')[0].trim();
-          return Markup.button.callback(label, `loc_${fullLocation}`);
-        });
-
-        buttons.push(Markup.button.callback('❌ Salir', 'exit_america'));
-
-        await ctx.reply(message, {
-          parse_mode: 'MarkdownV2',
-          ...Markup.inlineKeyboard(buttons, { columns: 2 }),
-        });
-
-      } catch (error) {
-        this.logger.error(`Error reading or parsing america-events.json: ${error.message}`, error.stack);
-        await ctx.reply(`Lo siento ${userName}, ha ocurrido un error al cargar los carteles.`);
+      if (!rawLocations || Object.keys(rawLocations).length === 0) {
+        await ctx.reply(`Lo siento ${userName}, no hay carteles de América disponibles en este momento.`);
         return ctx.scene.leave();
       }
+
+      const sceneState = ctx.scene.state as MySceneSession; // Explicitly cast
+      const searchTerm = sceneState.americaSearchTerm;
+      this.logger.log(`Received searchTerm: ${searchTerm}`);
+
+      // Si el término de búsqueda es general, no hacemos búsqueda directa
+      const isGeneralSearch = searchTerm && ['colombia', 'america', 'américa', 'corridas en colombia', 'festejos en colombia', 'corridas en manizales', 'corridas en cali'].includes(searchTerm.toLowerCase());
+
+      if (searchTerm && !isGeneralSearch) {
+        // Attempt to find a direct match based on the search term
+        const matchingLocationKey = Object.keys(rawLocations).find(key =>
+          key.split(',')[0].trim().toLowerCase() === searchTerm.toLowerCase()
+        );
+
+        if (matchingLocationKey) {
+          await this.displayEventsForLocation(ctx, matchingLocationKey, rawLocations);
+          // After displaying events, offer to go back to list or exit
+          await ctx.reply(
+            `¿Deseas consultar otra ciudad?`,
+            Markup.inlineKeyboard([
+              Markup.button.callback('🔙 Volver al listado', 'back_to_list'),
+              Markup.button.callback('❌ Salir', 'exit_america')
+            ])
+          );
+          return; // Exit scene.enter, since events are displayed
+        } else {
+          await ctx.reply('Lo siento no tengo esa respuesta por ahora');
+          return ctx.scene.leave();
+        }
+      }
+
+      // --- Original logic if no search term or direct match not found ---
+      const countryMap: { [country: string]: string[] } = {};
+
+      Object.keys(rawLocations).forEach(key => {
+        const parts = key.split(',').map(p => p.trim());
+        if (parts.length >= 2) {
+          const city = parts[0];
+          const country = parts[1];
+          if (!countryMap[country]) {
+            countryMap[country] = [];
+          }
+          countryMap[country].push(city);
+        } else {
+          const country = 'Otros';
+          if (!countryMap[country]) countryMap[country] = [];
+          countryMap[country].push(key);
+        }
+      });
+
+      let message = `${escapeMarkdownV2('¡Hola')} ${escapeMarkdownV2(userName)}${escapeMarkdownV2('!')} 👋\n\n`;
+
+      const countries = Object.keys(countryMap);
+      if (countries.length > 0) {
+        countries.forEach(country => {
+          const cities = countryMap[country].join(' y ');
+          message += `En ${escapeMarkdownV2('América')} en el país de *${escapeMarkdownV2(country)}* existen eventos programados para las Ciudades de: *${escapeMarkdownV2(cities)}*\n`;
+        });
+        message += `\n${escapeMarkdownV2('¿Qué ciudad prefieres?')}`;
+      } else {
+        message += `He encontrado eventos pero no pude identificar los países\. ${escapeMarkdownV2('¿Cuál prefieres ver?')}`;
+      }
+
+      const buttons = Object.keys(rawLocations).map(fullLocation => {
+        const label = fullLocation.split(',')[0].trim();
+        return Markup.button.callback(label, `loc_${fullLocation}`);
+      });
+
+      buttons.push(Markup.button.callback('❌ Salir', 'exit_america'));
+
+      await ctx.reply(message, {
+        parse_mode: 'MarkdownV2',
+        ...Markup.inlineKeyboard(buttons, { columns: 2 }),
+      });
     });
 
     scene.action(/loc_(.+)/, async (ctx) => {
       const locationKey = ctx.match[1];
       await ctx.answerCbQuery();
 
-      try {
-        const dataPath = path.join(process.cwd(), 'data', 'america-events.json');
-        const fileContent = await fs.readFile(dataPath, 'utf-8');
-        const rawLocations: { [location: string]: AmericaEvent[] } = JSON.parse(fileContent);
+      const rawLocations = await this.getEventsData();
 
-        await this.displayEventsForLocation(ctx, locationKey, rawLocations);
+      await this.displayEventsForLocation(ctx, locationKey, rawLocations);
 
-        // Botón para volver
-        await ctx.reply(
-          `¿Deseas consultar otra ciudad?`,
-          Markup.inlineKeyboard([
-            Markup.button.callback('🔙 Volver al listado', 'back_to_list'),
-            Markup.button.callback('❌ Salir', 'exit_america')
-          ])
-        );
-
-      } catch (error) {
-        this.logger.error(`Error fetching details: ${error.message}`, error.stack);
-        await ctx.reply(`Ocurrió un error al obtener los detalles.`);
-      }
+      // Botón para volver
+      await ctx.reply(
+        `¿Deseas consultar otra ciudad?`,
+        Markup.inlineKeyboard([
+          Markup.button.callback('🔙 Volver al listado', 'back_to_list'),
+          Markup.button.callback('❌ Salir', 'exit_america')
+        ])
+      );
     });
 
     scene.action('back_to_list', async (ctx) => {
