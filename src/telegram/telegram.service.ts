@@ -9,7 +9,11 @@ import { TransmisionesSceneService } from './scenes/transmisiones.scene';
 import { CalendarioSceneService } from './scenes/calendario.scene';
 import { EscalafonSceneService } from './scenes/escalafon.scene';
 import { MyContext } from './telegram.interfaces'; // Mantener esta línea
-import { escapeMarkdownV2, escapeMarkdownUrl, parseSpanishDate } from '../utils/telegram-format'; // Mantener esta línea
+import {
+  escapeMarkdownV2,
+  escapeMarkdownUrl,
+  parseSpanishDate,
+} from '../utils/telegram-format'; // Mantener esta línea
 import { AmericaEventsService } from '../scraper/americaEvents.service'; // Eliminada la extensión .ts
 import { WeatherService } from '../weather/weather.service';
 
@@ -182,7 +186,7 @@ export class TelegramService implements OnModuleInit {
 
     // Manejador para "corridas en colombia" o "corridas en américa" y variantes
     this.bot.hears(
-      /^(corridas en colombia|corridas en américa|eventos en américa|eventos en colombia|qué corridas hay en américa|qué corridas hay en colombia)$/i,
+      /^(corridas en colombia|corridas en américa|eventos en américa|eventos en colombia|corridas en américa|corridas en colombia)$/i,
       (ctx) => this.handleAmericaCitiesQuery(ctx),
     );
 
@@ -216,7 +220,7 @@ export class TelegramService implements OnModuleInit {
 
     this.bot.hears(
       /^(que sabes hacer|qué sabes hacer|para que estas diseñado|para qué estás diseñado|ayuda|quien eres|quién eres)$/i,
-      (ctx) => this.sendBotIntroduction(ctx)
+      (ctx) => this.sendBotIntroduction(ctx),
     );
 
     this.bot.on('text', async (ctx) => {
@@ -477,6 +481,7 @@ export class TelegramService implements OnModuleInit {
       `Revisando tu Solicitud,  ${userName}...⏳`,
       `Un momento porfavor , ${userName}...🕗`,
       `Permíteme un instante..., ${userName} 🕗`,
+      `Con todo Gusto ..., ${userName} 🕗`,
     ];
     return messages[Math.floor(Math.random() * messages.length)];
   }
@@ -506,8 +511,23 @@ export class TelegramService implements OnModuleInit {
       const events = await this.americaEventsService.getEventsForCity(city);
 
       if (!events || events.length === 0) {
+        await ctx.reply(`Lo siento no tengo esa respuesta por ahora.`);
+        return;
+      }
+
+      // filtro por fecha para verificar que se muestren eventos a las futuras no a las pasadas desde que el usuario hace la solicitud
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Resetear horas para incluir eventos de hoy
+      const filteredEvents = events.filter((event) => {
+        const eventDate = parseSpanishDate(event.fecha);
+        return eventDate ? eventDate >= today : false;
+      });
+
+      if (filteredEvents.length === 0) {
         await ctx.reply(
-          `Lo siento no tengo esa respuesta por ahora.`,
+          `Lo siento, no hay festejos programados hasta ahora en el 2027 en  ${escapeMarkdownV2(
+            city,
+          )} en este momento.`,
         );
         return;
       }
@@ -515,13 +535,15 @@ export class TelegramService implements OnModuleInit {
       let message = `🎉 *Próximos eventos en ${escapeMarkdownV2(city)}:*\n\n`;
 
       // Usamos un bucle for-of para poder usar await dentro
-      for (const event of events) {
+      for (const event of filteredEvents) {
         let weatherInfo = '';
         const eventDate = parseSpanishDate(event.fecha);
         if (eventDate) {
-          weatherInfo = await this.weatherService.getWeatherForecastMessage(city, eventDate);
+          weatherInfo = await this.weatherService.getWeatherForecastMessage(
+            city,
+            eventDate,
+          );
         }
-
 
         message += `🗓️ *Fecha:* ${escapeMarkdownV2(event.fecha)}\n`;
         if (event.descripcion) {
@@ -552,7 +574,10 @@ export class TelegramService implements OnModuleInit {
           ...Markup.inlineKeyboard([
             [
               Markup.button.callback('📺 Transmisiones', 'show_transmisiones'),
-              Markup.button.callback('🌎 Otras Ciudades', 'filter_america_cities'),
+              Markup.button.callback(
+                '🌎 Otras Ciudades',
+                'filter_america_cities',
+              ),
             ],
             [Markup.button.callback('🏠 Ir al Inicio', 'show_intro')],
           ]),
@@ -563,9 +588,7 @@ export class TelegramService implements OnModuleInit {
         `Error al obtener eventos para la ciudad: ${city}`,
         error.stack,
       );
-      await ctx.reply(
-        `Lo siento, no tengo esa respuesta por ahora.`,
-      );
+      await ctx.reply(`Lo siento, no tengo esa respuesta por ahora.`);
     }
   }
 
