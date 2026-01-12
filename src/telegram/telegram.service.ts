@@ -186,7 +186,7 @@ export class TelegramService implements OnModuleInit {
 
     // Manejador para "corridas en colombia" o "corridas en américa" y variantes
     this.bot.hears(
-      /^(corridas en colombia|corridas en américa|eventos en américa|eventos en colombia|corridas en américa|corridas en colombia)$/i,
+      /^(corridas en colombia|corridas en américa|eventos en américa|eventos en colombia|qué corridas hay en américa|qué corridas hay en colombia)$/i,
       (ctx) => this.handleAmericaCitiesQuery(ctx),
     );
 
@@ -525,7 +525,7 @@ export class TelegramService implements OnModuleInit {
 
       if (filteredEvents.length === 0) {
         await ctx.reply(
-          `Lo siento, no hay festejos programados hasta ahora en el 2027 en  ${escapeMarkdownV2(
+          `Lo siento, no hay festejos programados  en  ${escapeMarkdownV2(
             city,
           )} en este momento.`,
         );
