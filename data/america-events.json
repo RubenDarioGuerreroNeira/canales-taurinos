@@ -109,5 +109,37 @@
         "Marco Pérez."
       ]
     }
+  ],
+  "San Cristóbal, Venezuela": [
+    {
+      "fecha": "Jueves 29 de enero de 2026",
+      "descripcion": " Corrida de Toros Mixta",
+      "ganaderia": "4 toros y 2 novillos de Rancho Grande.",
+      "toreros": [
+        "Antonio Suárez",
+        " Marco Pérez",
+        "Olga Casado"
+      ]
+    },
+    {
+      "fecha": "Viernes 30 de enero de 2026",
+      "descripcion": "Primera corrida de toros",
+      "ganaderia": "6 toros de Santa Bárbara",
+      "toreros": [
+        "Emilio de Justo ",
+        "David de Miranda",
+        "Jesús Enrique Colombo."
+      ]
+    },
+    {
+      "fecha": " Sábado 31 de enero de 2026",
+      "descripcion": "Segunda corrida de Toros",
+      "ganaderia": "6 toros de La  Ganadería San Antonio",
+      "toreros": [
+        "David Fandila “El Fandi”",
+        "Manuel Escribano",
+        "Jesús Enrique Colombo"
+      ]
+    }
   ]
 }
