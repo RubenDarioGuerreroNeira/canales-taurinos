@@ -1,4 +1,5 @@
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
+import axios from 'axios';
 import { Telegraf, Markup, session, Scenes } from 'telegraf';
 import { ScraperService } from '../scraper/scraper.service';
 import { ServitoroService } from '../scraper/servitoro.service';
@@ -222,6 +223,11 @@ export class TelegramService implements OnModuleInit {
       /^(que sabes hacer|qué sabes hacer|para que estas diseñado|para qué estás diseñado|ayuda|quien eres|quién eres)$/i,
       (ctx) => this.sendBotIntroduction(ctx),
     );
+
+    // Manejador de Notas de Voz (Multimodalidad)
+    this.bot.on('voice', async (ctx) => {
+      await this.handleVoiceMessage(ctx);
+    });
 
     this.bot.on('text', async (ctx) => {
       const userText = ctx.message.text.trim();
@@ -459,6 +465,95 @@ export class TelegramService implements OnModuleInit {
     });
   }
 
+  private async handleVoiceMessage(ctx: MyContext) {
+    try {
+      const { from, session } = ctx;
+      const userName = this.getUserName(ctx);
+
+      await ctx.sendChatAction('typing'); // Mostrar "escribiendo..."
+
+      // 1. Inicializar sesión si no existe
+      if (!session.geminiChat) {
+        session.geminiChat = this.geminiService.createChatSession();
+      }
+      const chat = session.geminiChat;
+
+      if (!chat) {
+        throw new Error('No se pudo iniciar la sesión de chat con Gemini.');
+      }
+
+      // 2. Obtener el enlace del archivo de audio desde Telegram
+      if (!ctx.message || !('voice' in ctx.message)) {
+        await ctx.reply('No se detectó un mensaje de voz válido.');
+        return;
+      }
+
+      const fileId = ctx.message.voice.file_id;
+      const fileLink = await ctx.telegram.getFileLink(fileId);
+
+      // 3. Descargar el audio como buffer (Render solo lo pasa, no lo procesa)
+      const response = await axios.get(fileLink.href, {
+        responseType: 'arraybuffer',
+      });
+      const audioData = Buffer.from(response.data).toString('base64');
+
+      // 4. Enviar a Gemini (Audio + Prompt de instrucción)
+      // Nota: Gemini soporta audio/ogg (formato nativo de Telegram)
+      const prompt = {
+        inlineData: {
+          mimeType: 'audio/ogg',
+          data: audioData,
+        },
+      };
+
+      const textPart = {
+        text: `El usuario ${userName} ha enviado una nota de voz. Tu tarea es TRANSCRBIRLA mentalmente y CLASIFICAR la intención para ejecutar una función del bot.
+
+        Reglas de Respuesta:
+        1. Si el usuario pregunta por **corridas, eventos o ferias en una ciudad de América** (ej: Cali, Manizales, Lima, México, etc.), responde SOLO con: [ACTION:AMERICA_CITY:NombreCiudad]. Ejemplo: [ACTION:AMERICA_CITY:Cali].
+        2. Si pregunta por **eventos en América o Colombia en general**, responde SOLO con: [ACTION:AMERICA_GENERAL].
+        3. Si pregunta por el **Escalafón** o ranking de toreros, responde SOLO con: [ACTION:ESCALAFON].
+        4. Si pregunta por **Transmisiones de TV**, agenda o qué echan por la tele, responde SOLO con: [ACTION:TRANSMISIONES].
+        5. Si pregunta por el **Calendario de la temporada** (general/España), responde SOLO con: [ACTION:CALENDARIO].
+        6. Si pregunta por el **Creador, desarrollador o contacto**, responde SOLO con: [ACTION:CONTACTO].
+        7. Si es una pregunta de conocimiento general, historia, o un saludo, responde amablemente con texto normal como el asistente TauryBot.`,
+      };
+
+      // Enviamos el array de partes (Audio + Texto)
+      const result = await chat.sendMessage([prompt, textPart]);
+      const geminiResponse = result.response.text().trim();
+      this.logger.log(`[Voz] Interpretación Gemini: ${geminiResponse}`);
+
+      // 5. Manejar la respuesta (igual que en texto)
+      if (geminiResponse.startsWith('[ACTION:')) {
+        if (geminiResponse.includes('TRANSMISIONES')) {
+          await ctx.scene.enter('transmisionesScene');
+        } else if (geminiResponse.includes('CALENDARIO')) {
+          await this.handleCalendarioQuery(ctx);
+        } else if (geminiResponse.includes('ESCALAFON')) {
+          await ctx.scene.enter('escalafonScene');
+        } else if (geminiResponse.includes('AMERICA_GENERAL')) {
+          await this.handleAmericaCitiesQuery(ctx);
+        } else if (geminiResponse.includes('CONTACTO')) {
+          const contactMessage = this.contactService.getContactMessage();
+          await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
+        } else if (geminiResponse.includes('AMERICA_CITY')) {
+          const cityMatch = geminiResponse.match(/AMERICA_CITY:(.+)]/);
+          const city = cityMatch ? cityMatch[1].trim() : null;
+          if (city) await this.sendAmericaEventsForCity(ctx, city);
+          else await this.handleAmericaCitiesQuery(ctx);
+        }
+      } else {
+        await ctx.reply(geminiResponse);
+      }
+    } catch (error) {
+      this.logger.error('Error procesando nota de voz', error);
+      await ctx.reply(
+        'Lo siento, tuve un problema escuchando tu audio. ¿Podrías escribírmelo?',
+      );
+    }
+  }
+
   private async handleCalendarioQuery(ctx: MyContext) {
     // En lugar de ir directo a una función, preguntamos al usuario qué calendario quiere ver.
     const userName = this.getUserName(ctx);
@@ -603,7 +698,7 @@ export class TelegramService implements OnModuleInit {
       `${greeting}\n\n` +
       `Soy TauryBot, tu asistente taurino experto. He sido diseñado para ofrecerte absolutamente todo lo que necesitas para seguir la fiesta brava:\n\n` +
       `📺 *Transmisiones en Vivo*\n` +
-      `Entérate de qué corridas se televisan, los horarios y los canales exactos.\n` +
+      `Entérate de qué corridas se televisan, los horarios y los canales exactos, aquí podras ver los festejos.\n` +
       `💬 Prueba escribiendo: "agenda de TV" o "transmisiones"\n\n` +
       `🗓️ *Calendario de Temporada Española 2026*\n` +
       `Toda la programación de las ferias en España al alcance de tu mano.\n` +
@@ -617,6 +712,8 @@ export class TelegramService implements OnModuleInit {
       `🧠 *Búsqueda con IA*\n` +
       `Pregúntame lo que quieras sobre historia taurina o toreros legendarios.\n` +
       `💬 Ejemplo: "¿Quién fue Joselito el Gallo?"\n\n` +
+      `🎙️ *Interacción por Voz*\n` +
+      `¡Ahora puedes hablarme! Envíame una nota de voz con tu consulta y te responderé.\n\n` +
       `📞 *Contacto*\n` +
       `¿Quieres saber quién me diseñó o darnos tu opinión?\n` +
       `💬 Prueba escribiendo: "contacto"\n\n` +

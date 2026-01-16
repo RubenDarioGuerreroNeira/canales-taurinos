@@ -29,6 +29,7 @@ El bot es capaz de mantener conversaciones con contexto, recordar interacciones 
 ### ✨ Características Principales
 
 - **Procesamiento de Lenguaje Natural (NLP)**: Utiliza el modelo `gemini-2.5-flash` para interpretar una amplia gama de solicitudes en lenguaje coloquial (ej: "quiero ver toros", "¿qué corridas televisan?"), responder preguntas generales sobre tauromaquia y realizar búsquedas específicas.
+- **Interacción Multimodal por Voz**: Permite a los usuarios enviar notas de voz con consultas naturales (ej: "¿Qué transmisiones puedo ver en vivo?"). El bot transcribe el audio, interpreta la intención usando Gemini y ejecuta la acción correspondiente (buscar eventos, mostrar escalafón,transmisiones de festejos en vivo,quien desarrollo el bot, etc.) o responde conversacionalmente.
 - **Web Scraping Dual**:
   - **Festejos Televisados**: Extrae la agenda de "El Muletazo" usando `axios` y `cheerio` para obtener información sobre las transmisiones.
   - **Calendario Taurino**: Realiza scraping de "Servitoro" usando `Puppeteer` para obtener el calendario completo de la temporada, manejando contenido cargado dinámicamente.
@@ -56,21 +57,21 @@ graph TD
     subgraph Usuario
         User["📱 Usuario de Telegram"]
     end
-    
+
     User -->|"interactúa con"| Bot
-    
+
     subgraph "Infraestructura del Bot (NestJS)"
         Bot["🤖 Muletazo Bot"] --> TelegramService["⚙️ TelegramService"]
-    
+
         TelegramService -->|"Consultas complejas"| Gemini["🧠 IA Generativa (Gemini)"]
-    
+
         subgraph "Módulos de Scraping"
             TelegramService -->|"Agenda TV"| ScraperService["📰 Scraper: El Muletazo"]
             TelegramService -->|"Calendario Temporada"| ServitoroService["📅 Scraper: Servitoro (Puppeteer)"]
             TelegramService -->|"Ranking Matadores"| MundotoroService["🏆 Scraper: Mundotoro (Puppeteer)"]
         end
     end
-    
+
     subgraph "Fuentes de Datos Externas"
         ScraperService -->|"extrae datos de"| ElMuletazo["🌐 elmuletazo.com"]
         ServitoroService -->|"extrae datos de"| Servitoro["🌐 servitoro.com"]

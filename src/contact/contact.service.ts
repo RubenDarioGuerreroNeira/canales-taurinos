@@ -3,14 +3,19 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ContactService {
-  constructor(private configService: ConfigService) { }
+  constructor(private configService: ConfigService) {}
 
   getContactMessage(): string {
-    const telegram = this.configService.get<string>('CONTACT_TELEGRAM') || '@Rubedev';
-    const whatsappStr = this.configService.get<string>('CONTACT_WHATSAPP') || '+573207710450,+584160897020';
-    const email = this.configService.get<string>('CONTACT_EMAIL') || 'rudargeneira@gmail.com';
+    const telegram =
+      this.configService.get<string>('CONTACT_TELEGRAM') || '@Rubedev';
+    const whatsappStr =
+      this.configService.get<string>('CONTACT_WHATSAPP') ||
+      '+573207710450,+584160897020';
+    const email =
+      this.configService.get<string>('CONTACT_EMAIL') ||
+      'rudargeneira@gmail.com';
 
-    const whatsapp = whatsappStr.split(',').map(num => num.trim());
+    const whatsapp = whatsappStr.split(',').map((num) => num.trim());
 
     // Genera los enlaces de WhatsApp en formato MarkdownV2: [texto](url)
     const whatsappLinks = whatsapp
@@ -28,15 +33,16 @@ export class ContactService {
 
     // Construimos el mensaje final con el formato correcto y los enlaces
     const message = `
-${this.escapeMarkdown('¡Me encantaría escuchar tus ideas y sugerencias para mejorar este bot!')}
 
-${this.escapeMarkdown('Puedes contactarme a través de los siguientes medios:')}
+${this.escapeMarkdown('¡A Rubén Guerrero le encantaría escuchar tus ideas y sugerencias para mejorar este bot!')}
+
+${this.escapeMarkdown('Puedes contactarlo a través de los siguientes medios:')}
 
 \\- *Telegram:* ${telegramUser}
 \\- *WhatsApp:* ${whatsappLinks}
 \\- *Email:* ${emailLink}
 
-${this.escapeMarkdown('¡Espero tu mensaje! Tu feedback es muy valioso para hacer de este un mejor asistente.')}
+${this.escapeMarkdown('¡Espera tu mensaje! Tu feedback es muy valioso para hacer de este un mejor asistente.')}
     `.trim();
 
     return message; // Retornar el mensaje tal cual, con las partes ya escapadas/formateadas.
