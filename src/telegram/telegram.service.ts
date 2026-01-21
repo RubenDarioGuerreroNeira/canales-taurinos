@@ -583,7 +583,8 @@ export class TelegramService implements OnModuleInit {
 
   private async handleAmericaCitiesQuery(ctx: MyContext) {
     this.logger.log('Detectada consulta para ciudades de América.');
-    const cities = await this.americaEventsService.getAvailableCities();
+    // Usamos el nuevo método que filtra ciudades sin eventos futuros
+    const cities = await this.americaEventsService.getCitiesWithUpcomingEvents();
     if (cities.length === 0) {
       await ctx.reply(
         'Lo siento, no tengo información de corridas en América en este momento.',
