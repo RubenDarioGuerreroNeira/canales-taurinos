@@ -56,16 +56,30 @@ export class AmericaEventsService {
     await this.ensureDataLoaded();
     if (!this.americaEvents) return [];
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Resetear a medianoche para incluir eventos de hoy
+    const cities = Object.keys(this.americaEvents);
+    const citiesWithEvents: string[] = [];
 
-    return Object.keys(this.americaEvents).filter((city) => {
-      const events = this.americaEvents![city];
-      // Mantenemos la ciudad si tiene AL MENOS UN evento futuro o de hoy
-      return events.some((event) => {
-        const eventDate = parseSpanishDate(event.fecha);
-        return eventDate ? eventDate >= today : false;
-      });
+    for (const city of cities) {
+      // Reutilizamos la lógica de filtrado centralizada
+      const upcomingEvents = await this.getUpcomingEventsForCity(city);
+      if (upcomingEvents && upcomingEvents.length > 0) {
+        citiesWithEvents.push(city);
+      }
+    }
+
+    return citiesWithEvents;
+  }
+
+  async getUpcomingEventsForCity(city: string): Promise<AmericaEvent[] | null> {
+    const events = await this.getEventsForCity(city);
+    if (!events) return null;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return events.filter((event) => {
+      const eventDate = parseSpanishDate(event.fecha);
+      return eventDate ? eventDate >= today : false;
     });
   }
 
