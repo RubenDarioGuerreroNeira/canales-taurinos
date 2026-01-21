@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import { parseSpanishDate } from '../utils/telegram-format';
 
 interface AmericaEvent {
   fecha: string;
@@ -49,6 +50,37 @@ export class AmericaEventsService {
   async getAvailableCities(): Promise<string[]> {
     await this.ensureDataLoaded();
     return Object.keys(this.americaEvents || {});
+  }
+
+  async getCitiesWithUpcomingEvents(): Promise<string[]> {
+    await this.ensureDataLoaded();
+    if (!this.americaEvents) return [];
+
+    const cities = Object.keys(this.americaEvents);
+    const citiesWithEvents: string[] = [];
+
+    for (const city of cities) {
+      // Reutilizamos la lógica de filtrado centralizada
+      const upcomingEvents = await this.getUpcomingEventsForCity(city);
+      if (upcomingEvents && upcomingEvents.length > 0) {
+        citiesWithEvents.push(city);
+      }
+    }
+
+    return citiesWithEvents;
+  }
+
+  async getUpcomingEventsForCity(city: string): Promise<AmericaEvent[] | null> {
+    const events = await this.getEventsForCity(city);
+    if (!events) return null;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return events.filter((event) => {
+      const eventDate = parseSpanishDate(event.fecha);
+      return eventDate ? eventDate >= today : false;
+    });
   }
 
   async getEventsForCity(city: string): Promise<AmericaEvent[] | null> {

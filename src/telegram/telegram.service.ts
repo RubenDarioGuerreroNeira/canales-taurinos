@@ -583,7 +583,8 @@ export class TelegramService implements OnModuleInit {
 
   private async handleAmericaCitiesQuery(ctx: MyContext) {
     this.logger.log('Detectada consulta para ciudades de América.');
-    const cities = await this.americaEventsService.getAvailableCities();
+    // Usamos el nuevo método que filtra ciudades sin eventos futuros
+    const cities = await this.americaEventsService.getCitiesWithUpcomingEvents();
     if (cities.length === 0) {
       await ctx.reply(
         'Lo siento, no tengo información de corridas en América en este momento.',
@@ -603,29 +604,16 @@ export class TelegramService implements OnModuleInit {
 
   private async sendAmericaEventsForCity(ctx: MyContext, city: string) {
     try {
-      const events = await this.americaEventsService.getEventsForCity(city);
+      // Usamos el método centralizado para obtener solo los eventos futuros
+      const filteredEvents = await this.americaEventsService.getUpcomingEventsForCity(city);
 
-      if (!events || events.length === 0) {
-        await ctx.reply(`Lo siento no tengo esa respuesta por ahora.`);
-        return;
-      }
-
-      // filtro por fecha para verificar que se muestren eventos a las futuras no a las pasadas desde que el usuario hace la solicitud
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // Resetear horas para incluir eventos de hoy
-      const filteredEvents = events.filter((event) => {
-        const eventDate = parseSpanishDate(event.fecha);
-        return eventDate ? eventDate >= today : false;
-      });
-
-      if (filteredEvents.length === 0) {
+      if (!filteredEvents || filteredEvents.length === 0) {
         await ctx.reply(
-          `Lo siento, no hay festejos programados  en  ${escapeMarkdownV2(
-            city,
-          )} en este momento.`,
+          `Lo siento, no hay festejos programados en ${escapeMarkdownV2(city)} en este momento.`
         );
         return;
       }
+
 
       let message = `🎉 *Próximos eventos en ${escapeMarkdownV2(city)}:*\n\n`;
 
