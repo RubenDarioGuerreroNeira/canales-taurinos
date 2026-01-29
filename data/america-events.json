@@ -132,13 +132,44 @@
       ]
     },
     {
-      "fecha": " Sábado 31 de enero de 2026",
+      "fecha": "Sábado 31 de enero de 2026",
       "descripcion": "Segunda corrida de Toros",
       "ganaderia": "6 toros de La  Ganadería San Antonio",
       "toreros": [
         "David Fandila “El Fandi”",
         "Manuel Escribano",
         "Jesús Enrique Colombo"
+      ]
+    }
+  ],
+  "Mérida, Venezuela": [
+    {
+      "fecha": "Sábado 14 de febrero de 2026",
+      "descripcion": " Corrida de Toros",
+      "ganaderia": "Rancho Grande",
+      "toreros": [
+        "César Vanegas (Venezolano)",
+        " Tomás Rufo (Español)",
+        "Marco Pérez (Español)"
+      ]
+    },
+    {
+      "fecha": "Domingo 15 de febrero de 2026",
+      "descripcion": "Corrida de toros",
+      "ganaderia": "San Antonio",
+      "toreros": [
+        "David Fandila “El Fandi” (Español)",
+        "Jesús Enrique Colombo (Venezolano)"
+      ]
+    },
+    {
+      "fecha": "Lunes 16 de febrero de 2026",
+      "descripcion": "Corrida Mixta",
+      "ganaderia": "Campo Largo y Rancho Grande",
+      "toreros": [
+        "Emilio de Justo (Español)",
+        "Antonio Suárez (Venezolano)",
+        "Olga Casado (Española)"
       ]
     }
   ]
