@@ -163,6 +163,11 @@ export class TelegramService implements OnModuleInit {
       await ctx.scene.enter('transmisionesScene');
     });
 
+    this.bot.action('sevilla', async (ctx) => {
+      await ctx.answerCbQuery();
+      await this.handleSevillaQuery(ctx);
+    });
+
     this.bot.action('filter_america_cities', async (ctx) => {
       await ctx.answerCbQuery();
       await this.handleAmericaCitiesQuery(ctx);
