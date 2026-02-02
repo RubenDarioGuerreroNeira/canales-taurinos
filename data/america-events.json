@@ -52,7 +52,7 @@
     {
       "fecha": "Lunes 05 de enero de 2026",
       "descripcion": "Primera Corrida de Toros",
-      "ganaderia": "6 toros de Mondoñedo.",
+      "ganaderia": "6 toros de Mondoñedo",
       "toreros": [
         "Manuel Libardo",
         "David Galván",
@@ -82,7 +82,7 @@
     {
       "fecha": "Jueves 8 de enero de 2026, 3:30 p. m.",
       "descripcion": "Corrida mixta",
-      "ganaderia": " 2 toros y 4 novillos de Ernesto Gutiérrez.",
+      "ganaderia": " 2 toros y 4 novillos de Ernesto Gutiérrez",
       "toreros": [
         "Olga Casado (novillera)",
         "Alejandro Talavante",
@@ -92,7 +92,7 @@
     {
       "fecha": "Viernes 9 de enero de 2026, 7:00 p. m.",
       "descripcion": "Festival taurino",
-      "ganaderia": "3 novillos de Juan Bernardo Caicedo y 3 novillos de Ernesto Gutiérrez.",
+      "ganaderia": "3 novillos de Juan Bernardo Caicedo y 3 novillos de Ernesto Gutiérrez",
       "toreros": [
         "Alejandro Talavante",
         "César Rincón",
@@ -113,11 +113,11 @@
   "San Cristóbal, Venezuela": [
     {
       "fecha": "Jueves 29 de enero de 2026",
-      "descripcion": " Corrida de Toros Mixta",
-      "ganaderia": "4 toros y 2 novillos de Rancho Grande.",
+      "descripcion": "Corrida de Toros Mixta",
+      "ganaderia": "4 toros y 2 novillos de Rancho Grande",
       "toreros": [
         "Antonio Suárez",
-        " Marco Pérez",
+        "Marco Pérez",
         "Olga Casado"
       ]
     },
@@ -145,11 +145,11 @@
   "Mérida, Venezuela": [
     {
       "fecha": "Sábado 14 de febrero de 2026",
-      "descripcion": " Corrida de Toros",
+      "descripcion": "Corrida de Toros",
       "ganaderia": "Rancho Grande",
       "toreros": [
         "César Vanegas (Venezolano)",
-        " Tomás Rufo (Español)",
+        "Tomás Rufo (Español)",
         "Marco Pérez (Español)"
       ]
     },
