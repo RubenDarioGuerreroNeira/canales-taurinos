@@ -34,9 +34,14 @@ export class SevillaService {
 
       if (Array.isArray(data)) {
         this.events = data;
-      } else {
+      } else if (typeof data === 'object' && data !== null) {
         // Si el JSON es un objeto (ej: { "Sevilla": [...] }), extraemos los arrays de valores
-        this.events = Object.values(data).flat() as SevillaEvent[];
+        this.events = Object.values(data).filter(Array.isArray).flat();
+      } else {
+        this.logger.warn(
+          `El formato del archivo JSON de Sevilla no es el esperado. Se tratará como vacío.`,
+        );
+        this.events = [];
       }
       this.logger.log(`Datos de Sevilla cargados desde ${this.dataPath}.`);
     } catch (error) {
