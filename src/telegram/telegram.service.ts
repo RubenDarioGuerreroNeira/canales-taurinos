@@ -17,6 +17,7 @@ import {
 } from '../utils/telegram-format'; // Mantener esta línea
 import { AmericaEventsService } from '../scraper/americaEvents.service'; // Eliminada la extensión .ts
 import { WeatherService } from '../weather/weather.service';
+import { SevillaService } from '../scraper/sevilla.service';
 
 @Injectable()
 export class TelegramService implements OnModuleInit {
@@ -33,6 +34,7 @@ export class TelegramService implements OnModuleInit {
     private escalafonSceneService: EscalafonSceneService,
     private americaEventsService: AmericaEventsService,
     private weatherService: WeatherService,
+    private sevillaService: SevillaService,
   ) {
     const token = process.env.BOT_TOKEN;
     if (!token) {
@@ -105,6 +107,10 @@ export class TelegramService implements OnModuleInit {
 
     this.bot.command('calendario', async (ctx) => {
       await this.handleCalendarioQuery(ctx);
+    });
+
+    this.bot.command('sevilla', async (ctx) => {
+      await this.handleSevillaQuery(ctx);
     });
 
     this.bot.command('escalafon', async (ctx) => {
@@ -213,11 +219,22 @@ export class TelegramService implements OnModuleInit {
       },
     );
     // Manejador para "América" o "Colombia" (como comando directo o palabra suelta)
-    this.bot.hears(/^(américa|colombia)$/i, async (ctx) => {
-      await this.handleAmericaCitiesQuery(ctx);
-    });
+    this.bot.hears(
+      /^(américa|colombia|Venezuela|Colombia|venezuela)$/i,
+      async (ctx) => {
+        await this.handleAmericaCitiesQuery(ctx);
+      },
+    );
 
-    // --- FIN: Lógica para Eventos en América ---
+    // --- FIN: Lógica para Eventos en América --
+
+    // Manejador para Sevilla
+    this.bot.hears(
+      /^(sevilla|maestranza|feria de abril|toros en sevilla)$/i,
+      async (ctx) => {
+        await this.handleSevillaQuery(ctx);
+      },
+    );
 
     this.bot.hears(
       /^(que sabes hacer|qué sabes hacer|para que estas diseñado|para qué estás diseñado|ayuda|quien eres|quién eres)$/i,
@@ -344,6 +361,7 @@ export class TelegramService implements OnModuleInit {
             2.  **Calendario de Temporada 2026**: Festejos programados en España y otras ferias importantes.
             3.  **Eventos en América**: Corridas en ciudades como Cali y Manizales (Colombia), incluyendo pronóstico del clima.
             4.  **Escalafón**: El ranking actualizado de matadores.
+            5.  **Sevilla**: Carteles de la Maestranza.
 
             Instrucciones clave:
             1.  **Búsqueda Específica vs. General**:
@@ -424,7 +442,7 @@ export class TelegramService implements OnModuleInit {
             geminiResponse = result.response.text().trim();
             console.log(`[Respuesta de Gemini 2] ${geminiResponse}`);
             await ctx.reply(
-              `¡Hola ${escapeMarkdownV2(userName)}! ${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026  escribiendo "calendario".`,
+              `¡Hola ${escapeMarkdownV2(userName)}! ${geminiResponse}\n\n¿En qué puedo ayudarte? Puedes probar escribiendo:\n\n📺 "Transmisiones" para ver la agenda de TV\n🗓️ "Calendario" para la temporada 2026\n💃 "Sevilla" para los carteles de la Maestranza\n🌎 "América" para festejos en el nuevo mundo\n🏆 "Escalafón" para ver el ranking de matadores`,
             );
           } catch (secondError) {
             console.error('Error en la segunda llamada a Gemini:', secondError);
@@ -435,7 +453,7 @@ export class TelegramService implements OnModuleInit {
         } else {
           const userName = this.getUserName(ctx);
           await ctx.reply(
-            `¡Hola ${escapeMarkdownV2(userName)}! ${geminiResponse}\n\n¿En que puedo ayudarte?, Puedes ver las transmisiones en vivo escribiendo "transmisiones" o consultar el calendario completo de la temporada 2026 escribiendo "calendario".`,
+            `¡Hola ${escapeMarkdownV2(userName)}! ${geminiResponse}\n\n¿En qué puedo ayudarte? Puedes probar escribiendo:\n\n📺 "Transmisiones" para ver la agenda de TV\n🗓️ "Calendario" para la temporada 2026\n💃 "Sevilla" para los carteles de la Maestranza\n🌎 "América" para festejos en el nuevo mundo\n🏆 "Escalafón" para ver el ranking de matadores`,
           );
         }
       } catch (error) {
@@ -532,6 +550,8 @@ export class TelegramService implements OnModuleInit {
           await this.handleCalendarioQuery(ctx);
         } else if (geminiResponse.includes('ESCALAFON')) {
           await ctx.scene.enter('escalafonScene');
+        } else if (geminiResponse.includes('SEVILLA')) {
+          await this.handleSevillaQuery(ctx);
         } else if (geminiResponse.includes('AMERICA_GENERAL')) {
           await this.handleAmericaCitiesQuery(ctx);
         } else if (geminiResponse.includes('CONTACTO')) {
@@ -584,7 +604,8 @@ export class TelegramService implements OnModuleInit {
   private async handleAmericaCitiesQuery(ctx: MyContext) {
     this.logger.log('Detectada consulta para ciudades de América.');
     // Usamos el nuevo método que filtra ciudades sin eventos futuros
-    const cities = await this.americaEventsService.getCitiesWithUpcomingEvents();
+    const cities =
+      await this.americaEventsService.getCitiesWithUpcomingEvents();
     if (cities.length === 0) {
       await ctx.reply(
         'Lo siento, no tengo información de corridas en América en este momento.',
@@ -605,15 +626,15 @@ export class TelegramService implements OnModuleInit {
   private async sendAmericaEventsForCity(ctx: MyContext, city: string) {
     try {
       // Usamos el método centralizado para obtener solo los eventos futuros
-      const filteredEvents = await this.americaEventsService.getUpcomingEventsForCity(city);
+      const filteredEvents =
+        await this.americaEventsService.getUpcomingEventsForCity(city);
 
       if (!filteredEvents || filteredEvents.length === 0) {
         await ctx.reply(
-          `Lo siento, no hay festejos programados en ${escapeMarkdownV2(city)} en este momento.`
+          `Lo siento, no hay festejos programados en ${escapeMarkdownV2(city)} en este momento.`,
         );
         return;
       }
-
 
       let message = `🎉 *Próximos eventos en ${escapeMarkdownV2(city)}:*\n\n`;
 
@@ -674,6 +695,44 @@ export class TelegramService implements OnModuleInit {
       await ctx.reply(`Lo siento, no tengo esa respuesta por ahora.`);
     }
   }
+  // manejador de sevilla
+  private async handleSevillaQuery(ctx: MyContext) {
+    const userName = this.getUserName(ctx);
+    await ctx.reply(
+      `¡Olé ${escapeMarkdownV2(userName)}! 💃 Consultando los carteles de la Maestranza...`,
+    );
+
+    try {
+      const events = await this.sevillaService.getUpcomingEvents();
+
+      if (!events || events.length === 0) {
+        await ctx.reply(
+          'Lo siento, no encontré festejos próximos programados en Sevilla por el momento.',
+        );
+        return;
+      }
+
+      let message = '💃 *Próximos Festejos en Sevilla:*\n\n';
+      for (const event of events) {
+        message += `🗓️ *Fecha:* ${escapeMarkdownV2(event.fecha)}\n`;
+        if (event.hora)
+          message += `⏰ *Hora:* ${escapeMarkdownV2(event.hora)}\n`;
+        message += `📝 *Cartel:* ${escapeMarkdownV2(event.descripcion)}\n`;
+        if (event.ganaderia)
+          message += `🐂 *Ganadería:* ${escapeMarkdownV2(event.ganaderia)}\n`;
+        if (event.toreros && event.toreros.length > 0) {
+          message += `👨‍🌾 *Toreros:* ${escapeMarkdownV2(event.toreros.join(', '))}\n`;
+        }
+        message += `\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\n`;
+      }
+      await ctx.reply(message, { parse_mode: 'MarkdownV2' });
+    } catch (error) {
+      this.logger.error('Error al obtener eventos de Sevilla', error);
+      await ctx.reply(
+        'Tuve un problema al consultar los datos de Sevilla. Inténtalo más tarde.',
+      );
+    }
+  }
 
   /**
    * Envía una introducción completa y amable de todas las funcionalidades del bot.
@@ -694,6 +753,9 @@ export class TelegramService implements OnModuleInit {
       `🌎 *Festejos en América*\n` +
       `Información detallada de ferias en América (como: Cali y Manizales) con *pronóstico del clima el día de la corrida*.\n` +
       `💬 Prueba escribiendo: "América", "corridas en Colombia" \n\n` +
+      `💃 *Carteles de la Maestranza de Sevilla*\n` +
+      `Consulta los carteles oficiales de la Maestranza.\n` +
+      `💬 Prueba escribiendo: "Sevilla" o "/sevilla"\n\n` +
       `🏆 *Escalafón Taurino 2025*\n` +
       `Mira quién lidera el ranking de toreros en la actualidad.\n` +
       `💬 Prueba escribiendo: "escalafón" o "ranking"\n\n` +
@@ -716,6 +778,7 @@ export class TelegramService implements OnModuleInit {
         [
           Markup.button.callback('📺 Transmisiones', 'show_transmisiones'),
           Markup.button.callback('🗓️ Temporada', 'show_temporada'),
+          Markup.button.callback('💃 Sevilla', 'sevilla'), // Nota: Necesitarías añadir esta acción si quieres botón
         ],
         [
           Markup.button.callback('🌎 América', 'filter_america_cities'),

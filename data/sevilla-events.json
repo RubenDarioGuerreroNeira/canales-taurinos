@@ -1,0 +1,201 @@
+{
+  "Sevilla, España": [
+    {
+      "fecha": "Domingo 05 de abril de 2026",
+      "descripcion": "Corrida de Toros - Domingo de Resurrección",
+      "ganaderia": "Garcigrande",
+      "toreros": [
+        "Morante de la Puebla",
+        "Andrés Roca Rey",
+        "David de Miranda"
+      ]
+    },
+    {
+      "fecha": "Sábado 11 de abril de 2026",
+      "descripcion": "Corrida de Toros",
+      "ganaderia": "Alcurrucén",
+      "toreros": [
+        "Pepe Moral",
+        "Lama de Góngora",
+        "Fabio Jiménez"
+      ]
+    },
+    {
+      "fecha": "Domingo 12 de abril de 2026",
+      "descripcion": "Corrida de Toros",
+      "ganaderia": "Fuente Ymbro",
+      "toreros": [
+        "Álvaro Lorenzo",
+        "Rafael Serna",
+        "José Fernando Molina"
+      ]
+    },
+    {
+      "fecha": "Martes 14 de abril de 2026",
+      "descripcion": "Novillada con picadores",
+      "ganaderia": "Talavante",
+      "toreros": [
+        "Emiliano Osornio",
+        "Tomás Bastos",
+        "Julio Norte"
+      ]
+    },
+    {
+      "fecha": "Miércoles 15 de abril de 2026",
+      "descripcion": "Corrida de Toros",
+      "ganaderia": "Santiago Domecq",
+      "toreros": [
+        "Escribano",
+        "Perera",
+        "Aarón Palacio"
+      ]
+    },
+    {
+      "fecha": "Jueves 16 de abril de 2026",
+      "descripcion": "Corrida de Toros - Jueves de Preferia",
+      "ganaderia": "Álvaro Núñez",
+      "toreros": [
+        "Morante de la Puebla",
+        "Juan Ortega",
+        "Víctor Hernández"
+      ]
+    },
+    {
+      "fecha": "Viernes 17 de abril de 2026",
+      "descripcion": "Corrida de Toros - Viernes de Preferia",
+      "ganaderia": "Domingo Hernández",
+      "toreros": [
+        "Alejandro Talavante",
+        "Andrés Roca Rey",
+        "Pablo Aguado"
+      ]
+    },
+    {
+      "fecha": "Sábado 18 de abril de 2026",
+      "descripcion": "Corrida de Toros - Mano a mano",
+      "ganaderia": "Victorino Martín",
+      "toreros": [
+        "Escribano",
+        "Borja Jiménez"
+      ]
+    },
+    {
+      "fecha": "Domingo 19 de abril de 2026",
+      "descripcion": "Corrida de Rejones",
+      "ganaderia": "El Capea",
+      "toreros": [
+        "Por definir (posible Diego Ventura, Andy Cartagena, Lea Vicens o Guillermo Hermoso de Mendoza)"
+      ]
+    },
+    {
+      "fecha": "Lunes 20 de abril de 2026",
+      "descripcion": "Corrida de Toros - Lunes del Pescaíto",
+      "ganaderia": "Hermanos García Jiménez",
+      "toreros": [
+        "Morante de la Puebla",
+        "Borja Jiménez",
+        "Tomás Rufo"
+      ]
+    },
+    {
+      "fecha": "Martes 21 de abril de 2026",
+      "descripcion": "Corrida de Toros",
+      "ganaderia": "Núñez del Cuvillo",
+      "toreros": [
+        "José María Manzanares",
+        "Alejandro Talavante",
+        "Daniel Luque"
+      ]
+    },
+    {
+      "fecha": "Martes 21 de abril de 2026",
+      "descripcion": "Corrida de Toros",
+      "ganaderia": "El Parralejo",
+      "toreros": [
+        "Urdiales",
+        "Emilio de Justo",
+        "David de Miranda"
+      ]
+    },
+    {
+      "fecha": "Miercoles 22 de abril de 2026",
+      "descripcion": "Corrida de Toros",
+      "ganaderia": "Victoriano del Río",
+      "toreros": [
+        "José María Manzanares",
+        "Andrés Roca Rey",
+        "Zulueta"
+      ]
+    },
+    {
+      "fecha": "Jueves 23 de abril de 2026",
+      "descripcion": "Corrida de Toros",
+      "ganaderia": "Juan Pedro Domecq",
+      "toreros": [
+        "Daniel Luque",
+        "Juan Ortega",
+        "Pablo Aguado"
+      ]
+    },
+    {
+      "fecha": "Viernes 24 de abril de 2026",
+      "descripcion": "Corrida de Toros",
+      "ganaderia": "La Quinta",
+      "toreros": [
+        "El Cid",
+        "Fortes",
+        "José Garrido"
+      ]
+    },
+    {
+      "fecha": "Sábado 25 de abril de 2026",
+      "descripcion": "Corrida de Toros - Clausura",
+      "ganaderia": "Miura",
+      "toreros": [
+        "Escribano",
+        "Pepe Moral",
+        "Román"
+      ]
+    },
+    {
+      "fecha": "Jueves 04 de junio de 2026",
+      "descripcion": "Corrida de Toros - Corpus Christi",
+      "ganaderia": "Casa Matilla",
+      "toreros": [
+        "Morante de la Puebla",
+        "Juan Ortega",
+        "Pablo Aguado"
+      ]
+    },
+    {
+      "fecha": "Viernes 25 de septiembre de 2026",
+      "descripcion": "Corrida de Toros - Feria de San Miguel",
+      "ganaderia": "Puerto de San Lorenzo",
+      "toreros": [
+        "José María Manzanares",
+        "Alejandro Talavante",
+        "Juan Ortega"
+      ]
+    },
+    {
+      "fecha": "Sábado 26 de septiembre de 2026",
+      "descripcion": "Corrida de Toros - Feria de San Miguel",
+      "ganaderia": "Jandilla",
+      "toreros": [
+        "Emilio de Justo",
+        "Andrés Roca Rey",
+        "Pablo Aguado"
+      ]
+    },
+    {
+      "fecha": "Domingo 27 de septiembre de 2026",
+      "descripcion": "Corrida de Toros - Feria de San Miguel (Cierre)",
+      "ganaderia": "Garcigrande",
+      "toreros": [
+        "Daniel Luque",
+        "Borja Jiménez",
+        "Por confirmar (Morante de la Puebla o triunfador de la temporada)"
+      ]
+    }
+  ]
+}
