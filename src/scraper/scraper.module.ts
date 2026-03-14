@@ -5,6 +5,7 @@ import { MundotoroEscalafonService } from './mundotoroEscalafon.service';
 import { HttpModule } from '@nestjs/axios';
 import { AmericaEventsService } from './americaEvents.service';
 import { SevillaService } from './sevilla.service';
+import { PuppeteerService } from './puppeteer.service';
 
 @Module({
   imports: [HttpModule],
@@ -14,6 +15,7 @@ import { SevillaService } from './sevilla.service';
     MundotoroEscalafonService,
     AmericaEventsService,
     SevillaService,
+    PuppeteerService,
   ],
   exports: [
     ScraperService,
@@ -21,6 +23,7 @@ import { SevillaService } from './sevilla.service';
     MundotoroEscalafonService,
     AmericaEventsService,
     SevillaService,
+    PuppeteerService,
   ],
 })
 export class ScraperModule {}

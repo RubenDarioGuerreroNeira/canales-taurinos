@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import * as fs from 'fs/promises';
-import * as path from 'path';
+import { BaseJsonDataService } from './base-json-data.service';
 import { parseSpanishDate } from '../utils/telegram-format';
 
 export interface SevillaEvent {
@@ -12,49 +11,19 @@ export interface SevillaEvent {
 }
 
 @Injectable()
-export class SevillaService {
-  private readonly logger = new Logger(SevillaService.name);
-  private readonly dataPath: string;
-  private events: SevillaEvent[] | null = null;
+export class SevillaService extends BaseJsonDataService<SevillaEvent[]> {
+  protected readonly logger = new Logger(SevillaService.name);
 
   constructor() {
-    this.dataPath = path.join(process.cwd(), 'data', 'sevilla-events.json');
+    super('sevilla-events.json');
   }
 
-  private async ensureDataLoaded(): Promise<void> {
-    if (this.events === null) {
-      await this.loadEvents();
-    }
-  }
-
-  private async loadEvents(): Promise<void> {
-    try {
-      const fileContent = await fs.readFile(this.dataPath, 'utf-8');
-      const data = JSON.parse(fileContent);
-
-      if (Array.isArray(data)) {
-        this.events = data;
-      } else if (typeof data === 'object' && data !== null) {
-        // Si el JSON es un objeto (ej: { "Sevilla": [...] }), extraemos los arrays de valores
-        this.events = Object.values(data).filter(Array.isArray).flat();
-      } else {
-        this.logger.warn(
-          `El formato del archivo JSON de Sevilla no es el esperado. Se tratará como vacío.`,
-        );
-        this.events = [];
-      }
-      this.logger.log(`Datos de Sevilla cargados desde ${this.dataPath}.`);
-    } catch (error) {
-      this.logger.error(
-        `Error al leer el archivo de eventos de Sevilla (${this.dataPath}): ${error.message}`,
-      );
-      this.events = [];
-    }
+  protected getDefaultData(): SevillaEvent[] {
+    return [];
   }
 
   async getEvents(): Promise<SevillaEvent[]> {
-    await this.ensureDataLoaded();
-    return this.events || [];
+    return this.ensureDataLoaded();
   }
 
   async getUpcomingEvents(): Promise<SevillaEvent[]> {
