@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import * as fs from 'fs/promises';
-import * as path from 'path';
+import { BaseJsonDataService } from './base-json-data.service';
 import { parseSpanishDate } from '../utils/telegram-format';
 
 interface AmericaEvent {
@@ -15,52 +14,28 @@ interface AmericaEventsData {
 }
 
 @Injectable()
-export class AmericaEventsService {
-  private readonly logger = new Logger(AmericaEventsService.name);
-  private readonly dataPath: string;
-  private americaEvents: AmericaEventsData | null = null;
+export class AmericaEventsService extends BaseJsonDataService<AmericaEventsData> {
+  protected readonly logger = new Logger(AmericaEventsService.name);
 
   constructor() {
-    this.dataPath = path.join(process.cwd(), 'data', 'america-events.json');
-    // No llamar a un método async directamente en el constructor.
-    // La carga se realizará de forma perezosa cuando se necesite.
+    super('america-events.json');
   }
 
-  private async ensureDataLoaded(): Promise<void> {
-    if (this.americaEvents === null) {
-      await this.loadAmericaEvents();
-    }
-  }
-
-  private async loadAmericaEvents(): Promise<void> {
-    try {
-      const fileContent = await fs.readFile(this.dataPath, 'utf-8');
-      this.americaEvents = JSON.parse(fileContent);
-      this.logger.log(
-        `Datos de eventos en América cargados desde ${this.dataPath}.`,
-      );
-    } catch (error) {
-      this.logger.error(
-        `Error al leer o parsear el archivo de eventos en América (${this.dataPath}): ${error.message}`,
-      );
-      this.americaEvents = {}; // Inicializar como objeto vacío para evitar errores posteriores
-    }
+  protected getDefaultData(): AmericaEventsData {
+    return {};
   }
 
   async getAvailableCities(): Promise<string[]> {
-    await this.ensureDataLoaded();
-    return Object.keys(this.americaEvents || {});
+    const data = await this.ensureDataLoaded();
+    return Object.keys(data);
   }
 
   async getCitiesWithUpcomingEvents(): Promise<string[]> {
-    await this.ensureDataLoaded();
-    if (!this.americaEvents) return [];
-
-    const cities = Object.keys(this.americaEvents);
+    const data = await this.ensureDataLoaded();
+    const cities = Object.keys(data);
     const citiesWithEvents: string[] = [];
 
     for (const city of cities) {
-      // Reutilizamos la lógica de filtrado centralizada
       const upcomingEvents = await this.getUpcomingEventsForCity(city);
       if (upcomingEvents && upcomingEvents.length > 0) {
         citiesWithEvents.push(city);
@@ -84,17 +59,11 @@ export class AmericaEventsService {
   }
 
   async getEventsForCity(city: string): Promise<AmericaEvent[] | null> {
-    await this.ensureDataLoaded();
-
-    // Añadimos una guarda de tipo para asegurar a TypeScript que this.americaEvents no es null.
-    if (!this.americaEvents) {
-      return null;
-    }
-
+    const data = await this.ensureDataLoaded();
     const normalizedCity = city.toLowerCase();
-    const foundCityKey = Object.keys(this.americaEvents).find((key) =>
+    const foundCityKey = Object.keys(data).find((key) =>
       key.toLowerCase().includes(normalizedCity),
     );
-    return foundCityKey ? this.americaEvents[foundCityKey] : null; // Ahora this.americaEvents está garantizado como no-null
+    return foundCityKey ? data[foundCityKey] : null;
   }
 }
