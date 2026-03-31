@@ -429,7 +429,14 @@ export class TelegramService implements OnModuleInit {
 
         console.log(`[Respuesta de Gemini] ${geminiResponse}`);
 
-        if (geminiResponse === '[ACTION:GET_TRANSMISIONES]') {
+        if (geminiResponse.includes('[ACTION:GET_TRANSMISIONES]')) {
+          const cleanResponse = geminiResponse
+            .replace('[ACTION:GET_TRANSMISIONES]', '')
+            .trim();
+          if (cleanResponse) {
+            const userName = this.getUserName(ctx);
+            await ctx.reply(`¡Hola ${escapeMarkdownV2(userName)}! ${cleanResponse}`);
+          }
           await ctx.scene.enter('transmisionesScene');
         } else if (geminiResponse.toLowerCase().includes('voy a buscar')) {
           const userName = this.getUserName(ctx);
