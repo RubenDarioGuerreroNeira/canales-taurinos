@@ -49,6 +49,18 @@ export class PuppeteerService {
     return page;
   }
 
+  async getPageContent(url: string): Promise<string> {
+    const browser = await this.launchBrowser();
+    try {
+      const page = await this.setupPage(browser);
+      await this.blockUnnecessaryResources(page);
+      await page.goto(url, { waitUntil: 'networkidle2', timeout: 90000 });
+      return await page.content();
+    } finally {
+      await browser.close();
+    }
+  }
+
   async blockUnnecessaryResources(page: Page): Promise<void> {
     await page.setRequestInterception(true);
     page.on('request', (req) => {
