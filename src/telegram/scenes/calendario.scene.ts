@@ -8,11 +8,9 @@ import {
   parseSpanishDate,
 } from '../../utils/telegram-format';
 import { WeatherService } from '../../weather/weather.service';
-import {
-  WeatherData,
-  WeatherResult,
-} from '../../weather/interfaces/weather.interface';
+import { WeatherResult } from '../../weather/interfaces/weather.interface';
 import { VentasService } from '../../scraper/ventas.service';
+import { SevillaService } from '../../scraper/sevilla.service';
 
 @Injectable()
 export class CalendarioSceneService {
@@ -22,6 +20,7 @@ export class CalendarioSceneService {
   constructor(
     private readonly weatherService: WeatherService,
     private readonly ventasService: VentasService,
+    private readonly sevillaService: SevillaService,
   ) { }
 
   create(): Scenes.BaseScene<MyContext> {
@@ -213,33 +212,51 @@ export class CalendarioSceneService {
     const isMadridSearch =
       filterCriteria.value.toLowerCase().includes('madrid') ||
       filterCriteria.value.toLowerCase().includes('ventas');
+    
+    const isSevillaSearch =
+      filterCriteria.value.toLowerCase().includes('sevilla') ||
+      filterCriteria.value.toLowerCase().includes('maestranza');
 
-    if (isMadridSearch) {
-      const madridEvents = await this.ventasService.getEvents();
-      if (madridEvents.length > 0) {
-        const mappedVentas: ServitoroEvent[] = madridEvents.map((ve) => ({
+    if (isMadridSearch || isSevillaSearch) {
+      let specializedEvents: ServitoroEvent[] = [];
+      
+      if (isMadridSearch) {
+        const madridEvents = await this.ventasService.getEvents();
+        specializedEvents = madridEvents.map((ve) => ({
           fecha: `${ve.fecha}${ve.hora ? ` a las ${ve.hora}` : ''}`,
           ciudad: 'Madrid',
           nombreEvento: ve.descripcion || 'Corrida de toros',
           categoria: `Ganadería: ${ve.ganaderia || 'Varias'}\nToreros: ${ve.toreros.join(', ')}`,
           location: 'Plaza de Toros de Las Ventas',
-          link: '', // Eliminamos el link para Madrid según petición
+          link: '', 
         }));
+      } else if (isSevillaSearch) {
+        const sevillaEvents = await this.sevillaService.getEvents();
+        specializedEvents = sevillaEvents.map((se) => ({
+          fecha: `${se.fecha}${se.hora ? ` a las ${se.hora}` : ''}`,
+          ciudad: 'Sevilla',
+          nombreEvento: se.descripcion || 'Corrida de toros',
+          categoria: `Ganadería: ${se.ganaderia || 'Varias'}\nToreros: ${se.toreros.join(', ')}`,
+          location: 'Plaza de Toros de la Maestranza',
+          link: '', 
+        }));
+      }
 
-        // Si la búsqueda es específicamente por CIUDAD "Madrid", solo mostramos los de Las Ventas
+      if (specializedEvents.length > 0) {
         if (filterCriteria.type === 'city') {
-          filteredEvents = mappedVentas;
+          filteredEvents = specializedEvents;
         } else {
-          // Para otros filtros (mes, libre, etc), combinamos y luego aplicamos el filtro global
           const otherEvents = allEvents.filter(
             (e) =>
               !e.ciudad.toLowerCase().includes('madrid') &&
-              !e.location.toLowerCase().includes('ventas'),
+              !e.location.toLowerCase().includes('ventas') &&
+              !e.ciudad.toLowerCase().includes('sevilla') &&
+              !e.location.toLowerCase().includes('maestranza'),
           );
-          filteredEvents = [...mappedVentas, ...otherEvents];
+          filteredEvents = [...specializedEvents, ...otherEvents];
         }
 
-        // Re-filtrar por el criterio original (excepto si era ciudad, que ya está listo)
+        // Re-filtrar por el criterio original
         if (filterCriteria.type === 'month') {
           filteredEvents = filteredEvents.filter((e) => {
             const eventMonth = this.getMonthNameFromDateString(e.fecha);
@@ -268,6 +285,7 @@ export class CalendarioSceneService {
         }
       }
     } else {
+      // Lógica general para otras ciudades
       if (filterCriteria.type === 'month') {
         filteredEvents = allEvents.filter((e) => {
           const eventMonth = this.getMonthNameFromDateString(e.fecha);
@@ -319,22 +337,6 @@ export class CalendarioSceneService {
     const end = start + this.EVENTS_PER_PAGE;
     const eventsToShow = filteredEvents.slice(start, end);
 
-    if (eventsToShow.length === 0 && page > 0) {
-      const userName = ctx.from?.first_name || 'aficionado';
-      await ctx.reply(
-        `Lo siento ${userName}, no hay más eventos para mostrar.`,
-      );
-      ctx.scene.leave();
-      return;
-    } else if (eventsToShow.length === 0) {
-      const userName = ctx.from?.first_name || 'aficionado';
-      await ctx.reply(
-        `Lo siento ${userName}, no se encontraron eventos con esos criterios.`,
-      );
-      ctx.scene.leave();
-      return;
-    }
-
     const mensajes: string[] = [];
 
     for (const e of eventsToShow) {
@@ -360,20 +362,18 @@ export class CalendarioSceneService {
     const headerText = `Resultados (${start + 1}-${Math.min(end, filteredEvents.length)} de ${filteredEvents.length}):`;
     const messageHeader = `${escapeMarkdownV2(headerText)}\n\n`;
     
-    // Determinamos la fuente dinámicamente
-    const fuenteUrl = isMadridSearch 
-      ? 'www\\.las\\-ventas\\.com' 
-      : 'www\\.servitoro\\.com';
-    const messageFooter = `\n\n📌 Fuente: ${fuenteUrl}`;
+    // Fuente dinámica
+    let fuenteUrl = 'www\\.servitoro\\.com';
+    if (isMadridSearch) fuenteUrl = 'www\\.las\\-ventas\\.com';
+    if (isSevillaSearch) fuenteUrl = 'www\\.diariodesevilla\\.es';
     
+    const messageFooter = `\n\n📌 Fuente: ${fuenteUrl}`;
     const messageBody = mensajes.join('\n\n\\-\\-\\-\\-\\-\\-\n\n');
     const finalMessage = `${messageHeader}${messageBody}${messageFooter}`;
 
     const buttons = [Markup.button.callback('❌ Salir', 'exit_cal')];
     if (page < totalPages - 1) {
-      buttons.push(
-        Markup.button.callback('➡️ Siguiente', 'next_page_cal'),
-      );
+      buttons.push(Markup.button.callback('➡️ Siguiente', 'next_page_cal'));
     }
 
     await ctx.reply(finalMessage, {
@@ -396,9 +396,7 @@ export class CalendarioSceneService {
       );
     }
 
-    const slashDateMatch = dateString.match(
-      /(\d{1,2})\/(\d{1,2})\/(\d{4})/,
-    );
+    const slashDateMatch = dateString.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
     if (slashDateMatch && slashDateMatch[2]) {
       const monthIndex = parseInt(slashDateMatch[2], 10) - 1;
       if (monthIndex >= 0 && monthIndex < 12) {

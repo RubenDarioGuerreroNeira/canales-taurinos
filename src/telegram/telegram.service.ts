@@ -715,7 +715,7 @@ export class TelegramService implements OnModuleInit {
     );
 
     try {
-      const events = await this.sevillaService.getUpcomingEvents();
+      const events = await this.sevillaService.getEvents();
 
       if (!events || events.length === 0) {
         await ctx.reply(
