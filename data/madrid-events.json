@@ -1,0 +1,362 @@
+[
+  {
+    "fecha": "Domingo 22 de marzo.",
+    "hora": "18h",
+    "ganaderia": "Celestino Cuadri",
+    "toreros": [
+      "Pepe Moral, Damián Castaño y Gómez del Pilar"
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Domingo",
+    "hora": "18h",
+    "ganaderia": "Dolores Aguirre",
+    "toreros": [
+      "Antonio Ferrera, Isaac Fonseca y Cristian Pérez"
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Domingo 12 de abril",
+    "hora": "18h",
+    "ganaderia": "Hermanos Sánchez Herrero",
+    "toreros": [
+      "Jesús Romero",
+      "Mariscal Ruiz y Pedro Andrés"
+    ],
+    "descripcion": "Novillada con picadores"
+  },
+  {
+    "fecha": "Domingo 19 de abril",
+    "hora": "18h",
+    "ganaderia": "Antonio Palla",
+    "toreros": [
+      "El Mella, Cid de María y Tomás Bastos."
+    ],
+    "descripcion": "Novillada con picadores"
+  },
+  {
+    "fecha": "Domingo 26 de abril",
+    "hora": "18h",
+    "ganaderia": "Palha",
+    "toreros": [
+      "Sánchez Vara, Francisco José Espada",
+      "Luis Gerpe."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Viernes 1 de mayo.",
+    "hora": "18:30h",
+    "ganaderia": "ganaderías de la CAM",
+    "toreros": [
+      "David López, Álvaro Serrano (presentación) y Joel Ramírez"
+    ],
+    "descripcion": "Novillada con picadores"
+  },
+  {
+    "fecha": "Sábado 2 de mayo.",
+    "hora": "18:30h",
+    "ganaderia": "El Pilar",
+    "toreros": [
+      "El Pilar",
+      "Uceda Leal, El Cid y Javier Cortés."
+    ],
+    "descripcion": "Corrida de toros Goyesca"
+  },
+  {
+    "fecha": "Domingo 3 de mayo.",
+    "hora": "18:30h",
+    "ganaderia": "Couto de Fornilhos",
+    "toreros": [
+      "Couto de Fornilhos",
+      "Mario Arruza",
+      ", Cristian González",
+      "Juan Alberto Torrijos."
+    ],
+    "descripcion": "Novillada con picadores"
+  },
+  {
+    "fecha": "Viernes 8 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Núñez del Cuvillo",
+    "toreros": [
+      "Núñez del Cuvillo",
+      "Alejandro Talavante, Juan Ortega y Tristán Barroso"
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Sábado 9 de mayo.",
+    "hora": "19h",
+    "ganaderia": "La Quinta",
+    "toreros": [
+      "La Quinta",
+      "Miguel Ángel Perera, Daniel Luque y Tomás Rufo."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Domingo 10 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Conde de Mayalde",
+    "toreros": [
+      "Conde de Mayalde",
+      "David Galván, Román y Gonzalo Caballero."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Martes 12 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Montealto",
+    "toreros": [
+      "Montealto",
+      "Tomás Bastos, Martín Morilla",
+      "y Álvaro Serrano."
+    ],
+    "descripcion": "Novillos de Montealto para Tomás Bastos, Martín Morilla (presentación) y Álvaro Serrano"
+  },
+  {
+    "fecha": "Miércoles 13 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Partido de Resina",
+    "toreros": [
+      "Partido de Resina",
+      "Antonio Ferrera, Calita y Jesús Enrique Colombo."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Jueves 14 de mayo.",
+    "hora": "19h",
+    "ganaderia": "El Parralejo",
+    "toreros": [
+      "El Parralejo",
+      "Sebastián Castella, Daniel Luque y David de Miranda."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Viernes 15 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Toros de El Torero",
+    "toreros": [
+      "Toros de El Torero",
+      "Diego Urdiales, Fortes y Fernando Adrián."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Sábado 16 de mayo.",
+    "hora": "19h",
+    "ganaderia": "La Quinta",
+    "toreros": [
+      "La Quinta",
+      "El Cid, Álvaro Lorenzo y Manuel Diosleguarde"
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Domingo 17 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Fuente Ymbro",
+    "toreros": [
+      "Fuente Ymbro",
+      "Miguel Ángel Perera, Paco Ureña y Fernando Adrián."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Martes 19 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Fuente Ymbro",
+    "toreros": [
+      "Fuente Ymbro",
+      "Pedro Luis, Mario Vilau"
+    ],
+    "descripcion": "Novillos de Fuente Ymbro para Pedro Luis, Mario Vilau (presentación) y Julio Norte (presentación)"
+  },
+  {
+    "fecha": "Miércoles 20 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Saltillo",
+    "toreros": [
+      "Saltillo",
+      "José Carlos Venegas, Juan Leal y Juan de Castilla."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Jueves 21 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Puerto de San Lorenzo y La Ventana del Puerto",
+    "toreros": [
+      "Puerto de San Lorenzo y La Ventana del Puerto",
+      "José María Manzanares, Juan Ortega y Pablo Aguado."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Viernes 22 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Victoriano del Río y Toros de Cortés",
+    "toreros": [
+      "Victoriano del Río y Toros de Cortés",
+      "Sebastián Castella, Emilio de Justo y Tomás Rufo."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Sábado 23 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Ángel Sánchez y Sánchez",
+    "toreros": [
+      "Ángel Sánchez y Sánchez",
+      "Andy Cartagena, Diego Ventura y Guillermo Hermoso de Mendoza."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Domingo 24 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Alcurrucén",
+    "toreros": [
+      "Alcurrucén",
+      "Fortes, David de Miranda y Víctor Hernández."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Martes 26 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Conde de Mayalde",
+    "toreros": [
+      "Conde de Mayalde"
+    ],
+    "descripcion": "Novillos de Conde de Mayalde para Emiliano Osornio, Pedro Montaldo y Julio Méndez (presentación)"
+  },
+  {
+    "fecha": "Miércoles 27 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Pedraza de Yeltes",
+    "toreros": [
+      "Pedraza de Yeltes",
+      "Isaac Fonseca, Molina y Jarocho."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Jueves 28 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Juan Pedro Domecq",
+    "toreros": [
+      "Corrida de La Prensa.",
+      "Juan Pedro Domecq",
+      "Diego Urdiales, Roca Rey y Bruno Aloi"
+    ],
+    "descripcion": "Corrida de La Prensa"
+  },
+  {
+    "fecha": "Viernes 29 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Garcigrande",
+    "toreros": [
+      "Garcigrande",
+      "Morenito de Aranda, Alejandro Talavante y Pablo Aguado."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Sábado 30 de mayo.",
+    "hora": "19h",
+    "ganaderia": "María Guiomar Cortés de Moura",
+    "toreros": [
+      "María Guiomar Cortés de Moura",
+      "Rui Fernandes, Diego Ventura y Lea Vicens."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Domingo 31 de mayo.",
+    "hora": "19h",
+    "ganaderia": "Adolfo Martín",
+    "toreros": [
+      "Adolfo Martín",
+      "Antonio Ferrera, Manuel Escribano y Paco Ureña."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Martes 2 de junio.",
+    "hora": "19h",
+    "ganaderia": "José Escolar",
+    "toreros": [
+      "José Escolar",
+      "Pepe Moral, Damián Castaño y Gómez del Pilar."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Miércoles 3 de junio.",
+    "hora": "19h",
+    "ganaderia": "Lagunajanda",
+    "toreros": [
+      "Lagunajanda",
+      "José Garrido, Ismael Martín y Samuel Navalón."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Jueves 4 de junio.",
+    "hora": "19h",
+    "ganaderia": "Jandilla y Vegahermosa",
+    "toreros": [
+      "Jandilla y Vegahermosa",
+      "Emilio de Justo, Borja Jiménez y Víctor Hernández."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Viernes 5 de junio.",
+    "hora": "19h",
+    "ganaderia": "Juan Pedro Domecq",
+    "toreros": [
+      "Juan Pedro Domecq",
+      "Uceda Leal, Clemente y Pablo Aguado."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Sábado 6 de junio.",
+    "hora": "19h",
+    "ganaderia": "Victorino Martín",
+    "toreros": [
+      "Victorino Martín",
+      "Morenito de Aranda, Fernando Adrián y Román."
+    ],
+    "descripcion": "Corrida de toros"
+  },
+  {
+    "fecha": "Domingo 7 de junio.",
+    "hora": "19h",
+    "ganaderia": "Cortés y Domingo Hernández",
+    "toreros": [
+      "Corrida In Memoriam de Ignacio Sánchez Mejías",
+      "Borja Jiménez,"
+    ],
+    "descripcion": "Corrida In Memoriam de Ignacio Sánchez Mejías"
+  },
+  {
+    "fecha": "Domingo 14 de junio.",
+    "hora": "19h",
+    "ganaderia": "Victoriano del Río y Toros de Cortés",
+    "toreros": [
+      "Corrida de Beneficencia",
+      "Victoriano del Río y Toros de Cortés",
+      "Alejandro Talavante, Roca Rey y Víctor Hernández."
+    ],
+    "descripcion": "Corrida de Beneficencia"
+  }
+]

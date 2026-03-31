@@ -12,13 +12,17 @@ import {
   WeatherData,
   WeatherResult,
 } from '../../weather/interfaces/weather.interface';
+import { VentasService } from '../../scraper/ventas.service';
 
 @Injectable()
 export class CalendarioSceneService {
   private readonly logger = new Logger(CalendarioSceneService.name);
   private readonly EVENTS_PER_PAGE = 3;
 
-  constructor(private readonly weatherService: WeatherService) { }
+  constructor(
+    private readonly weatherService: WeatherService,
+    private readonly ventasService: VentasService,
+  ) { }
 
   create(): Scenes.BaseScene<MyContext> {
     const scene = new Scenes.BaseScene<MyContext>('calendarioScene');
@@ -49,7 +53,11 @@ export class CalendarioSceneService {
     });
 
     scene.action('filter_month_cal', async (ctx) => {
-      await ctx.answerCbQuery();
+      try {
+        await ctx.answerCbQuery();
+      } catch (e) {
+        this.logger.warn('Error al responder callback query: ' + e.message);
+      }
       const userName = ctx.from?.first_name || 'aficionado';
       const allEvents = ctx.scene.session.servitoroEvents || [];
       const uniqueMonths = [
@@ -73,8 +81,12 @@ export class CalendarioSceneService {
     });
 
     scene.action('filter_city_cal', async (ctx) => {
+      try {
+        await ctx.answerCbQuery();
+      } catch (e) {
+        this.logger.warn('Error al responder callback query: ' + e.message);
+      }
       ctx.scene.session.filterStateCal = 'awaiting_city_cal';
-      await ctx.answerCbQuery();
       const userName = ctx.from?.first_name || 'aficionado';
       await ctx.reply(
         `¡Entendido ${userName}! Por favor, escribe el nombre de la ciudad (ej: "Sevilla").`,
@@ -82,8 +94,12 @@ export class CalendarioSceneService {
     });
 
     scene.action('filter_location_cal', async (ctx) => {
+      try {
+        await ctx.answerCbQuery();
+      } catch (e) {
+        this.logger.warn('Error al responder callback query: ' + e.message);
+      }
       ctx.scene.session.filterStateCal = 'awaiting_location_cal';
-      await ctx.answerCbQuery();
       const userName = ctx.from?.first_name || 'aficionado';
       await ctx.reply(
         `¡Claro ${userName}! Por favor, escribe la localidad (ej: "Las Ventas").`,
@@ -91,8 +107,12 @@ export class CalendarioSceneService {
     });
 
     scene.action('filter_free_cal', async (ctx) => {
+      try {
+        await ctx.answerCbQuery();
+      } catch (e) {
+        this.logger.warn('Error al responder callback query: ' + e.message);
+      }
       ctx.scene.session.filterStateCal = 'awaiting_free_text_cal';
-      await ctx.answerCbQuery();
       const userName = ctx.from?.first_name || 'aficionado';
       await ctx.reply(
         `¡Adelante ${userName}! Escribe tu búsqueda (ej: "Madrid en Octubre").`,
@@ -100,7 +120,11 @@ export class CalendarioSceneService {
     });
 
     scene.action('next_page_cal', async (ctx) => {
-      await ctx.answerCbQuery();
+      try {
+        await ctx.answerCbQuery();
+      } catch (e) {
+        this.logger.warn('Error al responder callback query: ' + e.message);
+      }
       const currentPage = ctx.scene.session.currentCalPage || 0;
       const filter = ctx.scene.session.currentCalFilter;
       if (filter) {
@@ -120,7 +144,11 @@ export class CalendarioSceneService {
 
     scene.action('exit_cal', async (ctx) => {
       try {
-        await ctx.answerCbQuery();
+        try {
+          await ctx.answerCbQuery();
+        } catch (e) {
+          // Ignorar si ya expiró
+        }
         ctx.scene.session.filterStateCal = undefined;
         const userName = ctx.from?.first_name || 'aficionado';
         await ctx.reply(
@@ -182,38 +210,97 @@ export class CalendarioSceneService {
     const allEvents = ctx.scene.session.servitoroEvents || [];
     let filteredEvents: ServitoroEvent[] = [];
 
-    if (filterCriteria.type === 'month') {
-      filteredEvents = allEvents.filter((e) => {
-        const eventMonth = this.getMonthNameFromDateString(e.fecha);
-        return (
-          eventMonth &&
-          eventMonth.toLowerCase() === filterCriteria.value.toLowerCase()
-        );
-      });
-    } else if (filterCriteria.type === 'city') {
-      filteredEvents = allEvents.filter((e) =>
-        e.ciudad
-          .toLowerCase()
-          .includes(filterCriteria.value.toLowerCase()),
-      );
-    } else if (filterCriteria.type === 'location') {
-      filteredEvents = allEvents.filter((e) =>
-        e.location
-          .toLowerCase()
-          .includes(filterCriteria.value.toLowerCase()),
-      );
-    } else if (filterCriteria.type === 'free') {
-      const searchValue = filterCriteria.value.toLowerCase();
-      filteredEvents = allEvents.filter(
-        (e) =>
-          e.fecha.toLowerCase().includes(searchValue) ||
-          e.ciudad.toLowerCase().includes(searchValue) ||
-          e.nombreEvento.toLowerCase().includes(searchValue) ||
-          e.categoria.toLowerCase().includes(searchValue) ||
-          e.location.toLowerCase().includes(searchValue),
-      );
+    const isMadridSearch =
+      filterCriteria.value.toLowerCase().includes('madrid') ||
+      filterCriteria.value.toLowerCase().includes('ventas');
+
+    if (isMadridSearch) {
+      const madridEvents = await this.ventasService.getEvents();
+      if (madridEvents.length > 0) {
+        const mappedVentas: ServitoroEvent[] = madridEvents.map((ve) => ({
+          fecha: `${ve.fecha}${ve.hora ? ` a las ${ve.hora}` : ''}`,
+          ciudad: 'Madrid',
+          nombreEvento: ve.descripcion || 'Corrida de toros',
+          categoria: `Ganadería: ${ve.ganaderia || 'Varias'}\nToreros: ${ve.toreros.join(', ')}`,
+          location: 'Plaza de Toros de Las Ventas',
+          link: '', // Eliminamos el link para Madrid según petición
+        }));
+
+        // Si la búsqueda es específicamente por CIUDAD "Madrid", solo mostramos los de Las Ventas
+        if (filterCriteria.type === 'city') {
+          filteredEvents = mappedVentas;
+        } else {
+          // Para otros filtros (mes, libre, etc), combinamos y luego aplicamos el filtro global
+          const otherEvents = allEvents.filter(
+            (e) =>
+              !e.ciudad.toLowerCase().includes('madrid') &&
+              !e.location.toLowerCase().includes('ventas'),
+          );
+          filteredEvents = [...mappedVentas, ...otherEvents];
+        }
+
+        // Re-filtrar por el criterio original (excepto si era ciudad, que ya está listo)
+        if (filterCriteria.type === 'month') {
+          filteredEvents = filteredEvents.filter((e) => {
+            const eventMonth = this.getMonthNameFromDateString(e.fecha);
+            return (
+              eventMonth &&
+              eventMonth.toLowerCase() ===
+                filterCriteria.value.toLowerCase()
+            );
+          });
+        } else if (filterCriteria.type === 'location') {
+          filteredEvents = filteredEvents.filter((e) =>
+            e.location
+              .toLowerCase()
+              .includes(filterCriteria.value.toLowerCase()),
+          );
+        } else if (filterCriteria.type === 'free') {
+          const searchValue = filterCriteria.value.toLowerCase();
+          filteredEvents = filteredEvents.filter(
+            (e) =>
+              e.fecha.toLowerCase().includes(searchValue) ||
+              e.ciudad.toLowerCase().includes(searchValue) ||
+              e.nombreEvento.toLowerCase().includes(searchValue) ||
+              e.categoria.toLowerCase().includes(searchValue) ||
+              e.location.toLowerCase().includes(searchValue),
+          );
+        }
+      }
     } else {
-      filteredEvents = allEvents;
+      if (filterCriteria.type === 'month') {
+        filteredEvents = allEvents.filter((e) => {
+          const eventMonth = this.getMonthNameFromDateString(e.fecha);
+          return (
+            eventMonth &&
+            eventMonth.toLowerCase() === filterCriteria.value.toLowerCase()
+          );
+        });
+      } else if (filterCriteria.type === 'city') {
+        filteredEvents = allEvents.filter((e) =>
+          e.ciudad
+            .toLowerCase()
+            .includes(filterCriteria.value.toLowerCase()),
+        );
+      } else if (filterCriteria.type === 'location') {
+        filteredEvents = allEvents.filter((e) =>
+          e.location
+            .toLowerCase()
+            .includes(filterCriteria.value.toLowerCase()),
+        );
+      } else if (filterCriteria.type === 'free') {
+        const searchValue = filterCriteria.value.toLowerCase();
+        filteredEvents = allEvents.filter(
+          (e) =>
+            e.fecha.toLowerCase().includes(searchValue) ||
+            e.ciudad.toLowerCase().includes(searchValue) ||
+            e.nombreEvento.toLowerCase().includes(searchValue) ||
+            e.categoria.toLowerCase().includes(searchValue) ||
+            e.location.toLowerCase().includes(searchValue),
+        );
+      } else {
+        filteredEvents = allEvents;
+      }
     }
 
     if (filteredEvents.length === 0) {
@@ -272,7 +359,13 @@ export class CalendarioSceneService {
 
     const headerText = `Resultados (${start + 1}-${Math.min(end, filteredEvents.length)} de ${filteredEvents.length}):`;
     const messageHeader = `${escapeMarkdownV2(headerText)}\n\n`;
-    const messageFooter = `\n\n📌 Fuente: www\\.servitoro\\.com`;
+    
+    // Determinamos la fuente dinámicamente
+    const fuenteUrl = isMadridSearch 
+      ? 'www\\.las\\-ventas\\.com' 
+      : 'www\\.servitoro\\.com';
+    const messageFooter = `\n\n📌 Fuente: ${fuenteUrl}`;
+    
     const messageBody = mensajes.join('\n\n\\-\\-\\-\\-\\-\\-\n\n');
     const finalMessage = `${messageHeader}${messageBody}${messageFooter}`;
 
