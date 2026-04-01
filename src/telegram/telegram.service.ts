@@ -127,7 +127,7 @@ export class TelegramService implements OnModuleInit {
       await ctx.answerCbQuery();
       const userName = this.getUserName(ctx);
       await ctx.reply(
-        `¡Hola ${escapeMarkdownV2(userName)}! 📡 Consultando el calendario taurino de Servitoro para la temporada 2026...`,
+        `¡Hola ${escapeMarkdownV2(userName)}! 📡 Consultando el calendario taurino para la temporada 2026...`,
       );
       try {
         // Envolvemos la llamada al scraper en un timeout de 85 segundos.
@@ -190,7 +190,7 @@ export class TelegramService implements OnModuleInit {
     });
 
     this.bot.start((ctx) => {
-      ctx.session = {};
+      ctx.session = { greeted: true };
       return this.sendBotIntroduction(ctx);
     });
 
@@ -243,7 +243,10 @@ export class TelegramService implements OnModuleInit {
 
     this.bot.hears(
       /^(que sabes hacer|qué sabes hacer|para que estas diseñado|para qué estás diseñado|ayuda|quien eres|quién eres)$/i,
-      (ctx) => this.sendBotIntroduction(ctx),
+      (ctx) => {
+        ctx.session.greeted = true;
+        return this.sendBotIntroduction(ctx);
+      },
     );
 
     // Manejador de Notas de Voz (Multimodalidad)
@@ -254,6 +257,22 @@ export class TelegramService implements OnModuleInit {
     this.bot.on('text', async (ctx) => {
       const userText = ctx.message.text.trim();
       if (userText.startsWith('/')) return;
+
+      const userName = this.getUserName(ctx);
+
+      // --- MEJORA: Evitar saludos redundantes ---
+      const isSimpleGreeting = /^(hola|hi|buenas|buenos dias|buenas tardes|buenas noches|hola taurybot|hola bot)$/i.test(userText);
+      if (isSimpleGreeting && ctx.session.greeted) {
+        await ctx.reply(`¡Hola de nuevo, ${userName}! 👋 Aquí sigo a tu disposición para lo que necesites.\n\n¿En qué más te gustaría que te ayudara?`, {
+          ...Markup.inlineKeyboard([
+            [Markup.button.callback('📺 Transmisiones', 'show_transmisiones'), Markup.button.callback('🗓️ Temporada', 'show_temporada')],
+            [Markup.button.callback('🏆 Escalafón', 'show_escalafon_action'), Markup.button.callback('🌎 América', 'filter_america_cities')]
+          ])
+        });
+        return;
+      }
+      // Marcar como saludado si no lo estaba
+      if (!ctx.session.greeted) ctx.session.greeted = true;
 
       const isContactQuery =
         /quien (hizo|creo|desarrollo) este bot|creador|desarrollador|autor|sugerencia|feedback|contactar|escribirle/i.test(

@@ -28,9 +28,16 @@ export class CalendarioSceneService {
 
     scene.enter(async (ctx) => {
       const userName = ctx.from?.first_name || 'aficionado';
-      const totalEvents = ctx.scene.session.servitoroEvents?.length || 0;
+      
+      // Obtener eventos de todas las fuentes locales para el conteo real
+      const servitoroEvents = ctx.scene.session.servitoroEvents || [];
+      const madridEvents = await this.ventasService.getEvents();
+      const sevillaEvents = await this.sevillaService.getEvents();
+      
+      const totalEvents = servitoroEvents.length + madridEvents.length + sevillaEvents.length;
+      
       await ctx.reply(
-        `¡Hola ${userName}! He Encontrado ${totalEvents} eventos taurinos. ¿Cómo te gustaría filtrar los?`,
+        `¡Hola ${userName}! He encontrado ${totalEvents} festejos taurinos programados en nuestra base de datos. ¿Cómo te gustaría filtrarlos?`,
         Markup.inlineKeyboard([
           [Markup.button.callback('📅 Por Mes', 'filter_month_cal')],
           [Markup.button.callback('🏙️ Por Ciudad', 'filter_city_cal')],

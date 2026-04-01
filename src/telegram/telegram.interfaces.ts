@@ -23,6 +23,7 @@ export interface MySceneSession extends Scenes.SceneSessionData {
 
 export interface MySession extends Scenes.SceneSession<MySceneSession> {
   geminiChat?: ChatSession;
+  greeted?: boolean;
 }
 
 export interface MyContext extends Scenes.SceneContext<MySceneSession> {
