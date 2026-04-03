@@ -190,7 +190,8 @@ export class TelegramService implements OnModuleInit {
     });
 
     this.bot.start((ctx) => {
-      ctx.session = { greeted: true };
+      if (!ctx.session) ctx.session = {};
+      ctx.session.greeted = true;
       return this.sendBotIntroduction(ctx);
     });
 
@@ -260,10 +261,16 @@ export class TelegramService implements OnModuleInit {
 
       const userName = this.getUserName(ctx);
 
-      // --- MEJORA: Evitar saludos redundantes ---
+      // --- MEJORA: Respuesta humana a saludos (evita Gemini para saludos simples) ---
       const isSimpleGreeting = /^(hola|hi|buenas|buenos dias|buenas tardes|buenas noches|hola taurybot|hola bot)$/i.test(userText);
-      if (isSimpleGreeting && ctx.session.greeted) {
-        await ctx.reply(`¡Hola de nuevo, ${userName}! 👋 Aquí sigo a tu disposición para lo que necesites.\n\n¿En qué más te gustaría que te ayudara?`, {
+      if (isSimpleGreeting) {
+        if (!ctx.session.greeted) {
+          ctx.session.greeted = true;
+          return this.sendBotIntroduction(ctx);
+        }
+        
+        // Si ya fue saludado, le damos una respuesta humana cálida que recuerde sus funciones
+        await ctx.reply(`¡Hola de nuevo, ${userName}! 👋 Aquí sigo a tu disposición para lo que necesites.\n\nRecuerda que puedo detallarte las transmisiones por TV con sus carteles y ganaderías, ofrecerte el calendario de la temporada 2026 con filtros por ciudad o mes, mostrarte el escalafón actualizado o informarte sobre las ferias en América.\n\n¿Por dónde te gustaría que continuáramos hoy nuestra charla taurina?`, {
           ...Markup.inlineKeyboard([
             [Markup.button.callback('📺 Transmisiones', 'show_transmisiones'), Markup.button.callback('🗓️ Temporada', 'show_temporada')],
             [Markup.button.callback('🏆 Escalafón', 'show_escalafon_action'), Markup.button.callback('🌎 América', 'filter_america_cities')]
@@ -271,8 +278,6 @@ export class TelegramService implements OnModuleInit {
         });
         return;
       }
-      // Marcar como saludado si no lo estaba
-      if (!ctx.session.greeted) ctx.session.greeted = true;
 
       const isContactQuery =
         /quien (hizo|creo|desarrollo) este bot|creador|desarrollador|autor|sugerencia|feedback|contactar|escribirle/i.test(
@@ -391,13 +396,13 @@ export class TelegramService implements OnModuleInit {
             1.  **Búsqueda Específica vs. General**:
                 - Si la pregunta es sobre un **lugar específico de América** (ej: "corridas en Cali"), redirige amablemente o menciona que puedes buscarlo. 
                 - Si la pregunta es **general sobre la agenda de TV** ("¿qué hay hoy?", "canales"), usa [ACTION:GET_TRANSMISIONES].
-                - Si te preguntan "¿qué sabes hacer?" o "¿quién eres?", responde de forma muy completa y amable describiendo tus 4 funciones principales y sugiriendo cómo usarlas.
+                - Si te preguntan "¿qué sabes hacer?" o "¿quién eres?", responde de forma muy humana, completa y apasionada. Explica que puedes ofrecer información detallada sobre transmisiones de TV (con carteles, ganaderías y botones en vivo), el calendario 2026 (filtrable por localidad o mes), el escalafón actualizado, ferias en América y datos del desarrollador para sugerencias.
 
-            2.  **Contexto de América**: Si alguien pregunta por "Colombia" o "América", recuérdale que tienes información detallada de Cali y Manizales, incluyendo el clima para los próximos 7 días.
+            2.  **Contexto de América**: Si alguien pregunta por "Colombia" o "América", recuérdale que tienes información detallada de Cali y Manizales, incluyendo el clima para los próximos 7 días y los carteles completos.
 
-            3.  **Clima**: Menciona que ofreces pronósticos meteorológicos integrados para los eventos cercanos (menos de 7 días).
+            3.  **Clima**: Menciona que ofreces pronósticos meteorológicos integrados para los eventos cercanos para que el aficionado sepa qué tiempo hará en la plaza.
 
-            4.  **Respuesta a Saludos**: Siempre responde con calidez. Ejemplo: "¡Hola [Nombre]! Es un gusto saludarte. Soy TauryBot, tu compañero taurino. ¿Deseas consultar las transmisiones, el calendario de temporada o quizás los eventos en América?"
+            4.  **Respuesta a Saludos**: Siempre responde con máxima calidez y humanidad. Ejemplo: "¡Hola [Nombre]! Qué alegría saludarte. Soy TauryBot, tu compañero en esta pasión taurina. Estoy aquí para ayudarte a no perderte ni un solo detalle: desde las transmisiones televisadas con sus carteles completos hasta el calendario de toda la temporada y el escalafón al día. ¿En qué puedo acompañarte hoy?"
 
             ${scraperContext}
 
@@ -774,31 +779,19 @@ export class TelegramService implements OnModuleInit {
 
     const rawMessage =
       `${greeting}\n\n` +
-      `Soy TauryBot, tu asistente taurino experto. He sido diseñado para ofrecerte absolutamente todo lo que necesitas para seguir la fiesta brava:\n\n` +
-      `📺 *Transmisiones en Vivo*\n` +
-      `Entérate de qué corridas se televisan, los horarios y los canales exactos, aquí podras ver los festejos.\n` +
-      `💬 Prueba escribiendo: "agenda de TV" o "transmisiones"\n\n` +
-      `🗓️ *Calendario de Temporada Española 2026*\n` +
-      `Toda la programación de las ferias en España al alcance de tu mano.\n` +
-      `💬 Prueba escribiendo: "temporada completa" o "calendario"\n\n` +
-      `🌎 *Festejos en América*\n` +
-      `Información detallada de ferias en América (como: Cali y Manizales) con *pronóstico del clima el día de la corrida*.\n` +
-      `💬 Prueba escribiendo: "América", "corridas en Colombia" \n\n` +
-      `💃 *Carteles de la Maestranza de Sevilla*\n` +
-      `Consulta los carteles oficiales de la Maestranza.\n` +
-      `💬 Prueba escribiendo: "Sevilla" o "/sevilla"\n\n` +
-      `🏆 *Escalafón Taurino 2025*\n` +
-      `Mira quién lidera el ranking de toreros en la actualidad.\n` +
-      `💬 Prueba escribiendo: "escalafón" o "ranking"\n\n` +
-      `🧠 *Búsqueda con IA*\n` +
-      `Pregúntame lo que quieras sobre historia taurina o toreros legendarios.\n` +
-      `💬 Ejemplo: "¿Quién fue Joselito el Gallo?"\n\n` +
-      `🎙️ *Interacción por Voz*\n` +
-      `¡Ahora puedes hablarme! Envíame una nota de voz con tu consulta y te responderé.\n\n` +
-      `📞 *Contacto*\n` +
-      `¿Quieres saber quién me diseñó o darnos tu opinión?\n` +
-      `💬 Prueba escribiendo: "contacto"\n\n` +
-      `¡Estoy a tu completa disposición! ¿Por dónde te gustaría empezar?`;
+      `Soy TauryBot, tu compañero taurino. Mi pasión es mantenerte al tanto de todo lo que ocurre en el mundo del toro de una manera sencilla y cercana.\n\n` +
+      `¿Qué puedo ofrecerte? Permíteme contarte:\n\n` +
+      `📺 *Transmisiones por TV*\n` +
+      `Puedo detallarte qué corridas se televisan, incluyendo la fecha, los carteles completos y las ganaderías. Además, te facilito botones directos para que accedas a los canales que transmiten en vivo. Si lo prefieres, puedes ver el listado completo o filtrarlo por tus canales favoritos.\n\n` +
+      `🗓️ *Calendario de Temporada 2026*\n` +
+      `Tengo toda la programación de las ferias importantes. Puedes buscar festejos por localidad, mes, ciudad o cualquier otro criterio que necesites para planificar tu temporada.\n\n` +
+      `🏆 *Escalafón Taurino Actualizado*\n` +
+      `Si quieres saber quién lidera el ranking de matadores en este momento, tengo los datos actualizados al día.\n\n` +
+      `🌎 *Ferias en América*\n` +
+      `Para nuestros aficionados en el nuevo mundo, cuento con toda la información de las ferias americanas, incluyendo el pronóstico del clima para el día del festejo.\n\n` +
+      `👨‍💻 *Sugerencias y Contacto*\n` +
+      `Si tienes alguna idea para mejorarme o deseas contactar con mi desarrollador, estaré encantado de facilitarte su información.\n\n` +
+      `¿Por dónde te gustaría empezar nuestra charla taurina hoy?`;
 
     // Escapamos todo y luego "re-activamos" el formato de negrita (*)
     const welcomeMessage = escapeMarkdownV2(rawMessage).replace(/\\\*/g, '*');
@@ -809,15 +802,14 @@ export class TelegramService implements OnModuleInit {
         [
           Markup.button.callback('📺 Transmisiones', 'show_transmisiones'),
           Markup.button.callback('🗓️ Temporada', 'show_temporada'),
-          Markup.button.callback('💃 Sevilla', 'sevilla'), // Nota: Necesitarías añadir esta acción si quieres botón
         ],
         [
-          Markup.button.callback('🌎 América', 'filter_america_cities'),
           Markup.button.callback('🏆 Escalafón', 'show_escalafon_action'),
+          Markup.button.callback('🌎 América', 'filter_america_cities'),
         ],
         [
           Markup.button.callback(
-            '📞 Contacto / Creador',
+            '👨‍💻 Creador / Sugerencias',
             'show_contacto_action',
           ),
         ],
