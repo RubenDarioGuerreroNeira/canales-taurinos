@@ -644,6 +644,7 @@ export class TelegramService implements OnModuleInit {
     if (cities.length === 0) {
       await ctx.reply(
         'Lo siento, no tengo información de corridas en América en este momento.',
+        Markup.inlineKeyboard([Markup.button.callback('🏠 Ir al Inicio', 'show_intro')])
       );
       return;
     }
@@ -667,6 +668,7 @@ export class TelegramService implements OnModuleInit {
       if (!filteredEvents || filteredEvents.length === 0) {
         await ctx.reply(
           `Lo siento, no hay festejos programados en ${escapeMarkdownV2(city)} en este momento.`,
+          Markup.inlineKeyboard([Markup.button.callback('🏠 Ir al Inicio', 'show_intro')])
         );
         return;
       }
@@ -743,6 +745,7 @@ export class TelegramService implements OnModuleInit {
       if (!events || events.length === 0) {
         await ctx.reply(
           'Lo siento, no encontré festejos próximos programados en Sevilla por el momento.',
+          Markup.inlineKeyboard([Markup.button.callback('🏠 Ir al Inicio', 'show_intro')])
         );
         return;
       }
