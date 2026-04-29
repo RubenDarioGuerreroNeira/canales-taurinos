@@ -24,6 +24,10 @@ export class TelegramService implements OnModuleInit {
   private bot: Telegraf<MyContext>;
   private readonly logger = new Logger(TelegramService.name);
 
+  // Constantes de expresiones regulares para validación y pruebas
+  public static readonly IS_CALENDARIO_TRANSMISIONES_QUERY = /calendario de transmisiones|calendario de las transmisiones|calendario de los festejos/i;
+  public static readonly IS_TRANSMISIONES_QUERY = /\btransmisi[oó]n(es)?\b|agenda de festejos|festejos en tv|corridas que televisan|agenda televisiva/i;
+
   constructor(
     private scraperService: ScraperService,
     private servitoroService: ServitoroService,
