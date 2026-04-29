@@ -729,7 +729,13 @@ export class TelegramService implements OnModuleInit {
         `Error al obtener eventos para la ciudad: ${city}`,
         error.stack,
       );
-      await ctx.reply(`Lo siento, no tengo esa respuesta por ahora.`);
+      await ctx.reply(
+        'Lo siento, no tengo esa información disponible en este momento. ¿Te gustaría que te ayudara en algo más?',
+        Markup.inlineKeyboard([
+          [Markup.button.callback('🏠 Ir al Inicio', 'show_intro')],
+          [Markup.button.callback('📺 Transmisiones', 'show_transmisiones'), Markup.button.callback('🗓️ Temporada', 'show_temporada')],
+        ])
+      );
     }
   }
   // manejador de sevilla
@@ -767,7 +773,11 @@ export class TelegramService implements OnModuleInit {
     } catch (error) {
       this.logger.error('Error al obtener eventos de Sevilla', error);
       await ctx.reply(
-        'Tuve un problema al consultar los datos de Sevilla. Inténtalo más tarde.',
+        'Lo siento, no tengo esa información disponible en este momento. ¿Te gustaría que te ayudara en algo más?',
+        Markup.inlineKeyboard([
+          [Markup.button.callback('🏠 Ir al Inicio', 'show_intro')],
+          [Markup.button.callback('📺 Transmisiones', 'show_transmisiones'), Markup.button.callback('🗓️ Temporada', 'show_temporada')],
+        ])
       );
     }
   }
