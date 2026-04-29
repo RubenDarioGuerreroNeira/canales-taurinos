@@ -1,8 +1,8 @@
-import { Test } from '@nestjs/testing';
+import { TelegramService } from './telegram.service';
 
 describe('Telegram Service Regex', () => {
-  const isCalendarioDeTransmisionesQuery = /calendario de transmisiones|calendario de las transmisiones|calendario de los festejos/i;
-  const isTransmisionesQuery = /\btransmisi[oó]n(es)?\b|agenda de festejos|festejos en tv|puedo ver las transmisiones|corridas que televisan|agenda televisiva/i;
+  const isCalendarioDeTransmisionesQuery = TelegramService.IS_CALENDARIO_TRANSMISIONES_QUERY;
+  const isTransmisionesQuery = TelegramService.IS_TRANSMISIONES_QUERY;
 
   describe('isCalendarioDeTransmisionesQuery', () => {
     it('should match correctly spelled calendario de transmisiones', () => {

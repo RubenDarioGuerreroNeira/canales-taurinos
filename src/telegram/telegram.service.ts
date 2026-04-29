@@ -24,6 +24,10 @@ export class TelegramService implements OnModuleInit {
   private bot: Telegraf<MyContext>;
   private readonly logger = new Logger(TelegramService.name);
 
+  // Constantes de expresiones regulares para validación y pruebas
+  public static readonly IS_CALENDARIO_TRANSMISIONES_QUERY = /calendario de transmisiones|calendario de las transmisiones|calendario de los festejos/i;
+  public static readonly IS_TRANSMISIONES_QUERY = /\btransmisi[oó]n(es)?\b|agenda de festejos|festejos en tv|corridas que televisan|agenda televisiva/i;
+
   constructor(
     private scraperService: ScraperService,
     private servitoroService: ServitoroService,
@@ -122,10 +126,22 @@ export class TelegramService implements OnModuleInit {
       await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
     });
 
+    // Acción para mostrar las transmisiones
+    this.bot.action('show_transmisiones', async (ctx) => {
+      await ctx.answerCbQuery();
+      // Si estamos en una escena, salimos antes de entrar a la nueva
+      if (ctx.scene) await ctx.scene.leave();
+      await ctx.scene.enter('transmisionesScene');
+    });
+
     // Acción para mostrar el calendario de la temporada completa (Servitoro)
     this.bot.action('show_temporada', async (ctx) => {
       await ctx.answerCbQuery();
       const userName = this.getUserName(ctx);
+      
+      // Si estamos en una escena, salimos antes para evitar estados inconsistentes
+      if (ctx.scene) await ctx.scene.leave();
+
       await ctx.reply(
         `¡Hola ${escapeMarkdownV2(userName)}! 📡 Consultando el calendario taurino para la temporada 2026...`,
       );
@@ -142,10 +158,13 @@ export class TelegramService implements OnModuleInit {
           );
           return;
         }
-        ctx.scene.session.servitoroEvents = eventos;
-        ctx.scene.session.currentCalPage = 0;
-        ctx.scene.session.currentCalFilter = undefined;
-        await ctx.scene.enter('calendarioScene');
+        
+        // Creamos una nueva sesión de escena
+        ctx.session = ctx.session || {};
+        ctx.session.__scenes = ctx.session.__scenes || {};
+        
+        // Redirigimos a la escena calendario
+        await ctx.scene.enter('calendarioScene', { servitoroEvents: eventos });
       } catch (error) {
         this.logger.error(
           'Timeout al obtener el calendario de Servitoro',
@@ -155,12 +174,6 @@ export class TelegramService implements OnModuleInit {
           `Lo siento ${escapeMarkdownV2(userName)}, la consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos.`,
         );
       }
-    });
-
-    // Acción para mostrar las transmisiones
-    this.bot.action('show_transmisiones', async (ctx) => {
-      await ctx.answerCbQuery();
-      await ctx.scene.enter('transmisionesScene');
     });
 
     this.bot.action('sevilla', async (ctx) => {
@@ -260,6 +273,15 @@ export class TelegramService implements OnModuleInit {
       if (userText.startsWith('/')) return;
 
       const userName = this.getUserName(ctx);
+
+      // --- MEJORA: Pre-procesamiento de palabras clave taurinas ambiguas ---
+      const normalizedText = userText.toLowerCase().trim();
+      if (normalizedText === 'mayo') {
+        await ctx.reply('¡Entendido! ¿Quieres consultar los festejos programados para el mes de mayo?');
+        await this.handleCalendarioQuery(ctx);
+        return;
+      }
+      // -------------------------------------------------------------------
 
       // --- MEJORA: Respuesta humana a saludos (evita Gemini para saludos simples) ---
       const isSimpleGreeting = /^(hola|hi|buenas|buenos dias|buenas tardes|buenas noches|hola taurybot|hola bot)$/i.test(userText);
@@ -385,19 +407,21 @@ export class TelegramService implements OnModuleInit {
           prompt = `
             Tu personalidad: Eres 'TauryBot', el asistente virtual definitivo y experto en tauromaquia. Eres apasionado, sumamente amable y servicial. NUNCA digas que eres un modelo de lenguaje de Google. Eres un experto en toros creado para ayudar a los aficionados.
 
+            REGLA DE ORO: SOLO respondes sobre temas taurinos (agenda, corridas, toreros, ferias, historia taurina).
+            Si el usuario pregunta por temas fuera de la tauromaquia (recetas, cocina, política, tecnología, etc.), responde amablemente: "Soy TauryBot, tu asistente taurino, y solo puedo hablar sobre el mundo del toro. ¿Te gustaría saber algo sobre la próxima corrida o el escalafón?".
+
             Tus funciones principales que DEBES destacar son:
-            1.  **Transmisiones en TV**: Agendas de festejos televisados. ¡Dile al usuario que puede consultar qué echan por la tele y verlo aquí!
+            1.  **Transmisiones en TV**: Agendas de festejos televisados.
             2.  **Calendario de Temporada 2026**: Festejos programados en España y ferias importantes.
             3.  **Eventos en América**: Corridas en ciudades como Cali y Manizales (Colombia), con clima incluido.
             4.  **Escalafón**: El ranking actualizado de matadores.
             5.  **Sevilla**: Carteles de la Maestranza.
 
             Instrucciones clave:
-            1.  **Identidad**: Si te preguntan quién eres o qué haces, responde con orgullo que eres TauryBot, tu compañero taurino, y detalla tus funciones de agenda de TV, calendario y escalafón.
+            1.  **Identidad**: Si te preguntan quién eres o qué haces, responde con orgullo que eres TauryBot, tu compañero taurino.
             2.  **Búsqueda Específica vs. General**:
                 - Si la pregunta es sobre un **lugar específico de América**, redirige amablemente. 
                 - Si la pregunta es **general sobre la agenda de TV**, usa [ACTION:GET_TRANSMISIONES].
-            3.  **Respuesta a Saludos e Identidad**: Responde con máxima calidez. Ejemplo: "¡Hola! Soy TauryBot, tu compañero en esta pasión taurina. Estoy aquí para que no te pierdas ni un detalle: desde las transmisiones de TV con sus botones en vivo hasta el calendario de toda la temporada y el escalafón al día. ¿En qué puedo acompañarte hoy?"
 
             ${scraperContext}
 
@@ -640,6 +664,7 @@ export class TelegramService implements OnModuleInit {
     if (cities.length === 0) {
       await ctx.reply(
         'Lo siento, no tengo información de corridas en América en este momento.',
+        Markup.inlineKeyboard([Markup.button.callback('🏠 Ir al Inicio', 'show_intro')])
       );
       return;
     }
@@ -663,6 +688,7 @@ export class TelegramService implements OnModuleInit {
       if (!filteredEvents || filteredEvents.length === 0) {
         await ctx.reply(
           `Lo siento, no hay festejos programados en ${escapeMarkdownV2(city)} en este momento.`,
+          Markup.inlineKeyboard([Markup.button.callback('🏠 Ir al Inicio', 'show_intro')])
         );
         return;
       }
@@ -723,7 +749,13 @@ export class TelegramService implements OnModuleInit {
         `Error al obtener eventos para la ciudad: ${city}`,
         error.stack,
       );
-      await ctx.reply(`Lo siento, no tengo esa respuesta por ahora.`);
+      await ctx.reply(
+        'Lo siento, no tengo esa información disponible en este momento. ¿Te gustaría que te ayudara en algo más?',
+        Markup.inlineKeyboard([
+          [Markup.button.callback('🏠 Ir al Inicio', 'show_intro')],
+          [Markup.button.callback('📺 Transmisiones', 'show_transmisiones'), Markup.button.callback('🗓️ Temporada', 'show_temporada')],
+        ])
+      );
     }
   }
   // manejador de sevilla
@@ -739,6 +771,7 @@ export class TelegramService implements OnModuleInit {
       if (!events || events.length === 0) {
         await ctx.reply(
           'Lo siento, no encontré festejos próximos programados en Sevilla por el momento.',
+          Markup.inlineKeyboard([Markup.button.callback('🏠 Ir al Inicio', 'show_intro')])
         );
         return;
       }
@@ -760,7 +793,11 @@ export class TelegramService implements OnModuleInit {
     } catch (error) {
       this.logger.error('Error al obtener eventos de Sevilla', error);
       await ctx.reply(
-        'Tuve un problema al consultar los datos de Sevilla. Inténtalo más tarde.',
+        'Lo siento, no tengo esa información disponible en este momento. ¿Te gustaría que te ayudara en algo más?',
+        Markup.inlineKeyboard([
+          [Markup.button.callback('🏠 Ir al Inicio', 'show_intro')],
+          [Markup.button.callback('📺 Transmisiones', 'show_transmisiones'), Markup.button.callback('🗓️ Temporada', 'show_temporada')],
+        ])
       );
     }
   }
