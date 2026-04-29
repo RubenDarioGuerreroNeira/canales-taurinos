@@ -5,6 +5,7 @@ import { EscalafonEntry } from '../scraper/interfaces/torero.interface';
 
 export interface MySceneSession extends Scenes.SceneSessionData {
   filterState?: 'awaiting_month' | 'awaiting_channel';
+  selectedMonth?: string;
   filterStateCal?:
     | 'awaiting_month_cal'
     | 'awaiting_city_cal'
