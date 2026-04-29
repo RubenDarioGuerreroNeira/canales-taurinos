@@ -126,10 +126,22 @@ export class TelegramService implements OnModuleInit {
       await ctx.reply(contactMessage, { parse_mode: 'MarkdownV2' });
     });
 
+    // Acción para mostrar las transmisiones
+    this.bot.action('show_transmisiones', async (ctx) => {
+      await ctx.answerCbQuery();
+      // Si estamos en una escena, salimos antes de entrar a la nueva
+      if (ctx.scene) await ctx.scene.leave();
+      await ctx.scene.enter('transmisionesScene');
+    });
+
     // Acción para mostrar el calendario de la temporada completa (Servitoro)
     this.bot.action('show_temporada', async (ctx) => {
       await ctx.answerCbQuery();
       const userName = this.getUserName(ctx);
+      
+      // Si estamos en una escena, salimos antes para evitar estados inconsistentes
+      if (ctx.scene) await ctx.scene.leave();
+
       await ctx.reply(
         `¡Hola ${escapeMarkdownV2(userName)}! 📡 Consultando el calendario taurino para la temporada 2026...`,
       );
@@ -146,10 +158,13 @@ export class TelegramService implements OnModuleInit {
           );
           return;
         }
-        ctx.scene.session.servitoroEvents = eventos;
-        ctx.scene.session.currentCalPage = 0;
-        ctx.scene.session.currentCalFilter = undefined;
-        await ctx.scene.enter('calendarioScene');
+        
+        // Creamos una nueva sesión de escena
+        ctx.session = ctx.session || {};
+        ctx.session.__scenes = ctx.session.__scenes || {};
+        
+        // Redirigimos a la escena calendario
+        await ctx.scene.enter('calendarioScene', { servitoroEvents: eventos });
       } catch (error) {
         this.logger.error(
           'Timeout al obtener el calendario de Servitoro',
@@ -159,12 +174,6 @@ export class TelegramService implements OnModuleInit {
           `Lo siento ${escapeMarkdownV2(userName)}, la consulta está tardando más de lo esperado. Por favor, inténtalo de nuevo en un par de minutos.`,
         );
       }
-    });
-
-    // Acción para mostrar las transmisiones
-    this.bot.action('show_transmisiones', async (ctx) => {
-      await ctx.answerCbQuery();
-      await ctx.scene.enter('transmisionesScene');
     });
 
     this.bot.action('sevilla', async (ctx) => {
@@ -264,6 +273,15 @@ export class TelegramService implements OnModuleInit {
       if (userText.startsWith('/')) return;
 
       const userName = this.getUserName(ctx);
+
+      // --- MEJORA: Pre-procesamiento de palabras clave taurinas ambiguas ---
+      const normalizedText = userText.toLowerCase().trim();
+      if (normalizedText === 'mayo') {
+        await ctx.reply('¡Entendido! ¿Quieres consultar los festejos programados para el mes de mayo?');
+        await this.handleCalendarioQuery(ctx);
+        return;
+      }
+      // -------------------------------------------------------------------
 
       // --- MEJORA: Respuesta humana a saludos (evita Gemini para saludos simples) ---
       const isSimpleGreeting = /^(hola|hi|buenas|buenos dias|buenas tardes|buenas noches|hola taurybot|hola bot)$/i.test(userText);

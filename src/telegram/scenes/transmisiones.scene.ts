@@ -246,8 +246,8 @@ export class TransmisionesSceneService {
                 await ctx.reply(`¿En qué más puedo acompañarte hoy?`, {
                     ...Markup.inlineKeyboard([
                         [
-                            Markup.button.callback('📺 Transmisiones', 'ver_todas'),
-                            Markup.button.callback('🗓️ Temporada', 'tipo_calendario_general'),
+                            Markup.button.callback('📺 Transmisiones', 'show_transmisiones'),
+                            Markup.button.callback('🗓️ Temporada', 'show_temporada'),
                         ],
                         [
                             Markup.button.callback('🏆 Escalafón', 'show_escalafon_action'),
